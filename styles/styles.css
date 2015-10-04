@@ -1,0 +1,22 @@
+.et-loader{	
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -75px;
+	margin-left: -73px;
+}
+	.et-loader div{
+		width: 150px;
+		height: 146px;
+		background: transparent url(/media/logo.loader.jpg) no-repeat;
+	}
+	.et-loader h3{
+		font-size: 0.98em;
+		text-align: center
+	}
+.et-navbar-logo{
+	display: inline-block;
+	width: 18px;
+	height: 17px;
+	background: transparent url(/media/logo.header.jpg) no-repeat
+}	
