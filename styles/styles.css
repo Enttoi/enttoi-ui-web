@@ -12,8 +12,8 @@ body {
 
     .et-loader div {
         width: 150px;
-        height: 146px;
-        background: transparent url(/media/logo.loader.jpg) no-repeat;
+        height: 150px;
+        background: transparent url(/media/logo.main.png) no-repeat center center;
     }
 
     .et-loader h3 {
@@ -25,7 +25,7 @@ body {
     display: inline-block;
     width: 20px;
     height: 17px;
-    background: transparent url(/media/logo.header.jpg) no-repeat;
+    background: transparent url(/media/logo.header.png) no-repeat;
 }
 
 .page-host {

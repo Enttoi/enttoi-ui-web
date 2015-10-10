@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Aurelia</title>
     <link rel="stylesheet" href="jspm_packages/npm/font-awesome@4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="styles/bootstrap.slate.css">
     <link rel="stylesheet" href="styles/styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head>
 
-  <body aurelia-app="main">
+    <link rel="shortcut icon" href="/media/favicon.ico" />
+    <link rel="icon" type="image/png" href="/media/favicon-192x192.png")" sizes="192x192">
+    <link rel="icon" type="image/png" href="/media/favicon-160x160.png")" sizes="160x160">
+    <link rel="icon" type="image/png" href="/media/favicon-96x96.png")" sizes="96x96">
+    <link rel="icon" type="image/png" href="/media/favicon-16x16.png")" sizes="16x16">
+    <link rel="icon" type="image/png" href="/media/favicon-32x32.png")" sizes="32x32">
+
+    <meta name="apple-mobile-web-app-title" content="Enttoi">
+    <meta name="application-name" content="Enttoi">
+</head>
+
+<body aurelia-app="main">
     <div class="et-loader"><div></div><h3>Loading...</h3></div>
 
     <script src="jspm_packages/system.js"></script>
     <script src="config.js"></script>
     <script>
-      System.import('aurelia-bootstrapper');
+        System.import('aurelia-bootstrapper');
     </script>
-  </body>
+</body>
 </html>
