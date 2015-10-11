@@ -106,19 +106,16 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   popd
 )
 
-echo 4. Execute Gulp
+echo 4. Install JSPM
+call .\node_modules\.bin\jspm" install -y
+IF !ERRORLEVEL! NEQ 0 goto error
+
+echo 5. Build 
 IF EXIST "Gulpfile.js" (
     call .\node_modules\.bin\gulp build
     IF !ERRORLEVEL! NEQ 0 goto error
 )
 
-echo 5. Install JSPM
-call :ExecuteCmd !NPM_CMD! install jspm
-IF !ERRORLEVEL! NEQ 0 goto error
-
-echo 5. Install JSPM packages
-call :ExecuteCmd jspm install -y
-IF !ERRORLEVEL! NEQ 0 goto error
 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
