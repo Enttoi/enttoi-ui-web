@@ -109,6 +109,7 @@ call :SelectNodeVersion
 :: )
 :: ############ azure doesn't support native NPM modules ############
 
+pushd "%DEPLOYMENT_TARGET%"
 echo 4. Install JSPM
 call .\node_modules\.bin\jspm" install -y
 IF !ERRORLEVEL! NEQ 0 goto error
@@ -118,6 +119,7 @@ IF EXIST "Gulpfile.js" (
     call .\node_modules\.bin\gulp bundle
     IF !ERRORLEVEL! NEQ 0 goto error
 )
+popd
 
 
 
