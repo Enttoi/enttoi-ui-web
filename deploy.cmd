@@ -98,13 +98,16 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 echo 2. Select node version
 call :SelectNodeVersion
 
-echo 3. Install npm packages
-IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
-  pushd "%DEPLOYMENT_TARGET%"
-  call :ExecuteCmd !NPM_CMD! install
-  IF !ERRORLEVEL! NEQ 0 goto error
-  popd
-)
+:: ############ azure doesn't support native NPM modules ############
+:: 
+:: echo 3. Install npm packages
+:: IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
+::   pushd "%DEPLOYMENT_TARGET%"
+::   call :ExecuteCmd !NPM_CMD! install
+::   IF !ERRORLEVEL! NEQ 0 goto error
+::   popd
+:: )
+:: ############ azure doesn't support native NPM modules ############
 
 echo 4. Install JSPM
 call .\node_modules\.bin\jspm" install -y
@@ -112,7 +115,7 @@ IF !ERRORLEVEL! NEQ 0 goto error
 
 echo 5. Build 
 IF EXIST "Gulpfile.js" (
-    call .\node_modules\.bin\gulp build
+    call .\node_modules\.bin\gulp bundle
     IF !ERRORLEVEL! NEQ 0 goto error
 )
 
