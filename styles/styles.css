@@ -191,7 +191,23 @@ div.au-stagger {
 
 @media (max-width: 700px) {
     .et-building {
-        width: 660px;
+        margin: 0 -20px;
+    }
+
+    .et-building-left {
+        background-image: url(/media/dashboard.l-left.png);
+    }
+
+    .et-building-right {
+        background-image: url(/media/dashboard.l-right.png);
+    }
+
+    .et-building .et-floor .et-area.et-area-left {
+        margin-left: 53px;
+    }
+
+    .et-building .et-floor .et-area.et-area-right {
+        margin-right: 53px;
     }
 }
 
