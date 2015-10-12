@@ -111,14 +111,10 @@ call :SelectNodeVersion
 
 pushd "%DEPLOYMENT_TARGET%"
 echo 4. Install JSPM
-call .\node_modules\.bin\jspm" install -y
+call .\node_modules\.bin\jspm install -y
+call .\node_modules\.bin\gulp build
+call .\node_modules\.bin\gulp bundle
 IF !ERRORLEVEL! NEQ 0 goto error
-
-echo 5. Build 
-IF EXIST "Gulpfile.js" (
-    call .\node_modules\.bin\gulp bundle
-    IF !ERRORLEVEL! NEQ 0 goto error
-)
 popd
 
 
