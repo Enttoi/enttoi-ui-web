@@ -22,12 +22,13 @@
   ```shell
   npm install -g jspm
   ```
-  
 5. Install the client-side dependencies with jspm:
 
   ```shell
   jspm install -y
   ```
+  *if you getting "GitHub rate limit reached" message, generate token [here](https://github.com/settings/tokens) and run:* `jspm registry config github`
+  
 6. To run the app, execute the following command:
 
   ```shell
