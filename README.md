@@ -12,6 +12,7 @@
   ```shell
   npm install
   ```
+  *if you building on Windows and getting "not found Microsoft.Cpp.Default.props" message, run:* `SET VCTargetsPath="C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140"`
 3. Ensure that [Gulp](http://gulpjs.com/) is installed. If you need to install it, use the following command:
 
   ```shell
