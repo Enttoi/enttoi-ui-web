@@ -14,4 +14,6 @@ before_script:
   - jspm config endpoints.github.auth $GH_TOKEN
   - jspm install -y
   
-script: gulp build
+script: 
+  - gulp build
+  - gulp bundle
