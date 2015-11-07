@@ -1,5 +1,7 @@
 # Enttoi Web Client 
 
+[![Build Status](https://travis-ci.org/Enttoi/enttoi-ui-web.svg)](https://travis-ci.org/Enttoi/enttoi-ui-web)
+
 *This repository is part of [Enttoi](http://enttoi.github.io/) project.*
 
 [Aurelia](https://github.com/aurelia) based dashboard.
