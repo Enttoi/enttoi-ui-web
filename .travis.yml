@@ -17,3 +17,7 @@ before_script:
 script: 
   - gulp build
   - gulp bundle
+  
+deploy:  
+  provider: azure_web_apps
+  verbose: true
