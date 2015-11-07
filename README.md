@@ -40,10 +40,12 @@
 ## Deploying
 
 1. Build:
+
   ```shell
   gulp build
   ```
 2. Bundle:
+
   ```shell
   gulp bundle
   ```
