@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - '5.0.x'
+  - '4.1.x'
+
+cache:
+  directories:
+    - node_modules
+    - jspm_modules
+    - ~/.jspm
+
+before_script:
+  - npm install -g gulp
+  - npm install -g jspm
+  - jspm config endpoints.github.auth $GH_TOKEN
+  - jspm install -y
+  
+script: gulp build
