@@ -11,7 +11,6 @@ cache:
 before_script:
   - npm install -g gulp
   - npm install -g jspm
-  - jspm config endpoints.github.auth $GH_TOKEN
   - jspm install -y
   
 script: 
