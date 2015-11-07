@@ -37,3 +37,14 @@
   ```
 7. Browse to [http://localhost:9000](http://localhost:9000)
   
+## Deploying
+
+1. Build:
+  ```shell
+  gulp build
+  ```
+2. Bundle:
+  ```shell
+  gulp bundle
+  ```
+2. Deploy `/index.html`, `/styles`, `/media` and `/dist`
