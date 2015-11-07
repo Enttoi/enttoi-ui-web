@@ -11,6 +11,7 @@ cache:
 before_script:
   - npm install -g gulp
   - npm install -g jspm
+  - jspm config registries.github.auth $JSPM_GH_TOKEN
   - jspm install -y
   
 script: 
