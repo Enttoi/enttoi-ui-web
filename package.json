@@ -41,6 +41,7 @@
       "bootstrap": "github:twbs/bootstrap@^3.3.4",
       "core-js": "npm:core-js@^1.1.4",
       "fetch": "github:github/fetch@^0.9.0",
+      "ms-signalr-client": "npm:ms-signalr-client@^2.2.2",
       "text": "github:systemjs/plugin-text@^0.0.2"
     },
     "devDependencies": {
