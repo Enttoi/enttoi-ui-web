@@ -1,80 +1,40 @@
-import {CabinModel, RoomModel, FloorAreaModel, FloorModel} from 'models/commonModels';
+import {ApiService} from 'services/api';
+import {SocketService} from 'services/push';
 import {inject} from 'aurelia-framework';
-import {HttpClient} from 'aurelia-http-client';
 import {getLogger} from 'aurelia-logging';
-import $ from 'jquery';
-import 'ms-signalr-client';
+import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject(HttpClient, getLogger('dashboard'))
+@inject(ApiService, SocketService, EventAggregator, getLogger('dashboard'))
 export class Dashboard {
-
-    constructor(http, logger) {
-        const hostAddress = '//enttoi-api.azurewebsites.net/';
-        //const hostAddress = '//localhost:57579/';
+    constructor(api, socket, eventAggregator, logger) {
+        this.api = api;
+        this.socket = socket;
+        this.eventAggregator = eventAggregator;
         this.logger = logger;
-        
-        this.connection = $.hubConnection(hostAddress);
-        this.hub = this.connection.createHubProxy('commonHub');
-
-        // http.configure(config => {
-        //     config
-        //       .withBaseUrl(hostAddress);
-        // });
-
-        this.http = http;
     }
 
-    activate() {  
+    activate() {
         var vm = this;
-        this.initializeHubEvents();
-        this.http
-            .get('//localhost:57579/clients/all').then(function(t) {
-                vm.logger.info('got', t);
-            })
-            .catch(function(error){
-                vm.logger.error('error', error);
-            });
-        
-            // .done(function(message){
-            //     vm.logger.info('got', message);
-            // })
-            // .fail(function(error){
-            //     vm.logger.error('error', error);
-            //     
-            // });
-    }
-    
-    deactivate(){
-        this.connection.stop();
-    }
-    
-    initializeHubEvents(){
-        var vm = this;
-        vm.lastStates = {};
 
-        this.hub.on('sensorStatePush', function(state) {
-            var lastState = vm.lastStates[`${state.clienId}_${state.sensorId}_${state.sensorType}`];   
-                     
-            if(!lastState || lastState.timestamp < state.timestamp)
-                lastState = state;
-            else{  
-                vm.logger.warn('Skipping state update as it arrived late', {
-                    localState: lastState,
-                    receivedState: state
-                });              
-                return;
-            }               
-
-            // update model state
+        this.subscription = this.eventAggregator.subscribe('sensors', state => {
+            vm.logger.debug('got state', state);
         });
-
-        this.connection.start({ })
-            .done(function(){ 
-                vm.logger.info('Connected to hub');
-                vm.hub.invoke('requestInitialState');
+                
+        return this.api.getClients()
+            .then(function (httpResponse) {
+                vm.logger.debug('got api', httpResponse.response);                
+                vm.socket.start();
             })
-            .fail(function(){ 
-                vm.logger.error('Failed to connect to hub');
+            .catch(function (error) {
+                vm.logger.error('Error occurred during getting clients', error);
             });
+    }
+
+    deactivate() {
+        if(this.socket)
+            this.socket.stop();
+        
+        if(this.subscription)
+            this.subscription.dispose();
     }
 }
