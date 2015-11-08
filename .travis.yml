@@ -18,9 +18,6 @@ script:
   - gulp build
   - gulp bundle
 
-after_success:
-  "find ./ -type f -exec curl --ftp-create-dirs -T {} -u $FTP_USER:$FTP_PASSWORD $FTP_HOST/{} \\;"
-
 deploy:  
   skip_cleanup: true
   provider: azure_web_apps
