@@ -1,14 +1,29 @@
 import {CabinModel, RoomModel, FloorAreaModel, FloorModel} from 'models/commonModels';
+import {inject} from 'aurelia-framework';
+import {HttpClient} from 'aurelia-fetch-client';
 import $ from 'jquery';
 import 'ms-signalr-client';
 
+@inject(HttpClient)
 export class Dashboard {
+
+    constructor(http) {
+        this.connection = $.hubConnection('//enttoi-api.azurewebsites.net/');
+        this.hub = this.connection.createHubProxy('commonHub');
+
+        http.configure(config => {
+            config
+              .useStandardConfiguration()
+              .withBaseUrl('//enttoi-api.azurewebsites.net/');
+        });
+
+        this.http = http;
+    }
+
     activate() {  
-        var connection = $.hubConnection('enttoi-api.azurewebsites.net');
-        var hub = connection.createHubProxy('commonHub');
         var vm = this;
 
-        hub.on('sensorStatePush', function(state) {
+        this.hub.on('sensorStatePush', function(state) {
 
             if(!vm.lastState || vm.lastState < state.timestamp)
                 vm.lastState = state.timestamp;
@@ -16,15 +31,17 @@ export class Dashboard {
             console.log(JSON.stringify(state)); 
         });
 
-        /*return*/ connection.start({ })
+        this.connection.start({ })
             .done(function(){ 
-                console.log('Connected'); 
-                hub.requestInitialState();
-                vm.hubConnected = true;
+                console.log('Connected to hub');
+                vm.hub.invoke('requestInitialState');
             })
             .fail(function(){ 
-                console.log('Could not connect'); 
-                vm.hubConnected = false;
+                console.log('Failed to connect to hub');
             });
+    }
+    
+    deactivate(){
+        this.connection.stop();
     }
 }
