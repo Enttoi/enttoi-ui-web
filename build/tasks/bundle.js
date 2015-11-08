@@ -9,8 +9,7 @@ var config = {
       includes: [
         '*',
         '*.html!text',
-        '*.css!text',
-        'bootstrap/css/bootstrap.css!text'
+        '*.css!text'
       ],
       options: {
         inject: true,
@@ -20,7 +19,7 @@ var config = {
     "dist/aurelia": {
       includes: [
         'aurelia-bootstrapper',
-        'aurelia-fetch-client',
+        'aurelia-http-client',
         'aurelia-router',
         'aurelia-animator-css',
         'github:aurelia/templating-binding',
