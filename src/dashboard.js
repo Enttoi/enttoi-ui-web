@@ -27,7 +27,20 @@ export class Dashboard {
     activate() {  
         var vm = this;
         this.initializeHubEvents();
+        try {            
         var result = this.http.get('//localhost:57579/clients/all');
+        result.then(function(t){
+            vm.logger.warn('t', t);
+        }).
+        catch(function(c){
+            vm.logger.warn('c', c);
+        });
+        vm.logger.warn('result', result);
+        }
+        catch(e){
+            vm.logger.error('e', e);
+        }
+        
             // .done(function(message){
             //     vm.logger.info('got', message);
             // })
