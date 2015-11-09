@@ -14,19 +14,18 @@ export class Dashboard {
     }
 
     activate() {
-        var vm = this;
 
         this.subscription = this.eventAggregator.subscribe('sensors', state => {
-            vm.logger.debug('got state', state);
+            this.logger.debug('got state', state);
         });
                 
         return this.api.getClients()
-            .then(function (httpResponse) {
-                vm.logger.debug('got api', httpResponse.response);                
-                vm.socket.start();
+            .then((httpResponse) => {
+                this.logger.debug('got api', httpResponse.response);                
+                this.socket.start();
             })
-            .catch(function (error) {
-                vm.logger.error('Error occurred during getting clients', error);
+            .catch((error) => {
+                this.logger.error('Error occurred during getting clients', error);
             });
     }
 

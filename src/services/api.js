@@ -1,7 +1,6 @@
 import {inject, singleton} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-http-client';
 
-@singleton(false)
 @inject(HttpClient)
 export class ApiService {
 	constructor(http) {
