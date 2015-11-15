@@ -42,7 +42,8 @@
       "fetch": "github:github/fetch@^0.9.0",
       "jquery": "github:components/jquery@^2.1.4",
       "ms-signalr-client": "npm:ms-signalr-client@^2.2.2",
-      "text": "github:systemjs/plugin-text@^0.0.2"
+      "text": "github:systemjs/plugin-text@^0.0.2",
+      "underscore": "npm:underscore@^1.8.3"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",

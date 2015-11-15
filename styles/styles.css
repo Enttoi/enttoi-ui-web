@@ -158,8 +158,11 @@ div.au-stagger {
         padding: 2px 3px;
     }
 
-        .et-building .et-floor .et-area .et-room {
+        .et-building .et-floor .et-area .et-client {
             display: inline-block;
+        }
+        .et-building .et-floor .et-area .et-client i {
+            
         }
 
         .et-building .et-floor .et-area.et-area-left {
@@ -268,7 +271,7 @@ div.au-stagger {
         margin-left: 600px;
     }
 
-    .et-building .et-floor .et-area .et-room i {
+    .et-building .et-floor .et-area .et-client i {
         font-size: 1.3em;
     }
 }

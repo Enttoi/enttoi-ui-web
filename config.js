@@ -45,6 +45,7 @@ System.config({
     "jquery": "github:components/jquery@2.1.4",
     "ms-signalr-client": "npm:ms-signalr-client@2.2.2",
     "text": "github:systemjs/plugin-text@0.0.2",
+    "underscore": "npm:underscore@1.8.3",
     "github:aurelia/animator-css@0.16.0": {
       "aurelia-metadata": "github:aurelia/metadata@0.8.0",
       "aurelia-templating": "github:aurelia/templating@0.15.3"
