@@ -8,28 +8,17 @@ cache:
     - jspm_modules
     - ~/.jspm
 
-before_install:
+install:
   - npm install -g gulp
   - npm install -g jspm
   - jspm config registries.github.auth $JSPM_GH_TOKEN
   - jspm install -y
   
-install: 
+script: 
   - gulp build
   - gulp bundle
-
-before_deploy:
-  - cd dist
-  - git config user.name "travis-ci"
-  - git config user.email "travis-ci@travis-ci.org"
-  - git add -f *
-  - cd ../jspm_packages
-  - git add -f system.js
-  - git commit -am "Travis CI"
-  
   
 deploy:  
   skip_cleanup: true
   provider: azure_web_apps
   verbose: true
-  local-dir: dist
