@@ -22,3 +22,4 @@ deploy:
   skip_cleanup: true
   provider: azure_web_apps
   verbose: true
+  #quiet: true
