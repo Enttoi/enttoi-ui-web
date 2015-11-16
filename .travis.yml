@@ -20,9 +20,9 @@ install:
 
 before_deploy:
   - cd dist
-  - git add *
+  - git add -f *
   - cd ../jspm_packages
-  - git add system.js
+  - git add -f system.js
   - git commit -am "Travis CI"
   
   
