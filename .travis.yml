@@ -20,6 +20,8 @@ install:
 
 before_deploy:
   - cd dist
+  - git config user.name "travis-ci"
+  - git config user.email "travis-ci@travis-ci.org"
   - git add -f *
   - cd ../jspm_packages
   - git add -f system.js
