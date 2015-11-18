@@ -8,7 +8,7 @@ cache:
     - jspm_modules
     - ~/.jspm
 
-before_script:
+install:
   - npm install -g gulp
   - npm install -g jspm
   - jspm config registries.github.auth $JSPM_GH_TOKEN
@@ -17,8 +17,9 @@ before_script:
 script: 
   - gulp build
   - gulp bundle
-
+  
 deploy:  
   skip_cleanup: true
   provider: azure_web_apps
   verbose: true
+  #quiet: true
