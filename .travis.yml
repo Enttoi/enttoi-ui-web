@@ -9,6 +9,7 @@ cache:
     - ~/.jspm
 
 install:
+  - npm install
   - npm install gulp
   - npm install jspm
   - jspm config registries.github.auth $JSPM_GH_TOKEN
