@@ -31,7 +31,7 @@ export class Dashboard {
                             .groupBy((client) => _.find(client.tags, (tag) => tag == 'left' || tag == 'right'))
                             .map((clients, areaName) => { return {
                                 css: `et-area et-area-${areaName}`,
-                                cabins: clients
+                                cabins: _.sortBy(clients, (client) => _.find(client.tags, (tag) => tag == 'men' || tag == 'women'))
                             }})
                             .sortBy('css')
                             .value()
