@@ -8,7 +8,7 @@
             <div repeat.for="floor of floors" class="${floor.css}">
                 <div repeat.for="area of floor.areas" class="${area.css}">
                     <div repeat.for="cabin of area.cabins" class="et-client">
-                        <i repeat.for="sensor of cabin.sensors" class="fa fa-${($parent.cabin.tags.indexOf('women')) === -1 ? 'male' : 'female'}"></i>
+                        <i repeat.for="sensor of cabin.sensors" class="fa fa-${($parent.cabin.tags.indexOf('women')) === -1 ? 'male' : 'female'} ${sensor.stateCSS}"></i>
                     </div>
                 </div>          
             </div>           

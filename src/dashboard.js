@@ -13,17 +13,22 @@ export class Dashboard {
         this.eventAggregator = eventAggregator;
         this.logger = logger;
         this.floors = [];
+        this.clients = [];
     }
 
     activate() {
 
         this.subscription = this.eventAggregator.subscribe('sensors', state => {
-            this.logger.debug('got state', state);
+            this.logger.debug('Got state', state);
+            var client = _.find(this.clients, cl => { return cl.id == state.clientId });
+            var sensor = _.find(client.sensors, sn => { return sn.sensorId == state.sensorId && sn.sensorType == state.sensorType}); 
+            sensor.stateCSS = state.newState === 1 ? 'text-danger' : 'text-success';
         });
                 
         return this.api.getClients()
             .then((httpResponse) => {
-                this.floors = _.chain(httpResponse.content)
+                this.clients = httpResponse.content;
+                this.floors = _.chain(this.clients)
                     .groupBy((client) => _.find(client.tags, (tag) => tag.indexOf('floor') >= 0))
                     .map((clients, floorName) => { return {
                         css: `et-floor et-${floorName}`,
