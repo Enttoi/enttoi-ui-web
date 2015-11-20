@@ -8,8 +8,8 @@ import 'ms-signalr-client';
 export class SocketService {
     constructor(eventAggregator, logger) {
         
-        //const hostAddress = '//enttoi-api.azurewebsites.net/';
-        const hostAddress = '//localhost:57579';
+        const hostAddress = '//enttoi-api.azurewebsites.net/';
+        //const hostAddress = '//localhost:57579';
 
         this.logger = logger;
         this.eventAggregator = eventAggregator;
