@@ -51,4 +51,4 @@
   ```shell
   gulp bundle
   ```
-2. Deploy `/index.html`, `/styles`, `/media` and `/dist`
+2. Deploy `/index.html`, `/styles`, `/media`, `/dist` and `jspm_packages/system.js`
