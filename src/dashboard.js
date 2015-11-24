@@ -43,7 +43,7 @@ export class Dashboard {
                     }})
                     .value();
                     
-                this.socket.start();
+                return this.socket.start();
             })
             .catch((error) => {
                 this.logger.error('Error occurred during getting clients', error);

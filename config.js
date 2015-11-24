@@ -44,6 +44,7 @@ System.config({
     "fetch": "github:github/fetch@0.9.0",
     "jquery": "github:components/jquery@2.1.4",
     "ms-signalr-client": "npm:ms-signalr-client@2.2.2",
+    "rstacruz/nprogress": "github:rstacruz/nprogress@0.2.0",
     "text": "github:systemjs/plugin-text@0.0.2",
     "underscore": "npm:underscore@1.8.3",
     "github:aurelia/animator-css@0.16.0": {
@@ -95,6 +96,9 @@ System.config({
     },
     "github:jspm/nodelibs-util@0.1.0": {
       "util": "npm:util@0.10.3"
+    },
+    "github:rstacruz/nprogress@0.2.0": {
+      "css": "github:systemjs/plugin-css@0.1.19"
     },
     "github:twbs/bootstrap@3.3.5": {
       "jquery": "github:components/jquery@2.1.4"

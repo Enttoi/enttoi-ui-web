@@ -41,6 +41,7 @@
       "fetch": "github:github/fetch@^0.10.1",
       "jquery": "github:components/jquery@^2.1.4",
       "ms-signalr-client": "npm:ms-signalr-client@^2.2.2",
+      "rstacruz/nprogress": "github:rstacruz/nprogress@^0.2.0",
       "text": "github:systemjs/plugin-text@^0.0.3",
       "underscore": "npm:underscore@^1.8.3"
     },

@@ -1,4 +1,6 @@
+
 <template bindable="router">
+  <require from="./components/progress-bar"></require> 
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -19,12 +21,7 @@
           <a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1.in" href.bind="row.href">${row.title}</a>
         </li>
       </ul>
-
-      <ul class="nav navbar-nav navbar-right">
-        <li class="loader" if.bind="router.isNavigating">
-          <i class="fa fa-spinner fa-spin fa-2x"></i>
-        </li>
-      </ul>
     </div>
   </nav>
+  <progress-bar loading.bind="router.isNavigating" />
 </template>
