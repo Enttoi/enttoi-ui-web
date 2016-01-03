@@ -1,15 +1,12 @@
 import {inject, singleton} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-http-client';
+import * as config from 'environment';
 
 @inject(HttpClient)
 export class ApiService {
 	constructor(http) {
-        const hostAddress = '//enttoi-api.azurewebsites.net/';
-        //const hostAddress = '//localhost:57579';
-
-		http.configure(config => {
-			config
-				.withBaseUrl(hostAddress);
+		http.configure(cl => {
+			cl.withBaseUrl(config.apiHostAddress);
 		});
 		this.http = http;
 	}

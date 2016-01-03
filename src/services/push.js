@@ -1,19 +1,20 @@
 import {inject, singleton} from 'aurelia-framework';
 import {getLogger} from 'aurelia-logging';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import $ from 'jquery';
+import * as config from 'environment';
+//import $ from 'jquery';
 import 'ms-signalr-client';
 
 @inject(EventAggregator, getLogger('SocketService'))
 export class SocketService {
     constructor(eventAggregator, logger) {
-        
-        const hostAddress = '//enttoi-api.azurewebsites.net/';
-        //const hostAddress = '//localhost:57579';
-
         this.logger = logger;
         this.eventAggregator = eventAggregator;
-        this.connection = $.hubConnection(hostAddress);
+        this.connection = $.hubConnection(
+            config.apiHostAddress, 
+            {
+                logging: config.debug
+            });
         this.hub = this.connection.createHubProxy('commonHub');
         this.lastStates = {};
 

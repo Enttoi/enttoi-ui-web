@@ -8,18 +8,29 @@ var paths = require('../paths');
 var compilerOptions = require('../babel-options');
 var assign = Object.assign || require('object.assign');
 var notify = require("gulp-notify");
+var rename = require('gulp-rename');
 
 // transpiles changed es6 files to SystemJS format
 // the plumber() call prevents 'pipe breaking' caused
 // by errors from other gulp plugins
 // https://www.npmjs.com/package/gulp-plumber
 gulp.task('build-system', function () {
-  return gulp.src(paths.source)
+  return gulp.src(paths.source)  
     .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
     .pipe(changed(paths.output, {extension: '.js'}))
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(to5(assign({}, compilerOptions, {modules:'system'})))
     .pipe(sourcemaps.write({includeContent: true}))
+    .pipe(gulp.dest(paths.output));
+});
+
+// builds environment configurations
+gulp.task('build-environment', function () {
+  return gulp.src(paths.environments + (process.env.ENTTOI_ENV || 'production') + '.js') 
+    .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")})) 
+    .pipe(changed(paths.output, {extension: '.js'}))
+    .pipe(rename('environment.js'))
+    .pipe(to5(assign({}, compilerOptions)))
     .pipe(gulp.dest(paths.output));
 });
 
@@ -44,7 +55,7 @@ gulp.task('build-css', function () {
 gulp.task('build', function(callback) {
   return runSequence(
     'clean',
-    ['build-system', 'build-html', 'build-css'],
+    ['build-system', 'build-environment', 'build-html', 'build-css'],
     callback
   );
 });

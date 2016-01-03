@@ -9,5 +9,6 @@ module.exports = {
   html: appRoot + '**/*.html',
   css: appRoot + '**/*.css',
   style: 'styles/**/*.css',
+  environments: 'environments/',
   output: outputRoot
 };
