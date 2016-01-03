@@ -17,7 +17,6 @@ export class SocketService {
         this.hub = this.connection.createHubProxy('commonHub');
         this.lastStates = {};
 
-        this.logger.info('LOAD');
         this.hub.on('sensorStatePush', state => {
             var lastState = this.lastStates[`${state.clienId}_${state.sensorId}_${state.sensorType}`];
 
