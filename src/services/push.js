@@ -2,10 +2,9 @@ import {inject, singleton} from 'aurelia-framework';
 import {getLogger} from 'aurelia-logging';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import * as config from 'environment';
-//import $ from 'jquery';
 import 'ms-signalr-client';
 
-@inject(EventAggregator, getLogger('SocketService'))
+@inject(EventAggregator, getLogger('SocketService'))    
 export class SocketService {
     constructor(eventAggregator, logger) {
         this.logger = logger;
