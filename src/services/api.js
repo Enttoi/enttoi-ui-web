@@ -8,10 +8,10 @@ export class ApiService {
 		http.configure(cl => {
 			cl.withBaseUrl(config.apiHostAddress);
 		});
-		this.http = http;
+		this._http = http;
 	}
 
 	getClients() {		
-		return this.http.get('/clients/all');
+		return this._http.get('/clients/all');
 	}
 }
