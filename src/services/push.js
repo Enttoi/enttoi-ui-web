@@ -18,11 +18,12 @@ export class SocketService {
         this.lastStates = {};
 
         this.hub.on('sensorStatePush', state => {
+            this._logger.debug('Received "sensorStatePush"', state);
             var lastState = this.lastStates[`${state.clienId}_${state.sensorId}_${state.sensorType}`];
 
             if (!lastState || lastState.timestamp < state.timestamp) {
                 this.lastStates[`${state.clienId}_${state.sensorId}_${state.sensorType}`] = state;
-                this.publisher = this._eventAggregator.publish('sensors', state);
+                this._eventAggregator.publish('sensors', state);
             }
             else {
                 this._logger.warn('Skipping state update for sensor as it arrived late', {
@@ -33,11 +34,12 @@ export class SocketService {
         });
         
         this.hub.on('clientStatePush', state => {
+            this._logger.debug('Received "clientStatePush"', state);
             var lastState = this.lastStates[`${state.clienId}`];
 
             if (!lastState || lastState.timestamp < state.timestamp) {
                 this.lastStates[`${state.clienId}`] = state;
-                this.publisher = this._eventAggregator.publish('clients', state);
+                this._eventAggregator.publish('clients', state);
             }
             else {
                 this._logger.warn('Skipping state update for client as it arrived late', {

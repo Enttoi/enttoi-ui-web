@@ -5,7 +5,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import {SocketService} from 'services/push';
 import _ from 'underscore';
 
-const SENSOR_STATE_OFFLINE = 'SENSOR_STATE_OCCUPIED';
+const SENSOR_STATE_OFFLINE = 'SENSOR_STATE_OFFLINE';
 const SENSOR_STATE_FREE = 'SENSOR_STATE_FREE';
 const SENSOR_STATE_OCCUPIED = 'SENSOR_STATE_OCCUPIED';
 
@@ -34,12 +34,16 @@ export class ClientService {
                 })
                 .then(() => {
                     this._subscriptions.push(eventAggregator.subscribe('sensors', state => {
-                        this._logger.debug('Got sensor state', state);
-                        this._clients[state.clientId]._sensors[`${state.sensorId}_${state.sensorType}`].state = state.newState;
+                        if(this._clients[state.clientId].isOnline === false)
+                            this._logger.info('Client went online', state.clientId);
+                        this._clients[state.clientId].setSensorState(state.sensorId, state.sensorType, state.newState);
                     }));
 
                     this._subscriptions.push(eventAggregator.subscribe('clients', state => {
-                        this._logger.debug('Got client state', state);
+                        if (state.newState === false) {
+                            this._logger.info('Client went offline', state.clientId);
+                            this._clients[state.clientId].setOffline();
+                        }
                     }));
                 })
                 .then(() => this._socket.start())
@@ -72,7 +76,7 @@ class Client {
         if (!dataModel) throw 'Cannot initialize "Client" without dataModel';
         this.id = dataModel.id;
 
-        this._isOnline = dataModel.isOnline;
+        this.isOnline = dataModel.isOnline;
 
         this.floor = _.find(dataModel.tags, (tag) => tag.indexOf('floor') >= 0);
         this.area = _.find(dataModel.tags, (tag) => tag == 'left' || tag == 'right');
@@ -82,26 +86,26 @@ class Client {
         this._sensors = []; // key-value style
         this.sensors = []; // collection style
         _.each(dataModel.sensors, (sensorModel) => {
-            var sensor = new Sensor(this, sensorModel); 
+            var sensor = new Sensor(this, sensorModel);
             this._sensors[`${sensorModel.sensorId}_${sensorModel.sensorType}`] = sensor;
             this.sensors.push(sensor);
         });
     }
 
-    set isOnline(newState) {
-        if (newState !== true && newState !== false)
-            throw `Invalid newState value "${newState}"`;
-
-        if (this._isOnline === true && newState === false) {
-            this._isOnline = false;
+    setOffline() {
+        if (this.isOnline === true) {
+            this.isOnline = false;
             _.each(this.sensors, (sensor) => {
-                sensor.state(SENSOR_STATE_OFFLINE);
+                sensor.state = SENSOR_STATE_OFFLINE;
             });
         }
     }
 
-    get isOnline() {
-        return this._isOnline;
+    setSensorState(sensorId, sensorType, newState) {
+        if (this.isOnline === false) {
+            this.isOnline = true;
+        }
+        this._sensors[`${sensorId}_${sensorType}`].state = newState;
     }
 }
 
@@ -118,16 +122,12 @@ class Sensor {
     set state(newState) {
         if (newState !== 1 && newState !== 0 && newState !== SENSOR_STATE_OFFLINE)
             throw `Invalid newState value "${newState}"`;
-
-        if (newState !== SENSOR_STATE_OFFLINE && this.client.isOnline === false)
-            this.client.isOnline = true;
-
         if (newState === 1)
             this._state = SENSOR_STATE_OCCUPIED;
         else if (newState === 0)
             this._state = SENSOR_STATE_FREE;
-
-
+        else
+            this._state = SENSOR_STATE_OFFLINE;
     }
 
     get state() {
@@ -141,5 +141,4 @@ class Sensor {
             default: return '';
         }
     }
-
 }
