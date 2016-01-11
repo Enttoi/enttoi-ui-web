@@ -34,21 +34,37 @@ export class ClientService {
                 })
                 .then(() => {
                     this._subscriptions.push(eventAggregator.subscribe('sensors', state => {
-                        if(this._clients[state.clientId].isOnline === false)
-                            this._logger.info('Client went online', state.clientId);
+                        if (this._clients[state.clientId].isOnline === false) {
+                            this._logger.info('Client went online as a result of sensor\'s state received', state.clientId);
+                            this._pullSensorsState(state.clientId);
+                        }
                         this._clients[state.clientId].setSensorState(state.sensorId, state.sensorType, state.newState);
                     }));
 
                     this._subscriptions.push(eventAggregator.subscribe('clients', state => {
-                        if (state.newState === false) {
+                        if (this._clients[state.clientId].isOnline === true && state.newState === false) {
                             this._logger.info('Client went offline', state.clientId);
                             this._clients[state.clientId].setOffline();
+                        }
+                        else if (this._clients[state.clientId].isOnline === false && state.newState === true) {
+                            this._logger.info('Client went online as a result of client\'s state received', state.clientId);
+                            this._pullSensorsState(state.clientId);
                         }
                     }));
                 })
                 .then(() => this._socket.start())
                 .then(() => resolve());
         });
+    }
+
+    _pullSensorsState(clientId) {
+        this._api.getSensors(clientId)
+            .then((httpResponse) => {
+                this._clients[clientId].setOnline(httpResponse.content);
+            })
+            .catch((error) => {
+                this._logger.error('Error occurred during getting sensors state after client going online', error);
+            });
     }
 
     get clients() {
@@ -101,10 +117,21 @@ class Client {
         }
     }
 
-    setSensorState(sensorId, sensorType, newState) {
-        if (this.isOnline === false) {
+    setOnline(sensorsDataModel) {
+        if (this.isOnline === false)
             this.isOnline = true;
-        }
+
+        _.each(sensorsDataModel, (sensorDataModel) => {
+            var sensor = this._sensors[`${sensorDataModel.sensorId}_${sensorDataModel.sensorType}`];
+            if (sensor.state === SENSOR_STATE_OFFLINE)
+                sensor.state = sensorDataModel.state;
+        });
+    }
+
+    setSensorState(sensorId, sensorType, newState) {
+        if (this.isOnline === false)
+            this.isOnline = true;
+
         this._sensors[`${sensorId}_${sensorType}`].state = newState;
     }
 }

@@ -14,4 +14,7 @@ export class ApiService {
 	getClients() {		
 		return this._http.get('/clients/all');
 	}
+    getSensors(clientId) {		
+		return this._http.get(`/sensors/${clientId}`);
+	}
 }
