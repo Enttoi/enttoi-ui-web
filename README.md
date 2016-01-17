@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Enttoi/enttoi-ui-web.svg)](https://travis-ci.org/Enttoi/enttoi-ui-web)
 
-[Aurelia](https://github.com/aurelia) based dashboard for displaying realtime state of clients and sensors. The state retreived and pushed from [ENttoi API](https://github.com/Enttoi/enttoi-api). 
+[Aurelia](https://github.com/aurelia) based dashboard for displaying realtime state of clients and sensors. The state retreived and pushed from [Enttoi API](https://github.com/Enttoi/enttoi-api). 
 
 ## Running in dev
 
