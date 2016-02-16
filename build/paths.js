@@ -2,6 +2,7 @@ var path = require('path');
 
 var appRoot = 'src/';
 var outputRoot = 'dist/';
+var exportSrvRoot = 'export/';
 
 module.exports = {
   root: appRoot,
@@ -9,6 +10,7 @@ module.exports = {
   html: appRoot + '**/*.html',
   css: appRoot + '**/*.css',
   style: 'styles/**/*.css',
-  environments: 'environments/',
-  output: outputRoot
+  output: outputRoot,
+  exportSrv: exportSrvRoot,
+  environments: 'environments/'
 };

@@ -1,45 +1,18 @@
 var gulp = require('gulp');
 var bundler = require('aurelia-bundler');
+var bundles = require('../bundles.json');
 
 var config = {
-  force: true,
-  packagePath: '.',
-  bundles: {
-    "dist/app-build": {
-      includes: [
-        '*',
-        '*.html!text',
-        '*.css!text'
-      ],
-      options: {
-        inject: true,
-        minify: true
-      }
-    },
-    "dist/aurelia": {
-      includes: [
-        'aurelia-bootstrapper',
-        'aurelia-http-client',
-        'aurelia-router',
-        'aurelia-templating-binding',
-        'aurelia-templating-resources',
-        'aurelia-templating-router',
-        'aurelia-loader-default',
-        'aurelia-history-browser',
-        'aurelia-logging-console'
-      ],
-      options: {
-        inject: true,
-        minify: true
-      }
-    }
-  }
+	force: true,
+	baseURL: '.',
+	configPath: './config.js',
+	bundles: bundles.bundles
 };
 
-gulp.task('bundle', function() {
- return bundler.bundle(config);
+gulp.task('bundle', ['unbundle', 'build'], function() {
+  return bundler.bundle(config);
 });
 
 gulp.task('unbundle', function() {
- return bundler.unbundle(config);
+  return bundler.unbundle(config);
 });
