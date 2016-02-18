@@ -2,28 +2,45 @@
 	"bundles": {
 		"dist/app-build": {
 			"includes": [
-				"[*.js]",
+				"[**/*.js]",
 				"*.html!text",
 				"*.css!text"
 			],
 			"options": {
 				"inject": true,
 				"minify": true,
-				"depCache": true,
+				"rev": true
+			}
+		},
+		"dist/ext-libs": {
+			"includes": [
+				"rstacruz/nprogress",
+				"ms-signalr-client",
+				"underscore"
+			],
+			"options": {
+				"inject": true,
+				"minify": false,
 				"rev": true
 			}
 		},
 		"dist/aurelia": {
 			"includes": [
-				"aurelia-framework",
 				"aurelia-bootstrapper",
+				"aurelia-dependency-injection",				
+				"aurelia-framework",				
 				"aurelia-router",
 				"aurelia-templating-binding",
-				"aurelia-templating-resources",
+				"aurelia-templating-resources",				
 				"aurelia-templating-router",
 				"aurelia-loader-default",
+				"aurelia-http-client",
+				"aurelia-history",
 				"aurelia-history-browser",
-				"aurelia-logging-console"
+				"aurelia-logging-console",
+				"aurelia-event-aggregator",
+				"aurelia-loader",
+				"aurelia-loader-default"
 			],
 			"options": {
 				"inject": true,
