@@ -5,14 +5,14 @@ export class App {
       {
         route: ['','dashboard'],  
         name: 'dashboard', 
-        moduleId: 'dashboard', 
+        moduleId: 'views/dashboard', 
         nav: true, 
         title:'Dashboard' 
         },
       { 
         route: 'stats',        
         name: 'stats',        
-        moduleId: 'stats',        
+        moduleId: 'views/stats',        
         nav: true, 
         title:'Statistics' }
     ]);

@@ -3,8 +3,8 @@
 		"dist/app-build": {
 			"includes": [
 				"[**/*.js]",
-				"*.html!text",
-				"*.css!text"
+				"**/*.html!text",
+				"**/*.css!text"
 			],
 			"options": {
 				"inject": true,
@@ -20,12 +20,13 @@
 			],
 			"options": {
 				"inject": true,
-				"minify": false,
+				"minify": true,
 				"rev": true
 			}
 		},
 		"dist/aurelia": {
 			"includes": [
+				"text",
 				"aurelia-bootstrapper",
 				"aurelia-dependency-injection",				
 				"aurelia-framework",				
@@ -44,7 +45,7 @@
 			],
 			"options": {
 				"inject": true,
-				"minify": false,
+				"minify": true,
 				"rev": true
 			}
 		}

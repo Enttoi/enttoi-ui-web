@@ -4,16 +4,60 @@
     <title>Enttoi</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/slate/bootstrap.min.css">
-    
-    <link rel="stylesheet" href="styles/styles.css?v=4">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+        .et-loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -75px;
+            margin-left: -73px;
+        }
+            .et-loader div {
+                width: 150px;
+                height: 150px;
+                background: transparent url(/media/logo.main.png) no-repeat center center;
+            }
 
+            .et-loader h3 {
+                font-size: 0.98em;
+                text-align: center;
+            }
+        .page-host {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50px;
+            bottom: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        @media print {
+            .page-host {
+                position: absolute;
+                left: 10px;
+                right: 0;
+                top: 50px;
+                bottom: 0;
+                overflow-y: inherit;
+                overflow-x: inherit;
+            }
+        }
+        section {
+            margin: 0 20px;
+        }
+    </style>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="/media/favicon.ico" />
-    <link rel="icon" type="image/png" href="/media/favicon-192x192.png")" sizes="192x192">
-    <link rel="icon" type="image/png" href="/media/favicon-160x160.png")" sizes="160x160">
-    <link rel="icon" type="image/png" href="/media/favicon-96x96.png")" sizes="96x96">
-    <link rel="icon" type="image/png" href="/media/favicon-16x16.png")" sizes="16x16">
-    <link rel="icon" type="image/png" href="/media/favicon-32x32.png")" sizes="32x32">
+    <link rel="icon" type="image/png" href="/media/favicon-192x192.png" )" sizes="192x192">
+    <link rel="icon" type="image/png" href="/media/favicon-160x160.png" )" sizes="160x160">
+    <link rel="icon" type="image/png" href="/media/favicon-96x96.png" )" sizes="96x96">
+    <link rel="icon" type="image/png" href="/media/favicon-16x16.png" )" sizes="16x16">
+    <link rel="icon" type="image/png" href="/media/favicon-32x32.png" )" sizes="32x32">
 
     <meta name="apple-mobile-web-app-title" content="Enttoi">
     <meta name="application-name" content="Enttoi">
