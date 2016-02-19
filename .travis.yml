@@ -16,11 +16,10 @@ install:
   - jspm install -y
   
 script: 
-  - gulp build
-  - gulp bundle
+  - gulp bundle-cdn
   
 deploy:  
   skip_cleanup: true
   provider: azure_web_apps
-  verbose: true
+  verbose: false
   #quiet: true

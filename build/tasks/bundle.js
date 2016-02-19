@@ -10,7 +10,7 @@ var config = {
 };
 
 gulp.task('bundle', ['unbundle', 'build'], function() {
-  return bundler.bundle(config);
+    return bundler.bundle(config);
 });
 
 gulp.task('unbundle', function() {
