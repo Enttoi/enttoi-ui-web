@@ -29,18 +29,16 @@
 				"text",
 				"aurelia-bootstrapper",
 				"aurelia-dependency-injection",				
-				"aurelia-framework",				
+				"aurelia-framework",
+				"aurelia-http-client",	
+				"aurelia-logging-console",
+				"aurelia-event-aggregator",
+							
 				"aurelia-router",
 				"aurelia-templating-binding",
 				"aurelia-templating-resources",				
 				"aurelia-templating-router",
-				"aurelia-loader-default",
-				"aurelia-http-client",
-				"aurelia-history",
 				"aurelia-history-browser",
-				"aurelia-logging-console",
-				"aurelia-event-aggregator",
-				"aurelia-loader",
 				"aurelia-loader-default"
 			],
 			"options": {
