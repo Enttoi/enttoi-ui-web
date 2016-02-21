@@ -39,7 +39,8 @@
 				"aurelia-templating-resources",				
 				"aurelia-templating-router",
 				"aurelia-history-browser",
-				"aurelia-loader-default"
+				"aurelia-loader-default",
+                "aurelia-computed"
 			],
 			"options": {
 				"inject": true,

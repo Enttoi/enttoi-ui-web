@@ -1,11 +1,17 @@
 import * as config from 'environment';
 
 export function configure(aurelia) {
-  var pipe = aurelia.use
-    .standardConfiguration();
+    var isDebug = config.debug === true || window.location.search.indexOf('debug') > -1;
     
-  if(config.debug === true || window.location.search.indexOf('debug') > -1)
-    pipe.developmentLogging();
+    var pipe = aurelia.use
+        .standardConfiguration();
 
-  aurelia.start().then(a => a.setRoot());
+    if (isDebug)
+        pipe.developmentLogging();
+
+    pipe.plugin('aurelia-computed', { 
+      enableLogging: isDebug
+    });
+    
+    aurelia.start().then(a => a.setRoot());
 }

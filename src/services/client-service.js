@@ -27,13 +27,20 @@ export class ClientService {
                     });
 
                     this._logger.debug('Initialized clients', this._clients);
+                    
+                    // we can start connection (which requests initial state) only when
+                    // clients & sensors are retreived
+                    // although it returnes promise we won't wait for it to be fulfilled - 
+                    //  we want to main promise to be resoved ASAP to draw UI, and socket 
+                    // we'll be availabe later on as it not on critcal path
+                    this._socket.start()
                 })
                 .catch((error) => {
                     this._logger.error('Error occurred during getting clients', error);
                     reject(error);
                 })
                 .then(() => {
-                    this._subscriptions.push(eventAggregator.subscribe('sensors', state => {
+                    this._subscriptions.push(eventAggregator.subscribe('socket.sensors', state => {
                         if (this._clients[state.clientId].isOnline === false) {
                             this._logger.info('Client went online as a result of sensor\'s state received', state.clientId);
                             this._pullSensorsState(state.clientId);
@@ -41,7 +48,7 @@ export class ClientService {
                         this._clients[state.clientId].setSensorState(state.sensorId, state.sensorType, state.newState);
                     }));
 
-                    this._subscriptions.push(eventAggregator.subscribe('clients', state => {
+                    this._subscriptions.push(eventAggregator.subscribe('socket.clients', state => {
                         if (this._clients[state.clientId].isOnline === true && state.newState === false) {
                             this._logger.info('Client went offline', state.clientId);
                             this._clients[state.clientId].setOffline();
@@ -52,7 +59,6 @@ export class ClientService {
                         }
                     }));
                 })
-                .then(() => this._socket.start())
                 .then(() => resolve());
         });
     }

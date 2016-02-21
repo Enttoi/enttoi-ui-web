@@ -12,9 +12,11 @@ System.config({
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
   },
+
   map: {
     "aurelia-binding": "npm:aurelia-binding@1.0.0-beta.1.1.3",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0-beta.1.1.2",
+    "aurelia-computed": "npm:aurelia-computed@0.9.1",
     "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.0.0-beta.1.1.3",
     "aurelia-event-aggregator": "npm:aurelia-event-aggregator@1.0.0-beta.1.1.1",
     "aurelia-framework": "npm:aurelia-framework@1.0.0-beta.1.1.3",
@@ -118,6 +120,10 @@ System.config({
       "aurelia-templating-resources": "npm:aurelia-templating-resources@1.0.0-beta.1.1.1",
       "aurelia-templating-router": "npm:aurelia-templating-router@1.0.0-beta.1.1.1",
       "core-js": "npm:core-js@2.1.0"
+    },
+    "npm:aurelia-computed@0.9.1": {
+      "aurelia-binding": "npm:aurelia-binding@1.0.0-beta.1.1.3",
+      "aurelia-logging": "npm:aurelia-logging@1.0.0-beta.1.1.1"
     },
     "npm:aurelia-dependency-injection@1.0.0-beta.1.1.3": {
       "aurelia-logging": "npm:aurelia-logging@1.0.0-beta.1.1.1",
@@ -327,4 +333,4 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2"
     }
   }
-})
+});

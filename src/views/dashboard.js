@@ -32,8 +32,4 @@ export class Dashboard {
             this.floors = temp_floors;
         });
     }
-
-    deactivate() {
-       
-    }
 }
