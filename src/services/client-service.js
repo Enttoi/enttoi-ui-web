@@ -150,6 +150,7 @@ class Sensor {
         this.client = parentClient;
         this.id = dataModel.sensorId;
         this.state = SENSOR_STATE_OFFLINE;
+        this._stateCss = '';
     }
 
     set state(newState) {
@@ -161,6 +162,12 @@ class Sensor {
             this._state = SENSOR_STATE_FREE;
         else
             this._state = SENSOR_STATE_OFFLINE;
+
+        switch (this._state) {
+            case SENSOR_STATE_FREE: this._stateCss = 'text-success'; break;
+            case SENSOR_STATE_OCCUPIED: this._stateCss = 'text-danger'; break;
+            default: this._stateCss = '';
+        }
     }
 
     get state() {
@@ -168,10 +175,6 @@ class Sensor {
     }
 
     get stateCss() {
-        switch (this.state) {
-            case SENSOR_STATE_FREE: return 'text-success';
-            case SENSOR_STATE_OCCUPIED: return 'text-danger';
-            default: return '';
-        }
+        return this._stateCss;
     }
 }
