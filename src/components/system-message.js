@@ -14,18 +14,16 @@ export class SystemMessage {
                 
             switch (state.name) {
                 case 'connecting':
-                    this.message = 'Connecting...';
+                    this.timeout = setTimeout(() => { this.message = 'Connecting...'; }, 500);    
                     break;
                 case 'reconnecting':
-                    this.message = 'Reconnecting...';
+                    this.timeout = setTimeout(() => { this.message = 'Reconnecting...'; }, 500);  
                     break;
                 case 'faulted':
                     this.message = 'Connection error :(';
                     break;
                 default:
-                    this.timeout = setTimeout(() => {
-                        this.message = '';
-                    }, 500);     
+                    this.message = ''; 
             }
         });
     }
