@@ -19,11 +19,12 @@ script:
   - gulp bundle-cdn
   
 before_deploy:
-  - rm -rf node_modules
-  - rm -rf jspm_modules
+  - mv node_modules jspm_modules build environments src .vscode -t /tmp/enttoi/
+  - cp /tmp/enttoi/jspm_packages/system.js jspm_packages/
   
 deploy:  
   skip_cleanup: true
   provider: azure_web_apps
   verbose: false
-  #quiet: true
+  quiet: true
+  
