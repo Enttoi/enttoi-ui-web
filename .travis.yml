@@ -23,7 +23,8 @@ script:
   - gulp bundle-cdn
   
 before_deploy:
-  - mv node_modules jspm_modules build environments src .vscode -t /tmp/enttoi/
+  - mkdir /tmp/enttoi
+  - mv node_modules jspm_modules build environments src .vscode -t /tmp/enttoi
   - cp /tmp/enttoi/jspm_packages/system.js jspm_packages/
   
 deploy:  
