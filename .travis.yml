@@ -18,6 +18,10 @@ install:
 script: 
   - gulp bundle-cdn
   
+before_deploy:
+  - rm -rf node_modules
+  - rm -rf jspm_modules
+  
 deploy:  
   skip_cleanup: true
   provider: azure_web_apps
