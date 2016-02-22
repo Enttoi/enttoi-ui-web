@@ -9,7 +9,7 @@ env:
 cache:
   directories:
     - node_modules
-    - jspm_modules
+    - jspm_packages
     - ~/.jspm
 
 install:
@@ -24,8 +24,8 @@ script:
   
 before_deploy:
   - mkdir /tmp/enttoi
-  - mv node_modules jspm_modules build environments src .vscode -t /tmp/enttoi
-  - cp /tmp/enttoi/jspm_modules/system* jspm_modules/
+  - mv node_modules jspm_packages build environments src .vscode -t /tmp/enttoi
+  - cp /tmp/enttoi/jspm_packages/system* jspm_packages/
   
 deploy:  
   skip_cleanup: true
