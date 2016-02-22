@@ -39,14 +39,17 @@
   
 ## Deploying
 
-1. Build:
-
-  ```shell
-  gulp build
-  ```
-2. Bundle:
-
+1. Build & bundle:
   ```shell
   gulp bundle
   ```
-2. Deploy `/index.html`, `/styles`, `/media`, `/dist` and `jspm_packages/system.js`
+2. Deploy:
+  * `/index.html`
+  * `/media`
+  * `/dist`
+  * `jspm_packages/system.js`
+
+> Alternatively `/dist` can be served from CDN. Add environment variable `ENTTOI_CDN_ENDPOINT` which points to CDN and bundle using:
+  ```shell
+  gulp bundle-cdn
+  ```
