@@ -1,18 +1,26 @@
 <template>
-  	<require from="./dashboard.css"></require>
+    <require from="./dashboard.css"></require>
+    <require from="../Plugins/Converters"></require>
     <section class="au-animate">
         <h2>Dashboard</h2>
         <div class="et-building">
             <div class="et-building-left"></div>
             <div class="et-building-right"></div>
-             
+
             <div repeat.for="floor of floors" class="${floor.css}">
                 <div repeat.for="area of floor.areas" class="${area.css}">
-                    <div repeat.for="client of area.clients" class="et-client">
+                    <div repeat.for="client of area.clients | filterOnProperty:'gender':'female'" class="et-client">
+                        <i class='fav-icon fa ${client.subscribed ?"fa-star" : "fa-star-o"}' title="${client.subscribed ?'I Dont Care..' : 'Get Notified'}"
+                        click.trigger="subscribe(client)"></i>
                         <i repeat.for="sensor of client.sensors" class="fa fa-${sensor.client.gender} ${sensor.stateCss}"></i>
                     </div>
-                </div>          
-            </div>           
+                    <div repeat.for="client of area.clients | filterOnProperty:'gender':'male'" class="et-client">
+                        <i class='fav-icon fa ${client.subscribed ?"fa-star" : "fa-star-o"}' title="${client.subscribed ?'I Dont Care..' : 'Get Notified'}"
+                        click.trigger="subscribe(client)"></i>
+                        <i repeat.for="sensor of client.sensors" class="fa fa-${sensor.client.gender} ${sensor.stateCss}"></i>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </template>

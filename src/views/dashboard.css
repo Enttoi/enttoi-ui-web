@@ -34,7 +34,7 @@
             display: inline-block;
         }
         .et-building .et-floor .et-area .et-client i {
-            margin: 0 1.5px
+            margin: 0 0.1px
         }
 
         .et-building .et-floor .et-area.et-area-left {
@@ -142,8 +142,16 @@
     .et-building .et-floor.et-floor-1 .et-area.et-area-left {
         margin-left: 600px;
     }
-
-    .et-building .et-floor .et-area .et-client i {
-        font-size: 1.3em;
+    .et-building .et-floor .et-area .et-client {
+        font-size: 1.2em;
     }
+    
+   
 }
+    .et-building .et-floor .et-area .et-client .fav-icon{
+            font-size: 0.5em;
+            margin: 0 0;
+            cursor: pointer;
+    }
+
+
