@@ -3,18 +3,20 @@ import {getLogger} from 'aurelia-logging';
 import {ApiService} from 'services/api';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {SocketService} from 'services/push';
+import {NotificationSubscription} from 'services/NotificationSubscription';
 import _ from 'underscore';
 
 const SENSOR_STATE_OFFLINE = 'SENSOR_STATE_OFFLINE';
 const SENSOR_STATE_FREE = 'SENSOR_STATE_FREE';
 const SENSOR_STATE_OCCUPIED = 'SENSOR_STATE_OCCUPIED';
 
-@inject(getLogger('ClientService'), ApiService, EventAggregator, SocketService)
+@inject(getLogger('ClientService'), ApiService, EventAggregator, SocketService, NotificationSubscription)
 export class ClientService {
-    constructor(logger, api, eventAggregator, socket) {
+    constructor(logger, api, eventAggregator, socket, notifications) {
         this._logger = logger;
         this._api = api;
         this._socket = socket;
+        this._notifications = notifications;
 
         this._subscriptions = [];
         this._clients = []; // key/value representation
@@ -23,7 +25,7 @@ export class ClientService {
             this._api.getClients()
                 .then((httpResponse) => {
                     _.each(httpResponse.content, (dataModel) => {
-                        this._clients[dataModel.id] = new Client(dataModel);
+                        this._clients[dataModel.id] = new Client(dataModel, this._notifications);
                     });
 
                     this._logger.debug('Initialized clients', this._clients);
@@ -94,10 +96,10 @@ export class ClientService {
 }
 
 class Client {
-    constructor(dataModel) {
+    constructor(dataModel, notifications) {
         if (!dataModel) throw 'Cannot initialize "Client" without dataModel';
         this.id = dataModel.id;
-
+        this.subscribed = notifications.isSubscribed(dataModel.id);
         this.isOnline = dataModel.isOnline;
 
         this.floor = _.find(dataModel.tags, (tag) => tag.indexOf('floor') >= 0);
@@ -158,8 +160,10 @@ class Sensor {
             throw `Invalid newState value "${newState}"`;
         if (newState === 1)
             this._state = SENSOR_STATE_OCCUPIED;
-        else if (newState === 0)
+        else if (newState === 0){
             this._state = SENSOR_STATE_FREE;
+            //TODO: call parent client for status notification alert
+        }
         else
             this._state = SENSOR_STATE_OFFLINE;
 
