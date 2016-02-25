@@ -14,7 +14,13 @@ export class App {
         name: 'stats',        
         moduleId: 'views/stats',        
         nav: true, 
-        title:'Statistics' }
+        title:'Statistics' },
+      { 
+        route: 'about',        
+        name: 'about',        
+        moduleId: 'views/about',        
+        nav: true, 
+        title:'About' }
     ]);
 
     this.router = router;
