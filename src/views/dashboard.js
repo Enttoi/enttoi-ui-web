@@ -1,7 +1,7 @@
 import {inject} from 'aurelia-framework';
 import {getLogger} from 'aurelia-logging';
 import {ClientService} from 'services/client-service';
-import {NotificationSubscription} from 'services/NotificationSubscription';
+import {NotificationSubscription} from 'services/notification-subscription';
 import _ from 'underscore';
 
 @inject(getLogger('dashboard'), ClientService,NotificationSubscription)

@@ -3,7 +3,7 @@ import {getLogger} from 'aurelia-logging';
 import {ApiService} from 'services/api';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {SocketService} from 'services/push';
-import {NotificationSubscription} from 'services/NotificationSubscription';
+import {NotificationSubscription} from 'services/notification-subscription';
 import _ from 'underscore';
 
 const SENSOR_STATE_OFFLINE = 'SENSOR_STATE_OFFLINE';
