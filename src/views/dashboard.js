@@ -36,8 +36,6 @@ export class Dashboard {
         });
     }
     
-   
-    
     subscribe(client){
       this.notifications.subscribe(client);                          
      }
