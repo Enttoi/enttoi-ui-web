@@ -17,7 +17,8 @@
 				"rstacruz/nprogress",
 				"ms-signalr-client",
 				"underscore",
-				"bootstrap"
+				"bootstrap",
+                "toastr"
 			],
 			"options": {
 				"inject": true,

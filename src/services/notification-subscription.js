@@ -9,41 +9,40 @@ export class NotificationSubscription {
     constructor(logger) {
         this._logger = logger;
     }
-    
-    
-     isSubscribed(clientId){
-         var subscribedList = JSON.parse(localStorage.getItem('subscribedList'));
-         if(subscribedList && subscribedList.indexOf(clientId) >= 0){
-             return true;
-         }
-         else {
-             return false;
-         }
-    }
-    
-    
-    subscribe(client){
-       console.log(client);
+
+
+    isSubscribed(clientId) {
         var subscribedList = JSON.parse(localStorage.getItem('subscribedList'));
-        if(subscribedList && client.subscribed == true){
+        if (subscribedList && subscribedList.indexOf(clientId) >= 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
+    subscribe(client) {
+        var subscribedList = JSON.parse(localStorage.getItem('subscribedList'));
+        if (subscribedList && client.subscribed == true) {
             client.subscribed = false;
-            
-            if(subscribedList){
+
+            if (subscribedList) {
                 var ind = subscribedList.indexOf(client.id);
-                if(ind > -1){
-                    subscribedList.splice(ind,1);
+                if (ind > -1) {
+                    subscribedList.splice(ind, 1);
                 }
-            }                                    
-        }     
-        else if(client.subscribed === false){
-            client.subscribed = true;         
-            if(!subscribedList){
+            }
+        }
+        else if (client.subscribed === false) {
+            client.subscribed = true;
+            if (!subscribedList) {
                 subscribedList = [];
             }
             subscribedList.push(client.id);
         }
-         
-        localStorage.setItem('subscribedList',JSON.stringify(subscribedList));                                      
-     }
-    
+
+        localStorage.setItem('subscribedList', JSON.stringify(subscribedList));
+    }
+
 }
