@@ -10,13 +10,8 @@ export class NavBar {
         this.clientService = clientService;
         this.router = router;
 
-        this.maleOffline = 0;
-        this.maleOccupied = 0;
-        this.maleFree = 0;
-
-        this.femaleOffline = 0;
-        this.femaleOccupied = 0;
-        this.femaleFree = 0;
+        this.male = { offline: 0, occupied: 0, free: 0 };
+        this.female = { offline: 0, occupied: 0, free: 0 };
 
         this._subscriptions = [];
 
@@ -27,27 +22,27 @@ export class NavBar {
                     _.each(client.sensors, (sensor) => {
                         this._subscriptions.push(bindingEngine
                             .propertyObserver(sensor, 'state')
-                            .subscribe((newState, oldState) => this._handleState(newState, oldState)));
-                        this._handleState(sensor.state);
+                            .subscribe((newState, oldState) => this._handleState(client.gender == 'male' ? this.male : this.female, newState, oldState)));
+
+                        this._handleState(client.gender == 'male' ? this.male : this.female, sensor.state);
                     });
                 });
         });
-        console.log(this.observers);
-    }    
+    }
 
-    _handleState(newState, oldState) {
+    _handleState(gender, newState, oldState) {
         if (oldState) {
             switch (oldState) {
-                case SENSOR_STATE_FREE: this.maleFree--; break;
-                case SENSOR_STATE_OCCUPIED: this.maleOccupied--; break;
-                case SENSOR_STATE_OFFLINE: this.maleOffline--; break;
+                case SENSOR_STATE_FREE: gender.free--; break;
+                case SENSOR_STATE_OCCUPIED: gender.occupied--; break;
+                case SENSOR_STATE_OFFLINE: gender.offline--; break;
             }
         }
 
         switch (newState) {
-            case SENSOR_STATE_FREE: this.maleFree++; break;
-            case SENSOR_STATE_OCCUPIED: this.maleOccupied++; break;
-            case SENSOR_STATE_OFFLINE: this.maleOffline++; break;
+            case SENSOR_STATE_FREE: gender.free++; break;
+            case SENSOR_STATE_OCCUPIED: gender.occupied++; break;
+            case SENSOR_STATE_OFFLINE: gender.offline++; break;
         }
     }
 
