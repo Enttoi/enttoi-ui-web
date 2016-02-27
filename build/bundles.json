@@ -17,8 +17,13 @@
 				"rstacruz/nprogress",
 				"ms-signalr-client",
 				"underscore",
+<<<<<<< HEAD
                 "browser-notifications"
                 
+=======
+				"bootstrap",
+                "toastr"
+>>>>>>> 69d6b354971f001a6375a9026d991c724391791c
 			],
 			"options": {
 				"inject": true,

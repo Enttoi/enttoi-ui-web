@@ -44,6 +44,7 @@
       "ms-signalr-client": "npm:ms-signalr-client@^2.2.2",
       "rstacruz/nprogress": "github:rstacruz/nprogress@^0.2.0",
       "text": "github:systemjs/plugin-text@^0.0.3",
+      "toastr": "github:CodeSeven/toastr@^2.1.2",
       "underscore": "npm:underscore@^1.8.3"
     },
     "devDependencies": {

@@ -26,42 +26,53 @@
 }
 
     .et-building .et-floor .et-area {
-        box-shadow: 0 0 1px 1px rgba(252, 252, 252, 0.9);
         padding: 2px 3px;
     }
 
         .et-building .et-floor .et-area .et-client {
             display: inline-block;
+            padding: 2px 1px;
+            box-shadow: 0 0 1px 1px rgba(252, 252, 252, 1);
+            cursor: pointer
+        }
+        .et-building .et-floor .et-area .et-client:first-child{
+            margin-right: 5px;
+        }
+        .et-building .et-floor .et-area .et-client:hover {
+            box-shadow: 0 0 1px 1px rgba(0, 256, 0, 0.5);
+        }
+        .et-building .et-floor .et-area .et-client.subscribed{
+            box-shadow: 0 0 1px 1px rgba(0, 256, 0, 1);
         }
         .et-building .et-floor .et-area .et-client i {
-            margin: 0 0.1px
+            margin: 0 1.5px
         }
 
         .et-building .et-floor .et-area.et-area-left {
             float: left;
-            margin-left: 215px;
+            margin-left: 211px;
         }
 
         .et-building .et-floor .et-area.et-area-right {
             float: right;
-            margin-right: 215px;
+            margin-right: 211px;
         }
 
 
     .et-building .et-floor.et-floor-4 {
-        top: 72px;
+        top: 68px;
     }
 
     .et-building .et-floor.et-floor-3 {
-        top: 113px;
+        top: 109px;
     }
 
     .et-building .et-floor.et-floor-2 {
-        top: 154px;
+        top: 152px;
     }
 
     .et-building .et-floor.et-floor-1 {
-        top: 191px;
+        top: 189px;
     }
 
 @media (max-width: 700px) {
@@ -78,17 +89,17 @@
     }
 
     .et-building .et-floor .et-area.et-area-left {
-        margin-left: 53px;
+        margin-left: 50px;
     }
 
     .et-building .et-floor .et-area.et-area-right {
-        margin-right: 53px;
+        margin-right: 49px;
     }
 }
 
 @media (min-width: 1090px) {
     .et-building .et-floor.et-floor-1 .et-area.et-area-left {
-        margin-left: 460px;
+        margin-left: 446px;
     }
 }
 
@@ -112,19 +123,19 @@
     }
 
     .et-building .et-floor.et-floor-4 {
-        top: 99px;
+        top: 93px;
     }
 
     .et-building .et-floor.et-floor-3 {
-        top: 155px;
+        top: 146px;
     }
 
     .et-building .et-floor.et-floor-2 {
-        top: 209px;
+        top: 202px;
     }
 
     .et-building .et-floor.et-floor-1 {
-        top: 258px;
+        top: 254px;
     }
 
     .et-building .et-floor .et-area {
@@ -132,26 +143,20 @@
     }
 
         .et-building .et-floor .et-area.et-area-left {
-            margin-left: 290px;
+            margin-left: 282px;
         }
 
         .et-building .et-floor .et-area.et-area-right {
-            margin-right: 286px;
+            margin-right: 275px;
         }
 
     .et-building .et-floor.et-floor-1 .et-area.et-area-left {
         margin-left: 600px;
     }
     .et-building .et-floor .et-area .et-client {
-        font-size: 1.2em;
+        font-size: 1.3em;
+        padding: 2px 4px;
     }
-    
-   
 }
-    .et-building .et-floor .et-area .et-client .fav-icon{
-            font-size: 0.5em;
-            margin: 0 0;
-            cursor: pointer;
-    }
 
 

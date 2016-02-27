@@ -1,12 +1,13 @@
 import {inject} from 'aurelia-framework';
 import {getLogger} from 'aurelia-logging';
 import {ClientService} from 'services/client-service';
-import {NotificationSubscription} from 'services/NotificationSubscription';
+import {NotificationSubscription} from 'services/notification-subscription';
 import _ from 'underscore';
+import toastr from 'toastr';
 
-@inject(getLogger('dashboard'), ClientService,NotificationSubscription)
+@inject(getLogger('dashboard'), ClientService, NotificationSubscription)
 export class Dashboard {
-    constructor(logger, clientService,notificationService) {
+    constructor(logger, clientService, notificationService) {
         this.logger = logger;
         this.clientService = clientService;
         this.floors = [];
@@ -17,7 +18,6 @@ export class Dashboard {
         return this.clientService.clients.then((rowClients) => {           
              var temp_floors = _.chain(rowClients)
                 .values()
-                //.each((client) => { client.subscribed = this.isSubscribed(client); })
                 .groupBy((client) => client.floor)
                 .map((floor_clients, floorName) => { return {
                     css: `et-floor et-${floorName}`,
@@ -35,11 +35,14 @@ export class Dashboard {
             this.floors = temp_floors;
         });
     }
-    
-   
-    
-    subscribe(client){
-      this.notifications.subscribe(client);                          
-     }
+
+    toggleSubscription(client) {
+        this.notifications.subscribe(client);
+        toastr.clear();
+        if (this.notifications.isSubscribed(client.id))
+            toastr.success(`Subscribed to notification in ${client.area} wing, on ${client.floor}, for ${client.gender} cabin.`);
+        else
+            toastr.info(`Removed notification in ${client.area} wing, on ${client.floor}, for ${client.gender} cabin.`)
+    }
 }
 
