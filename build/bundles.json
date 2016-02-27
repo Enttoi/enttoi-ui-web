@@ -16,7 +16,8 @@
 			"includes": [
 				"rstacruz/nprogress",
 				"ms-signalr-client",
-				"underscore"
+				"underscore",
+                "bootstrap"
 			],
 			"options": {
 				"inject": true,

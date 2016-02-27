@@ -1,4 +1,14 @@
+import {ClientService} from 'services/client-service';
+import {inject} from 'aurelia-framework';
+
+@inject(ClientService)
 export class App {
+   constructor(clientService) {
+       // trigger initalization of clients +
+       // push subscription ASAP 
+       clientService.clients;
+   }
+    
   configureRouter(config, router){
     config.title = 'Enttoi';
     config.map([
@@ -7,20 +17,23 @@ export class App {
         name: 'dashboard', 
         moduleId: 'views/dashboard', 
         nav: true, 
-        title:'Dashboard' 
+        title:'Home',
+        settings: 'fa-building-o' 
         },
       { 
         route: 'stats',        
         name: 'stats',        
         moduleId: 'views/stats',        
         nav: true, 
-        title:'Statistics' },
+        title:'Stats',
+        settings: 'fa-bar-chart' },
       { 
-        route: 'about',        
-        name: 'about',        
-        moduleId: 'views/about',        
+        route: 'feedback',        
+        name: 'feedback',        
+        moduleId: 'views/feedback',        
         nav: true, 
-        title:'About' }
+        title:'Feeback',
+        settings: 'fa-bullhorn' }
     ]);
 
     this.router = router;
