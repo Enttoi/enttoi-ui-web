@@ -16,7 +16,9 @@
 			"includes": [
 				"rstacruz/nprogress",
 				"ms-signalr-client",
-				"underscore"
+				"underscore",
+                "browser-notifications"
+                
 			],
 			"options": {
 				"inject": true,

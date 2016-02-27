@@ -38,6 +38,7 @@ System.config({
     "babel": "npm:babel-core@5.8.35",
     "babel-runtime": "npm:babel-runtime@5.8.35",
     "bootstrap": "github:twbs/bootstrap@3.3.6",
+    "browser-notifications": "npm:browser-notifications@0.0.3",
     "clean-css": "npm:clean-css@3.4.9",
     "core-js": "npm:core-js@1.2.6",
     "fetch": "github:github/fetch@0.10.1",

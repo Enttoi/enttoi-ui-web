@@ -110,7 +110,7 @@ class Client {
         this._sensors = []; // key-value style
         this.sensors = []; // collection style
         _.each(dataModel.sensors, (sensorModel) => {
-            var sensor = new Sensor(this, sensorModel);
+            var sensor = new Sensor(this, sensorModel,  notifications);
             this._sensors[`${sensorModel.sensorId}_${sensorModel.sensorType}`] = sensor;
             this.sensors.push(sensor);
         });
@@ -145,7 +145,7 @@ class Client {
 }
 
 class Sensor {
-    constructor(parentClient, dataModel) {
+    constructor(parentClient, dataModel, notifications) {
         if (!parentClient) throw 'Cannot initialize "Sensor" without parentClient';
         if (!dataModel) throw 'Cannot initialize "Sensor" without dataModel';
 
@@ -153,16 +153,21 @@ class Sensor {
         this.id = dataModel.sensorId;
         this.state = SENSOR_STATE_OFFLINE;
         this._stateCss = '';
+        this._notifications = notifications;
     }
 
     set state(newState) {
+         
         if (newState !== 1 && newState !== 0 && newState !== SENSOR_STATE_OFFLINE)
             throw `Invalid newState value "${newState}"`;
         if (newState === 1)
             this._state = SENSOR_STATE_OCCUPIED;
         else if (newState === 0){
             this._state = SENSOR_STATE_FREE;
-            //TODO: call parent client for status notification alert
+            
+            // maybe use message bus instead of hard dependenency such this.. (like pub/sub npm:postal??)
+             this.notifications.notifyUser(this.client);
+           
         }
         else
             this._state = SENSOR_STATE_OFFLINE;
