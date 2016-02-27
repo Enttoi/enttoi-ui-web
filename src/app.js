@@ -1,14 +1,4 @@
-import {ClientService} from 'services/client-service';
-import {inject} from 'aurelia-framework';
-
-@inject(ClientService)
-export class App {
-   constructor(clientService) {
-       // trigger initalization of clients +
-       // push subscription ASAP 
-       clientService.clients;
-   }
-    
+export class App {    
   configureRouter(config, router){
     config.title = 'Enttoi';
     config.map([
@@ -35,7 +25,6 @@ export class App {
         title:'Feeback',
         settings: 'fa-bullhorn' }
     ]);
-
     this.router = router;
   }
 }

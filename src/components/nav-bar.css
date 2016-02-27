@@ -4,3 +4,19 @@
     height: 17px;
     background: transparent url(/media/logo.header.png) no-repeat;
 }
+
+.navbar-text{
+    margin-top: 2px;
+    margin-bottom: 0;
+}
+    .navbar-text table{
+        background-color: transparent;
+    }
+    .navbar-text table tr td{
+        padding: 2px 1px;
+        text-align: center;
+        min-width: 18px
+    }
+    .navbar-text table tr td .fa{
+        font-size: 18px
+    }

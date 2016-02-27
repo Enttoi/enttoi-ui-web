@@ -5,9 +5,9 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import {SocketService} from 'services/push';
 import _ from 'underscore';
 
-const SENSOR_STATE_OFFLINE = 'SENSOR_STATE_OFFLINE';
-const SENSOR_STATE_FREE = 'SENSOR_STATE_FREE';
-const SENSOR_STATE_OCCUPIED = 'SENSOR_STATE_OCCUPIED';
+export const SENSOR_STATE_OFFLINE = 'SENSOR_STATE_OFFLINE';
+export const SENSOR_STATE_FREE = 'SENSOR_STATE_FREE';
+export const SENSOR_STATE_OCCUPIED = 'SENSOR_STATE_OCCUPIED';
 
 @inject(getLogger('ClientService'), ApiService, EventAggregator, SocketService)
 export class ClientService {
