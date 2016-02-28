@@ -37,9 +37,9 @@ export class Dashboard {
     }
 
     toggleSubscription(client) {
-        this.notifications.subscribe(client);
+        this.notifications.toggleSubscribedToAlerts(client);
         toastr.clear();
-        if (this.notifications.isSubscribed(client.id))
+        if (this.notifications.isSubscribedToAlerts(client.id))
             toastr.success(`Subscribed to notification in ${client.area} wing, on ${client.floor}, for ${client.gender} cabin.`);
         else
             toastr.info(`Removed notification in ${client.area} wing, on ${client.floor}, for ${client.gender} cabin.`)

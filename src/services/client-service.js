@@ -3,20 +3,18 @@ import {getLogger} from 'aurelia-logging';
 import {ApiService} from 'services/api';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {SocketService} from 'services/push';
-import {NotificationSubscription} from 'services/notification-subscription';
 import _ from 'underscore';
 
-const SENSOR_STATE_OFFLINE = 'SENSOR_STATE_OFFLINE';
-const SENSOR_STATE_FREE = 'SENSOR_STATE_FREE';
-const SENSOR_STATE_OCCUPIED = 'SENSOR_STATE_OCCUPIED';
+export const SENSOR_STATE_OFFLINE = 'SENSOR_STATE_OFFLINE';
+export const SENSOR_STATE_FREE = 'SENSOR_STATE_FREE';
+export const SENSOR_STATE_OCCUPIED = 'SENSOR_STATE_OCCUPIED';
 
-@inject(getLogger('ClientService'), ApiService, EventAggregator, SocketService, NotificationSubscription)
+@inject(getLogger('ClientService'), ApiService, EventAggregator, SocketService)
 export class ClientService {
-    constructor(logger, api, eventAggregator, socket, notifications) {
+    constructor(logger, api, eventAggregator, socket) {
         this._logger = logger;
         this._api = api;
-        this._socket = socket;
-        this._notifications = notifications;
+        this._socket = socket;        
 
         this._subscriptions = [];
         this._clients = []; // key/value representation
@@ -25,7 +23,7 @@ export class ClientService {
             this._api.getClients()
                 .then((httpResponse) => {
                     _.each(httpResponse.content, (dataModel) => {
-                        this._clients[dataModel.id] = new Client(dataModel, this._notifications);
+                        this._clients[dataModel.id] = new Client(dataModel);
                     });
 
                     this._logger.debug('Initialized clients', this._clients);
@@ -96,10 +94,10 @@ export class ClientService {
 }
 
 class Client {
-    constructor(dataModel, notifications) {
+    constructor(dataModel) {
         if (!dataModel) throw 'Cannot initialize "Client" without dataModel';
         this.id = dataModel.id;
-        this.subscribed = notifications.isSubscribed(dataModel.id);
+        this.subscribed = false; //notifications.isSubscribedToAlerts(dataModel.id);
         this.isOnline = dataModel.isOnline;
 
         this.floor = _.find(dataModel.tags, (tag) => tag.indexOf('floor') >= 0);
@@ -110,7 +108,7 @@ class Client {
         this._sensors = []; // key-value style
         this.sensors = []; // collection style
         _.each(dataModel.sensors, (sensorModel) => {
-            var sensor = new Sensor(this, sensorModel,  notifications);
+            var sensor = new Sensor(this, sensorModel);
             this._sensors[`${sensorModel.sensorId}_${sensorModel.sensorType}`] = sensor;
             this.sensors.push(sensor);
         });
@@ -145,19 +143,26 @@ class Client {
 }
 
 class Sensor {
-    constructor(parentClient, dataModel, notifications) {
+    constructor(parentClient, dataModel) {
         if (!parentClient) throw 'Cannot initialize "Sensor" without parentClient';
         if (!dataModel) throw 'Cannot initialize "Sensor" without dataModel';
 
         this.client = parentClient;
         this.id = dataModel.sensorId;
         this.state = SENSOR_STATE_OFFLINE;
-        this._stateCss = '';
-        this._notifications = notifications;
+        this._stateCss = '';  
+        
+        /*var that = this;
+        this.stateNumber =0;
+        setInterval(function(){
+            console.debug("test state Change!");
+            that.stateNumber = (that.stateNumber + 1) % 2;
+            that.state = that.stateNumber;
+             }, 5000);*/
     }
 
     set state(newState) {
-         
+         console.debug(`test state indeed Changed! ${newState}`);
         if (newState !== 1 && newState !== 0 && newState !== SENSOR_STATE_OFFLINE)
             throw `Invalid newState value "${newState}"`;
         if (newState === 1)
@@ -166,7 +171,7 @@ class Sensor {
             this._state = SENSOR_STATE_FREE;
             
             // maybe use message bus instead of hard dependenency such this.. (like pub/sub npm:postal??)
-             this.notifications.notifyUser(this.client);
+            // this.notifications.notifyUser(this.client);
            
         }
         else
