@@ -5,6 +5,7 @@ import {ClientService, SENSOR_STATE_OFFLINE, SENSOR_STATE_FREE, SENSOR_STATE_OCC
 import {BindingEngine, bindable, inject} from 'aurelia-framework';
 import _ from 'underscore';
 import browserNotifications  from 'browser-notifications';
+import toastr from 'toastr';
 
 
 
@@ -25,7 +26,7 @@ export class NotificationSubscription {
             _.chain(clients)
                 .values()
                 .each((client) => {
-                    client.subscribed = this.isSubscribedToAlerts(client.id);                    
+                    client.subscribed = this.isSubscribedToAlerts(client.id);
                     _.each(client.sensors, (sensor) => {
                         this._sensorStateChangedSubscriptions.push(bindingEngine
                             .propertyObserver(sensor, 'state')
@@ -37,7 +38,7 @@ export class NotificationSubscription {
         });
     }
 
-   
+
 
 
     isSubscribedToAlerts(clientId) {
@@ -89,7 +90,7 @@ export class NotificationSubscription {
 
     _notifyUser(client, newState, oldState) {
         if (client.subscribed && newState == SENSOR_STATE_FREE) { //jenya - do i need to add (&& newState != SENSOR_STATE_FREE) ??           
-           this._clearAlertsSubscriptions();
+            this._clearAlertsSubscriptions();
             if (browserNotifications.isSupported()) {
                 browserNotifications.requestPermissions()
                     .then(function (isPermitted) {
@@ -109,7 +110,12 @@ export class NotificationSubscription {
                     });
             }
             else {
-                alert('Toliet Available', `Run to ${client.floor}/${client.area} ${client.gender}!!`);
+                toastr.clear();
+                toastr.success(`Toilet Available`,`Run to ${client.area} wing on ${client.floor} ${client.gender} cabin!!`);
+                
+               
+                //alert(`Toliet Available\nRun to ${client.floor}/${client.area} ${client.gender}!!`);
+               
             }
 
         }
