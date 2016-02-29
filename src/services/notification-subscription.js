@@ -1,10 +1,8 @@
 import {getLogger} from 'aurelia-logging';
-//import {EventAggregator} from 'aurelia-event-aggregator';
 import {SENSOR_STATE_OFFLINE, SENSOR_STATE_FREE, SENSOR_STATE_OCCUPIED} from '../services/client-service';
 import {BindingEngine, bindable, inject} from 'aurelia-framework';
 import _ from 'underscore';
 import browserNotifications  from 'browser-notifications';
-import toastr from 'toastr';
 
 
 
@@ -75,8 +73,7 @@ export class NotificationSubscription {
           });
       }
       else {
-        toastr.clear();
-        toastr.success(`Toilet Available`, `Run to ${client.area} wing on ${client.floor} ${client.gender} cabin!!`);
+        setTimeout(() => alert(`Toilet Available\nRun to ${client.area} wing on ${client.floor} ${client.gender} cabin!!`), 0);        
       }
 
     }
