@@ -1,4 +1,4 @@
-import {inject, singleton} from 'aurelia-framework';
+import {BindingEngine, inject, singleton} from 'aurelia-framework';
 import {getLogger} from 'aurelia-logging';
 import {ApiService} from 'services/api';
 import {EventAggregator} from 'aurelia-event-aggregator';
@@ -9,14 +9,15 @@ export const SENSOR_STATE_OFFLINE = 'SENSOR_STATE_OFFLINE';
 export const SENSOR_STATE_FREE = 'SENSOR_STATE_FREE';
 export const SENSOR_STATE_OCCUPIED = 'SENSOR_STATE_OCCUPIED';
 
-@inject(getLogger('ClientService'), ApiService, EventAggregator, SocketService)
+@inject(getLogger('ClientService'), BindingEngine, ApiService, EventAggregator, SocketService)
 export class ClientService {
-  constructor(logger, api, eventAggregator, socket) {
+  constructor(logger, bindingEngine, api, eventAggregator, socket) {
     this._logger = logger;
     this._api = api;
     this._socket = socket;
 
     this._subscriptions = [];
+    this._observers = [];
     this._clients = []; // key/value representation
 
     this._initPromise = new Promise((resolve, reject) => {
@@ -24,6 +25,12 @@ export class ClientService {
         .then((httpResponse) => {
           _.each(httpResponse.content, (dataModel) => {
             this._clients[dataModel.id] = new Client(dataModel);
+
+            this._observers.push(bindingEngine
+              .propertyObserver(this._clients[dataModel.id], 'state')
+              .subscribe((newState, oldState) => {
+                this._eventAggregator.publish('client-service.sensor-state', { newState: newState, oldState: oldState });
+              }));
           });
 
           this._logger.debug('Initialized clients', this._clients);
@@ -88,11 +95,14 @@ export class ClientService {
       if (this._subscription)
         _.each(this._subscriptions, (sub) => sub.dispose());
 
+      if (this._observers)
+        _.each(this._observers, (obs) => obs.dispose());
+
       this._clients = [];
+      this._observers = [];
     });
   }
 }
-
 class Client {
   constructor(dataModel) {
     if (!dataModel) throw 'Cannot initialize "Client" without dataModel';
