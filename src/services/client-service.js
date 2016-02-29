@@ -19,7 +19,7 @@ export class ClientService {
     this._subscriptions = [];
     this._observers = [];
     this._clients = []; // key/value representation
-
+   
     this._initPromise = new Promise((resolve, reject) => {
       this._api.getClients()
         .then((httpResponse) => {
@@ -164,6 +164,16 @@ class Sensor {
     this.id = dataModel.sensorId;
     this.state = SENSOR_STATE_OFFLINE;
     this._stateCss = '';
+    
+    /*var that = this;
+        this.stateNumber =0;
+        setInterval(function(){
+            console.debug("test state Change!");
+            that.stateNumber = (that.stateNumber + 1) % 2;
+            that.state = that.stateNumber;
+             }, 10000);*/
+    
+    
   }
 
   set state(newState) {
@@ -175,7 +185,9 @@ class Sensor {
       this._state = SENSOR_STATE_FREE;
     else
       this._state = SENSOR_STATE_OFFLINE;
-
+    
+    //EventAggregator.publish();
+    
     switch (this._state) {
       case SENSOR_STATE_FREE: this._stateCss = 'text-success'; break;
       case SENSOR_STATE_OCCUPIED: this._stateCss = 'text-danger'; break;
