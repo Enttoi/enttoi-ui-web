@@ -9,3 +9,12 @@
     margin-top: 2px;
     margin-bottom: 0;
 }
+@media (max-width: 767px) {
+  .navbar-text{
+    float: none !important;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -39px;
+  }
+}
