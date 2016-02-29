@@ -14,7 +14,7 @@ export class LiveCounter {
 
 
     this._subscription = eventAggregator.subscribe('client-service.sensor-state',
-      (change) => this._handleState(this.male, change.newState, change.oldState));
+      (change) => this._handleState(change.sensor.client.gender == 'male' ? this.male : this.female, change.newState, change.oldState));
 
     this.clientService.clients.then((clients) => {
       _.chain(clients)

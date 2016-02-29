@@ -30,7 +30,11 @@ export class ClientService {
               this._observers.push(bindingEngine
                 .propertyObserver(sensor, 'state')
                 .subscribe((newState, oldState) => {
-                  eventAggregator.publish('client-service.sensor-state', { newState: newState, oldState: oldState });
+                  eventAggregator.publish('client-service.sensor-state', {
+                    newState: newState,
+                    oldState: oldState,
+                    sensor: sensor
+                  });
                 }));
             });
           });
