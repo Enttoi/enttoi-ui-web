@@ -5,9 +5,9 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import {SocketService} from 'services/push';
 import _ from 'underscore';
 
-const SENSOR_STATE_OFFLINE = 'SENSOR_STATE_OFFLINE';
-const SENSOR_STATE_FREE = 'SENSOR_STATE_FREE';
-const SENSOR_STATE_OCCUPIED = 'SENSOR_STATE_OCCUPIED';
+export const SENSOR_STATE_OFFLINE = 'SENSOR_STATE_OFFLINE';
+export const SENSOR_STATE_FREE = 'SENSOR_STATE_FREE';
+export const SENSOR_STATE_OCCUPIED = 'SENSOR_STATE_OCCUPIED';
 
 @inject(getLogger('ClientService'), BindingEngine, ApiService, EventAggregator, SocketService)
 export class ClientService {
@@ -103,12 +103,12 @@ export class ClientService {
     });
   }
 }
-
 class Client {
   constructor(dataModel) {
     if (!dataModel) throw 'Cannot initialize "Client" without dataModel';
     this.id = dataModel.id;
     this.subscribed = false;
+
     this.isOnline = dataModel.isOnline;
 
     this.floor = _.find(dataModel.tags, (tag) => tag.indexOf('floor') >= 0);
@@ -165,14 +165,12 @@ class Sensor {
   }
 
   set state(newState) {
-
     if (newState !== 1 && newState !== 0 && newState !== SENSOR_STATE_OFFLINE)
       throw `Invalid newState value "${newState}"`;
     if (newState === 1)
       this._state = SENSOR_STATE_OCCUPIED;
-    else if (newState === 0) {
+    else if (newState === 0)
       this._state = SENSOR_STATE_FREE;
-    }
     else
       this._state = SENSOR_STATE_OFFLINE;
 
