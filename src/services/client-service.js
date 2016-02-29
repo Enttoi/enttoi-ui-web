@@ -26,11 +26,13 @@ export class ClientService {
           _.each(httpResponse.content, (dataModel) => {
             this._clients[dataModel.id] = new Client(dataModel);
 
-            this._observers.push(bindingEngine
-              .propertyObserver(this._clients[dataModel.id], 'state')
-              .subscribe((newState, oldState) => {
-                this._eventAggregator.publish('client-service.sensor-state', { newState: newState, oldState: oldState });
-              }));
+            _.each(this._clients[dataModel.id].sensors, (sensor) => {
+              this._observers.push(bindingEngine
+                .propertyObserver(sensor, 'state')
+                .subscribe((newState, oldState) => {
+                  eventAggregator.publish('client-service.sensor-state', { newState: newState, oldState: oldState });
+                }));
+            });
           });
 
           this._logger.debug('Initialized clients', this._clients);
