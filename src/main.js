@@ -1,5 +1,5 @@
 import * as config from 'environment';
-import 'bootstrap'
+import 'bootstrap';
 
 export function configure(aurelia) {
     var isDebug = config.debug === true || window.location.search.indexOf('debug') > -1;

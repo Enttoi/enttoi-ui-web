@@ -5,6 +5,11 @@ import nprogress from 'rstacruz/nprogress';
 export class ProgressBar {
     @bindable loading = true;
 
+    constructor()
+    {
+        nprogress.configure({ showSpinner: false });
+    }
+    
 	loadingChanged() {
 		if (this.loading)
 			nprogress.start();

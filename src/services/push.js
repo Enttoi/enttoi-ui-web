@@ -15,7 +15,7 @@ export class SocketService {
             {
                 //logging: config.debug
             });
-        this._connection.stateChanged((state) => this._stateChanged(state));
+        this._connection.stateChanged((state) => this._connectionStateChanged(state));
         this.hub = this._connection.createHubProxy('commonHub');
         this.lastStates = {};
 
@@ -67,7 +67,7 @@ export class SocketService {
         this._connection.stop();
     }
 
-    _stateChanged(state) {
+    _connectionStateChanged(state) {
         let connectionState = {
             0: 'connecting',
             1: 'connected',

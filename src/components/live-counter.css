@@ -1,0 +1,11 @@
+table.et-live-counter{
+  background-color: transparent;
+}
+table.et-live-counter tr td{
+  padding: 2px 1px;
+  text-align: center;
+  min-width: 18px
+}
+table.et-live-counter tr td .fa{
+  font-size: 18px
+}

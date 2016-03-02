@@ -6,7 +6,7 @@ import toastr from 'toastr';
 export class SystemMessage {
 
     constructor(eventAggregator) {
-        this.message = '';
+        this.message = 'Loading...';
 
         eventAggregator.subscribe('socket.state', state => {
             
@@ -15,10 +15,10 @@ export class SystemMessage {
                 
             switch (state.name) {
                 case 'connecting':
-                    this.timeout = setTimeout(() => { this.message = 'Connecting...'; }, 500);    
+                    this.message = 'Connecting...';
                     break;
                 case 'reconnecting':
-                    this.timeout = setTimeout(() => { this.message = 'Reconnecting...'; }, 500);  
+                    this.message = 'Reconnecting...';
                     break;
                 case 'faulted':
                     this.message = 'Connection error :(';

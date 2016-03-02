@@ -1,9 +1,12 @@
 <template>
-  <require from="./components/nav-bar.html"></require> 
+  <require from="./components/nav-bar"></require> 
   <require from="./components/system-message"></require>
+  <require from="./components/progress-bar"></require>
 
+  <progress-bar loading.bind="router.isNavigating"></progress-bar>
   <system-message></system-message>
-  <nav-bar router.bind="router"></nav-bar>
+  <nav-bar></nav-bar>
+  
 
   <div class="page-host">
     <router-view></router-view>
