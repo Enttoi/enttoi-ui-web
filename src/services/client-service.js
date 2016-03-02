@@ -26,6 +26,7 @@ export class ClientService {
           _.each(httpResponse.content, (dataModel) => {
             this._clients[dataModel.id] = new Client(dataModel);
 
+            // wire internal events of sensor's state change
             _.each(this._clients[dataModel.id].sensors, (sensor) => {
               this._observers.push(bindingEngine
                 .propertyObserver(sensor, 'state')
@@ -40,13 +41,6 @@ export class ClientService {
           });
 
           this._logger.debug('Initialized clients', this._clients);
-                    
-          // we can start connection (which requests initial state) only when
-          // clients & sensors are retreived
-          // although it returnes promise we won't wait for it to be fulfilled - 
-          //  we want to main promise to be resoved ASAP to draw UI, and socket 
-          // we'll be availabe later on as it not on critcal path
-          this._socket.start()
         })
         .catch((error) => {
           this._logger.error('Error occurred during getting clients', error);
@@ -72,6 +66,7 @@ export class ClientService {
             }
           }));
         })
+        .then(() => this._socket.start())
         .then(() => resolve());
     });
   }
