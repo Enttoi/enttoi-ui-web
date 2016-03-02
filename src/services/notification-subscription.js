@@ -3,7 +3,11 @@ import {SENSOR_STATE_OFFLINE, SENSOR_STATE_FREE, SENSOR_STATE_OCCUPIED} from '..
 import {BindingEngine, bindable, inject} from 'aurelia-framework';
 import _ from 'underscore';
 import browserNotifications  from 'browser-notifications';
+import toastr from 'toastr';
 
+const NOTIFICATION_NOT_SUPPORTED = 'NOTIFICATION_NOT_SUPPORTED';
+const NOTIFICATION_REJECTED = 'NOTIFICATION_REJECTED';
+const NOTIFICATION_ERRORED = 'NOTIFICATION_ERRORED';
 
 
 @inject(getLogger('NotificationSubscription'), BindingEngine)
@@ -12,6 +16,27 @@ export class NotificationSubscription {
     this._logger = logger;
     this.bindingEngine = bindingEngine;
     this._observers = [];
+    this._notificationPermissionPromise = new Promise((resolve, reject) => {
+      if (browserNotifications.isSupported()) {
+        browserNotifications.requestPermissions()
+          .then((isPermitted) => {
+            if (isPermitted) {
+              resolve();
+            }
+            else {
+              this._logger.debug("We asked for permission, but got denied");
+              reject(NOTIFICATION_REJECTED);
+            }
+          })
+          .catch((err) => {
+            reject(NOTIFICATION_ERRORED);
+            this._logger.debug(`An error occured", ${err}`);
+          });
+      }
+      else {
+        reject(NOTIFICATION_NOT_SUPPORTED);
+      }
+    });
   }
 
   isSubscribedToAlerts(clientId) {
@@ -32,6 +57,12 @@ export class NotificationSubscription {
                 this._notifyUser(client, newState, oldState);
               })))
       });
+
+      this._notificationPermissionPromise
+        .then()
+        .catch((r) => {
+          toastr.warning(`We will notify you for ${client.gender} restroom availabilty via "browser alert"`);
+        });
     }
     else {
       //unsubscribing
@@ -48,36 +79,29 @@ export class NotificationSubscription {
         s.client.subscribed = false;
         s.dispose();
       });
-      this._observers = [];
+    this._observers = [];
   }
+
+
 
   _notifyUser(client, newState, oldState) {
-    if (client.subscribed && newState == SENSOR_STATE_FREE) { //jenya - do i need to add (&& newState != SENSOR_STATE_FREE) ??           
-      this._clearAllAlertsSubscriptions();
-      if (browserNotifications.isSupported()) {
-        browserNotifications.requestPermissions()
-          .then(function (isPermitted) {
-            if (isPermitted) {
-              console.log("The notification was isPermitted: ");
-              return browserNotifications.send(`Toilet Available`, `Run to ${client.area} wing on ${client.floor} ${client.gender} cabin!!`, '/media/favicon-160x160.png', 30000)
-                .then(function (wasClicked) {
-                  console.log("The notification was clicked: ", wasClicked);
-                });
-            }
-            else {
-              console.log("We asked for permission, but got denied");
-            }
-          })
-          .catch(function (err) {
-            console.error("An error occured", err);
-          });
-      }
-      else {
-        setTimeout(() => alert(`Toilet Available\nRun to ${client.area} wing on ${client.floor} ${client.gender} cabin!!`), 0);        
-      }
+    if (client.subscribed && newState == SENSOR_STATE_FREE) {
 
+      this._clearAllAlertsSubscriptions();
+      var msg = {
+        title: `Restroom available`,
+        body: `Restroom has just became available at floor ${client.floor.replace('floor-', '') } in ${client.area} wing`,
+        media: '/media/favicon-160x160.png',
+        timeout: 30000
+      };
+
+      this._notificationPermissionPromise
+        .then(() => { browserNotifications.send(msg.title, msg.body, msg.media, msg.timeout); })
+        .catch(() => { setTimeout(() => alert(msg.title + '\n' + msg.body), 0) });
     }
   }
+
+
 
 }
 
@@ -86,8 +110,8 @@ class SensorSubsriber {
     this.clientId = client.id;
     this.client = client;
     this.context = subscriberContext;
-    
-    
+
+
   }
 
   dispose() {
