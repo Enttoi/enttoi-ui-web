@@ -1,5 +1,6 @@
 import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
+import toastr from 'toastr';
 
 @inject(EventAggregator)
 export class SystemMessage {
@@ -26,6 +27,14 @@ export class SystemMessage {
                     this.message = ''; 
             }
         });
+        
+        // TODO: move out from here toastr configurations and styles
+        toastr.options = {
+            'progressBar': true,
+            'positionClass': 'toast-top-right',
+            'tapToDismiss': true,
+            "timeOut": "5000"
+        }
     }
 
     get display() {
