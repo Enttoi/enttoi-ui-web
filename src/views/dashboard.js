@@ -12,7 +12,7 @@ export class Dashboard {
     }
 
     activate() {
-        return this.clientService.clients.then((rowClients) => {           
+        this.clientService.clients.then((rowClients) => {           
              var temp_floors = _.chain(rowClients)
                 .values()
                 .groupBy((client) => client.floor)
