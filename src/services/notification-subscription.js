@@ -90,7 +90,7 @@ export class NotificationSubscription {
       this._clearAllAlertsSubscriptions();
       var msg = {
         title: `Restroom available`,
-        body: `Restroom has just became available at floor ${client.floor.replace('floor-', '') } in ${client.area} wing`,
+        body: `Restroom has just become available at floor ${client.floor.replace('floor-', '') } in ${client.area} wing`,
         media: '/media/favicon-160x160.png',
         timeout: 30000
       };
