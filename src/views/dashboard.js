@@ -6,15 +6,15 @@ import _ from 'underscore';
 import toastr from 'toastr';
 
 @inject(getLogger('dashboard'), ClientService, NotificationSubscription)
-export class Dashboard {
+export class Dashboard {    
     constructor(logger, clientService, notificationService) {
         this.logger = logger;
-        this.clientService = clientService;
+        this.clientService = clientService;        
         this.floors = [];
-        this.notifications = notificationService;
+        this.notifications = notificationService;        
     }
 
-    activate() {
+    activate() {            
         return this.clientService.clients.then((rowClients) => {           
              var temp_floors = _.chain(rowClients)
                 .values()
@@ -36,7 +36,7 @@ export class Dashboard {
         });
     }
 
-    toggleSubscription(client) {
+    toggleSubscription(client) {                 
       if(!client.isAvailable){
         this.notifications.toggleSubscribedToAlerts(client);
         toastr.clear();
