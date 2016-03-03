@@ -130,6 +130,12 @@ class Client {
             this.sensors.push(sensor);
         });
     }
+    
+    get isAvailable(){
+       return _.some(this.sensors, (sensor) => {
+                return sensor.state == SENSOR_STATE_FREE;
+            });
+    }
 
     setOffline() {
         if (this.isOnline === true) {
