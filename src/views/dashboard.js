@@ -42,7 +42,7 @@ export class Dashboard {
         if (this.notifications.isSubscribedToAlerts(client.id))
             toastr.success(`Subscribed to notification in ${client.area} wing, on ${client.floor}, for ${client.gender} cabin.`);
         else
-            toastr.info(`Removed notification in ${client.area} wing, on ${client.floor}, for ${client.gender} cabin.`)
+            toastr.info(`Removed notification in ${client.area} wing, on ${client.floor}, for ${client.gender} cabin.`);
     }
 }
 

@@ -4,18 +4,21 @@ import {BindingEngine, bindable, inject} from 'aurelia-framework';
 import _ from 'underscore';
 import browserNotifications  from 'browser-notifications';
 import toastr from 'toastr';
+import {EventAggregator} from 'aurelia-event-aggregator';
 
 const NOTIFICATION_NOT_SUPPORTED = 'NOTIFICATION_NOT_SUPPORTED';
 const NOTIFICATION_REJECTED = 'NOTIFICATION_REJECTED';
 const NOTIFICATION_ERRORED = 'NOTIFICATION_ERRORED';
 
 
-@inject(getLogger('NotificationSubscription'), BindingEngine)
+@inject(getLogger('NotificationSubscription'), BindingEngine, EventAggregator)
 export class NotificationSubscription {
-  constructor(logger, bindingEngine) {
+  constructor(logger, bindingEngine, eventAggregator) {
     this._logger = logger;
-    this.bindingEngine = bindingEngine;
-    this._observers = [];
+    this._subscribedClients = new Map();
+    this._subscription = eventAggregator.subscribe('client-service.sensor-state', msg => { this._notifyUser(msg.sensor.client, msg.newState, msg.oldState); });
+
+
     this._notificationPermissionPromise = new Promise((resolve, reject) => {
       if (browserNotifications.isSupported()) {
         browserNotifications.requestPermissions()
@@ -40,52 +43,35 @@ export class NotificationSubscription {
   }
 
   isSubscribedToAlerts(clientId) {
-    return _.findWhere(this._observers, { clientId: clientId }) != undefined;
+    return this._subscribedClients.has(clientId);
   }
 
   toggleSubscribedToAlerts(client) {
+
     client.subscribed = !client.subscribed;
 
-    if (client.subscribed) {
-      //subscribing
-      _.each(client.sensors, (sensor) => {
-        this._observers.push(
-          new SensorSubsriber(client,
-            this.bindingEngine
-              .propertyObserver(sensor, 'state')
-              .subscribe((newState, oldState) => {
-                this._notifyUser(client, newState, oldState);
-              })))
-      });
+    if (this.isSubscribedToAlerts(client.id)) {
+      this._subscribedClients.delete(client.id);
 
       this._notificationPermissionPromise
         .then()
         .catch((r) => {
           toastr.warning(`We will notify you for ${client.gender} restroom availabilty via "browser alert"`);
         });
+
     }
     else {
-      //unsubscribing
-      _.chain(this._observers).where({ clientId: client.id }).each(s=> s.dispose());
-      this._observers = _.reject(this._observers, function (s) { return s.clientId == client.id; });
+      this._subscribedClients.set(client.id, client);
     }
   }
 
   _clearAllAlertsSubscriptions() {
-
-    _.chain(this._observers)
-      .values()
-      .each((s) => {
-        s.client.subscribed = false;
-        s.dispose();
-      });
-    this._observers = [];
+    this._subscribedClients.forEach((client, clientId) => { client.subscribed = false; });
+    this._subscribedClients.clear();
   }
 
-
-
   _notifyUser(client, newState, oldState) {
-    if (client.subscribed && newState == SENSOR_STATE_FREE) {
+    if (this.isSubscribedToAlerts(client.id) && newState == SENSOR_STATE_FREE) {
 
       this._clearAllAlertsSubscriptions();
       var msg = {
@@ -97,24 +83,8 @@ export class NotificationSubscription {
 
       this._notificationPermissionPromise
         .then(() => { browserNotifications.send(msg.title, msg.body, msg.media, msg.timeout); })
-        .catch(() => { setTimeout(() => alert(msg.title + '\n' + msg.body), 0) });
+        .catch(() => { setTimeout(() => alert(msg.title + '\n' + msg.body), 0); });
     }
   }
-
-
-
 }
 
-class SensorSubsriber {
-  constructor(client, subscriberContext) {
-    this.clientId = client.id;
-    this.client = client;
-    this.context = subscriberContext;
-
-
-  }
-
-  dispose() {
-    this.context.dispose();
-  }
-}
