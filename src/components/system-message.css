@@ -16,3 +16,44 @@
     border-radius: 0  0 .25em .25em;
     text-shadow: none;
 }
+
+/*TODO: move out styles of toaster from here*/
+#toast-container > .toast {
+    background-image: none !important;
+}
+#toast-container > div{
+    -moz-border-radius: 0 !important;
+    -webkit-border-radius: 0 !important;
+    border-radius: 0 !important;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid #1c1e22
+}
+
+#toast-container > .toast:before {
+    position: fixed;
+    font-family: FontAwesome;
+    font-size: 24px;
+    line-height: 18px;
+    float: left;
+    color: #FFF;
+    padding-right: 0.5em;
+    margin: auto 0.5em auto -1.5em;
+}        
+.toast-success, .toast-info, .toast-error, .toast-warning{
+    background-color:#3e444c
+}
+
+#toast-container > .toast-warning:before {
+    content: "\f00d";
+}
+#toast-container > .toast-error:before {
+    content: "\f001";
+}
+#toast-container > .toast-info:before {
+    content: "\f129";
+}
+#toast-container > .toast-success:before {
+    content: "\f00c";
+}

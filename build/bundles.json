@@ -1,53 +1,54 @@
 {
-	"bundles": {
-		"dist/app-build": {
-			"includes": [
-				"[**/*.js]",
-				"**/*.html!text",
-				"**/*.css!text"
-			],
-			"options": {
-				"inject": true,
-				"minify": true,
-				"rev": true
-			}
-		},
-		"dist/ext-libs": {
-			"includes": [
-				"rstacruz/nprogress",
-				"ms-signalr-client",
-				"underscore",
-                "bootstrap"
-			],
-			"options": {
-				"inject": true,
-				"minify": true,
-				"rev": true
-			}
-		},
-		"dist/aurelia": {
-			"includes": [
-				"text",
-				"aurelia-bootstrapper",
-				"aurelia-dependency-injection",				
-				"aurelia-framework",
-				"aurelia-http-client",	
-				"aurelia-logging-console",
-				"aurelia-event-aggregator",
-							
-				"aurelia-router",
-				"aurelia-templating-binding",
-				"aurelia-templating-resources",				
-				"aurelia-templating-router",
-				"aurelia-history-browser",
-				"aurelia-loader-default",
-                "aurelia-computed"
-			],
-			"options": {
-				"inject": true,
-				"minify": true,
-				"rev": true
-			}
-		}
-	}
+  "bundles": {
+    "dist/app-build": {
+      "includes": [
+        "[**/*.js]",
+        "**/*.html!text",
+        "**/*.css!text"
+      ],
+      "options": {
+        "inject": true,
+        "minify": true,
+        "rev": true
+      }
+    },
+    "dist/ext-libs": {
+      "includes": [
+        "rstacruz/nprogress",
+        "ms-signalr-client",
+        "underscore",
+        "browser-notifications",
+        "bootstrap",
+        "toastr"
+      ],
+      "options": {
+        "inject": true,
+        "minify": true,
+        "rev": true
+      }
+    },
+    "dist/aurelia": {
+      "includes": [
+        "text",
+        "aurelia-bootstrapper",
+        "aurelia-dependency-injection",
+        "aurelia-framework",
+        "aurelia-http-client",
+        "aurelia-logging-console",
+        "aurelia-event-aggregator",
+        "aurelia-router",
+        "aurelia-templating-binding",
+        "aurelia-templating-resources",
+        "aurelia-templating-router",
+        "aurelia-history-browser",
+        "aurelia-loader-default",
+        "aurelia-computed"
+      ],
+      "options": {
+        "inject": true,
+        "minify": true,
+        "rev": true
+      }
+    }
+  }
 }

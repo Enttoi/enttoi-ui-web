@@ -52,7 +52,7 @@ export class ClientService {
               this._logger.info('Client went online as a result of sensor\'s state received', state.clientId);
               this._pullSensorsState(state.clientId);
             }
-            this._clients[state.clientId].setSensorState(state.sensorId, state.sensorType, state.newState);
+            this._clients[state.clientId].applySensorState(state.sensorId, state.sensorType, state.newState);
           }));
 
           this._subscriptions.push(eventAggregator.subscribe('socket.clients', state => {
@@ -108,8 +108,10 @@ class Client {
   constructor(dataModel) {
     if (!dataModel) throw 'Cannot initialize "Client" without dataModel';
     this.id = dataModel.id;
+    this.subscribed = false;
 
     this.isOnline = dataModel.isOnline;
+
 
     this.floor = _.find(dataModel.tags, (tag) => tag.indexOf('floor') >= 0);
     this.area = _.find(dataModel.tags, (tag) => tag == 'left' || tag == 'right');
@@ -118,6 +120,7 @@ class Client {
 
     this._sensors = []; // key-value style
     this.sensors = []; // collection style
+    this.anySensorFree = false; // indicates whether at least one sensor in 'FREE' state
     _.each(dataModel.sensors, (sensorModel) => {
       var sensor = new Sensor(this, sensorModel);
       this._sensors[`${sensorModel.sensorId}_${sensorModel.sensorType}`] = sensor;
@@ -125,6 +128,10 @@ class Client {
     });
   }
 
+
+  /**
+   * Takes client offline and all its sensors
+   */
   setOffline() {
     if (this.isOnline === true) {
       this.isOnline = false;
@@ -134,6 +141,10 @@ class Client {
     }
   }
 
+  /**
+   * Sets client online and sets sensors state that retreived from API
+   * 
+   */
   setOnline(sensorsDataModel) {
     if (this.isOnline === false)
       this.isOnline = true;
@@ -145,10 +156,13 @@ class Client {
     });
   }
 
-  setSensorState(sensorId, sensorType, newState) {
+  /**
+   * Applies new state to specific sensor. 
+   * Takes if the client was offline previously.   * 
+   */
+  applySensorState(sensorId, sensorType, newState) {
     if (this.isOnline === false)
       this.isOnline = true;
-
     this._sensors[`${sensorId}_${sensorType}`].state = newState;
   }
 }
@@ -178,6 +192,12 @@ class Sensor {
       case SENSOR_STATE_FREE: this._stateCss = 'text-success'; break;
       case SENSOR_STATE_OCCUPIED: this._stateCss = 'text-danger'; break;
       default: this._stateCss = '';
+    }
+
+    if (this._state == SENSOR_STATE_FREE)
+      this.client.anySensorFree = true;
+    else {
+      this.client.anySensorFree = _.some(this.client.sensors, (sensor) => { return sensor.state == SENSOR_STATE_FREE; });
     }
   }
 
