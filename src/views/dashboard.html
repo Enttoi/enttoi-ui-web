@@ -8,7 +8,7 @@
 
       <div repeat.for="floor of floors" class="${floor.css}">
         <div repeat.for="area of floor.areas" class="${area.css}">
-          <div repeat.for="client of area.clients" class="et-client ${client.subscribed ? 'subscribed' : ''} ${!client.isAvailable ? 'et-subscribable' : ''}"
+          <div repeat.for="client of area.clients" class="et-client ${client.subscribed ? 'subscribed' : ''} ${!client.anySensorFree ? 'et-subscribable' : ''}"
           click.trigger="toggleSubscription(client)">
             <i repeat.for="sensor of client.sensors" class="fa fa-${sensor.client.gender} ${sensor.stateCss}"></i>
           </div>

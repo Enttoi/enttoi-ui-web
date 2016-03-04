@@ -46,22 +46,29 @@ export class NotificationSubscription {
     return this._subscribedClients.has(clientId);
   }
 
-  toggleSubscribedToAlerts(client) {
+  /**
+   * Toggles subscription to notifications of availability of sensor in a specified client. 
+   * 
+   * @param client The client to be notified on when it becomes available
+   */
+  toggleSubscription(client) {
 
     client.subscribed = !client.subscribed;
+    toastr.clear();
 
     if (this.isSubscribedToAlerts(client.id)) {
       this._subscribedClients.delete(client.id);
-
-      this._notificationPermissionPromise
-        .then()
-        .catch((r) => {
-          toastr.warning(`We will notify you for ${client.gender} restroom availabilty via "browser alert"`);
-        });
-
+      toastr.info(`Removed subscription to notification in ${client.area} wing, on floor ${client.floor.replace('floor-', '') }, for ${client.gender} cabin.`);
     }
     else {
       this._subscribedClients.set(client.id, client);
+      this._notificationPermissionPromise
+        .then(() => {
+          toastr.success(`Subscribed to notification in ${client.area} wing, on floor ${client.floor.replace('floor-', '') }, for ${client.gender} cabin.`);
+        })
+        .catch((r) => {
+          toastr.warning(`We will notify you for ${client.gender} restroom availabilty via "browser alert"`);
+        });
     }
   }
 

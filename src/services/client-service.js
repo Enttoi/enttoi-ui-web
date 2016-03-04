@@ -40,13 +40,6 @@ export class ClientService {
           });
 
           this._logger.debug('Initialized clients', this._clients);
-                    
-          // we can start connection (which requests initial state) only when
-          // clients & sensors are retreived
-          // although it returnes promise we won't wait for it to be fulfilled - 
-          //  we want to main promise to be resoved ASAP to draw UI, and socket 
-          // we'll be availabe later on as it not on critcal path
-          this._socket.start()
         })
         .catch((error) => {
           this._logger.error('Error occurred during getting clients', error);
@@ -58,7 +51,7 @@ export class ClientService {
               this._logger.info('Client went online as a result of sensor\'s state received', state.clientId);
               this._pullSensorsState(state.clientId);
             }
-            this._clients[state.clientId].setSensorState(state.sensorId, state.sensorType, state.newState);
+            this._clients[state.clientId].applySensorState(state.sensorId, state.sensorType, state.newState);
           }));
 
           this._subscriptions.push(eventAggregator.subscribe('socket.clients', state => {
@@ -72,6 +65,7 @@ export class ClientService {
             }
           }));
         })
+        .then(() => this._socket.start())
         .then(() => resolve());
     });
   }
@@ -125,16 +119,18 @@ class Client {
 
     this._sensors = []; // key-value style
     this.sensors = []; // collection style
+    this.anySensorFree = false; // indicates whether at least one sensor in 'FREE' state
     _.each(dataModel.sensors, (sensorModel) => {
       var sensor = new Sensor(this, sensorModel);
       this._sensors[`${sensorModel.sensorId}_${sensorModel.sensorType}`] = sensor;
       this.sensors.push(sensor);
     });
-    
-    this.isAvailable = _.some(this.sensors, (sensor) => { return sensor.state == SENSOR_STATE_FREE; });
   }
 
 
+  /**
+   * Takes client offline and all its sensors
+   */
   setOffline() {
     if (this.isOnline === true) {
       this.isOnline = false;
@@ -144,6 +140,10 @@ class Client {
     }
   }
 
+  /**
+   * Sets client online and sets sensors state that retreived from API
+   * 
+   */
   setOnline(sensorsDataModel) {
     if (this.isOnline === false)
       this.isOnline = true;
@@ -155,18 +155,14 @@ class Client {
     });
   }
 
-  setSensorState(sensorId, sensorType, newState) {
+  /**
+   * Applies new state to specific sensor. 
+   * Takes if the client was offline previously.   * 
+   */
+  applySensorState(sensorId, sensorType, newState) {
     if (this.isOnline === false)
-      this.isOnline = true;  
+      this.isOnline = true;
     this._sensors[`${sensorId}_${sensorType}`].state = newState;
-    
-    if (this._sensors[`${sensorId}_${sensorType}`].state == SENSOR_STATE_FREE) {
-      this.isAvailable = true;
-    }
-    else{
-      this.isAvailable = _.some(this.sensors, (sensor) => { return sensor.state == SENSOR_STATE_FREE; });
-    }
-    
   }
 }
 
@@ -195,6 +191,12 @@ class Sensor {
       case SENSOR_STATE_FREE: this._stateCss = 'text-success'; break;
       case SENSOR_STATE_OCCUPIED: this._stateCss = 'text-danger'; break;
       default: this._stateCss = '';
+    }
+
+    if (this._state == SENSOR_STATE_FREE)
+      this.client.anySensorFree = true;
+    else {
+      this.client.anySensorFree = _.some(this.client.sensors, (sensor) => { return sensor.state == SENSOR_STATE_FREE; });
     }
   }
 
