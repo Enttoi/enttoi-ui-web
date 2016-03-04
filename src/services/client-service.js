@@ -26,6 +26,7 @@ export class ClientService {
           _.each(httpResponse.content, (dataModel) => {
             this._clients[dataModel.id] = new Client(dataModel);
 
+            // wire internal events of sensor's state change
             _.each(this._clients[dataModel.id].sensors, (sensor) => {
               this._observers.push(bindingEngine
                 .propertyObserver(sensor, 'state')

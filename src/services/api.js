@@ -6,7 +6,8 @@ import * as config from 'environment';
 export class ApiService {
 	constructor(http) {
 		http.configure(cl => {
-			cl.withBaseUrl(config.apiHostAddress);
+			cl.withBaseUrl(config.apiHostAddress)
+        .withHeader('accept', 'application/json; charset=utf-8');
 		});
 		this._http = http;
 	}

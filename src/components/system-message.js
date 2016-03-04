@@ -5,39 +5,48 @@ import toastr from 'toastr';
 @inject(EventAggregator)
 export class SystemMessage {
 
-    constructor(eventAggregator) {
-        this.message = 'Loading...';
+  constructor(eventAggregator) {
+    this.message = 'Loading...';
+    this.timeout = setTimeout(() => {
+      this.message = 'Still loading...';
+      this.timeout = setTimeout(() => {
+        this.message = 'Probably something went wrong :(';
+      }, 15000);
+    }, 5000);
 
-        eventAggregator.subscribe('socket.state', state => {
-            
-            if(this.timeout)
-                clearTimeout(this.timeout);
-                
-            switch (state.name) {
-                case 'connecting':
-                    this.message = 'Connecting...';
-                    break;
-                case 'reconnecting':
-                    this.message = 'Reconnecting...';
-                    break;
-                case 'faulted':
-                    this.message = 'Connection error :(';
-                    break;
-                default:
-                    this.message = ''; 
-            }
-        });
+    eventAggregator.subscribe('socket.state', state => {
+
+      if (this.timeout)
+        clearTimeout(this.timeout);
+
+      switch (state.name) {
+        case 'connecting':
+          this.message = 'Connecting...';
+          this.timeout = setTimeout(() => {
+            this.message = 'Still connecting...';
+          }, 5000);
+          break;
+        case 'reconnecting':
+          this.message = 'Reconnecting...';
+          break;
+        case 'faulted':
+          this.message = 'Connection error :(';
+          break;
+        default:
+          this.message = '';
+      }
+    });
         
-        // TODO: move out from here toastr configurations and styles
-        toastr.options = {
-            'progressBar': true,
-            'positionClass': 'toast-top-right',
-            'tapToDismiss': true,
-            "timeOut": "5000"
-        }
+    // TODO: move out from here toastr configurations and styles
+    toastr.options = {
+      'progressBar': true,
+      'positionClass': 'toast-top-right',
+      'tapToDismiss': true,
+      "timeOut": "5000"
     }
+  }
 
-    get display() {
-        return this.message !== '';
-    }
+  get display() {
+    return this.message !== '';
+  }
 }

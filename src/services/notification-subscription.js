@@ -16,8 +16,8 @@ export class NotificationSubscription {
   constructor(logger, bindingEngine, eventAggregator) {
     this._logger = logger;
     this._subscribedClients = new Map();
-    this._subscription = eventAggregator.subscribe('client-service.sensor-state', msg => { this._notifyUser(msg.sensor.client, msg.newState, msg.oldState); });
-
+    this._subscription = eventAggregator.subscribe('client-service.sensor-state',
+      msg => { this._notifyUser(msg.sensor.client, msg.newState, msg.oldState); });
 
     this._notificationPermissionPromise = new Promise((resolve, reject) => {
       if (browserNotifications.isSupported()) {
