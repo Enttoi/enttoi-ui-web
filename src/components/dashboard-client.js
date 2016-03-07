@@ -22,7 +22,7 @@ export class DashboardClient {
       html: true,
       trigger: 'hover',
       placement: this.area == 'right' ? 'left' : 'right',
-      content: '<ul class="list-unstyled" style="margin-bottom: 0"><li repeat.for="sensor of sensors"><i class="fa fa-${sensor.client.gender} ${sensor.stateCss}"></i> for XXX seconds</li></ul>'
+      content: '<compose view="./components/dashboard-client-popup.html"></compose>'
     })
       .on('inserted.bs.popover', (e) => {
         popupView = this._templatingEngine.enhance({ 
