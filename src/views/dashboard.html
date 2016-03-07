@@ -1,5 +1,6 @@
 <template>
   <require from="./dashboard.css"></require>
+  <require from="../components/dashboard-client"></require>
   <section class="au-animate">
     <h2>Dashboard</h2>
     <div class="et-building">
@@ -8,10 +9,7 @@
 
       <div repeat.for="floor of floors" class="${floor.css}">
         <div repeat.for="area of floor.areas" class="${area.css}">
-          <div repeat.for="client of area.clients" class="et-client ${client.subscribed ? 'subscribed' : ''} ${!client.anySensorFree ? 'et-subscribable' : ''}"
-          click.trigger="toggleSubscription(client)">
-            <i repeat.for="sensor of client.sensors" class="fa fa-${sensor.client.gender} ${sensor.stateCss}"></i>
-          </div>
+          <dashboard-client repeat.for="client of area.clients" client.bind="client"></dashboard-client>
         </div>
       </div>
     </div>

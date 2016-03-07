@@ -1,0 +1,25 @@
+dashboard-client {
+  display: inline-block;
+  padding: 2px 1px;
+  box-shadow: 0 0 1px 1px rgba(252, 252, 252, 1);    
+}
+dashboard-client:first-child{
+  margin-right: 5px;
+}
+dashboard-client.et-subscribable:hover {
+  box-shadow: 0 0 1px 1px rgba(0, 256, 0, 0.5);
+  cursor: pointer;
+}
+dashboard-client.et-subscribed{
+  box-shadow: 0 0 1px 1px rgba(0, 256, 0, 1);
+}
+dashboard-client i {
+  margin: 0 1.5px
+}
+
+@media (min-width: 1600px) {  
+  dashboard-client {
+    font-size: 1.3em;
+    padding: 2px 4px;
+  }
+}

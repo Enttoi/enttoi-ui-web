@@ -1,0 +1,4 @@
+<template class="${cssClass}" click.trigger="toggleSubscription()">
+  <require from="./dashboard-client.css"></require>
+    <i repeat.for="sensor of client.sensors" class="fa fa-${sensor.client.gender} ${sensor.stateCss}"></i>
+</template>

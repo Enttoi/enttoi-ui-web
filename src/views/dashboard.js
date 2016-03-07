@@ -1,21 +1,16 @@
 import {inject} from 'aurelia-framework';
-import {getLogger} from 'aurelia-logging';
 import {ClientService} from 'services/client-service';
-import {NotificationSubscription} from 'services/notification-subscription';
 import _ from 'underscore';
-import toastr from 'toastr';
 
-@inject(getLogger('dashboard'), ClientService, NotificationSubscription)
+@inject(ClientService)
 export class Dashboard {
-  constructor(logger, clientService, notificationService) {
-    this.logger = logger;
-    this.clientService = clientService;
+  constructor(clientService) {
+    this._clientService = clientService;
     this.floors = [];
-    this.notifications = notificationService;
   }
 
   activate() {
-    this.clientService.clients.then((rowClients) => {           
+    this._floorsPromise = this._clientService.clients.then((rowClients) => {           
       var temp_floors = _.chain(rowClients)
         .values()
         .groupBy((client) => client.floor)
@@ -34,12 +29,6 @@ export class Dashboard {
         .value();
       this.floors = temp_floors;
     });
-  }
-
-  toggleSubscription(client) {
-    if (!client.anySensorFree) {
-      this.notifications.toggleSubscription(client);
-    }
   }
 }
 
