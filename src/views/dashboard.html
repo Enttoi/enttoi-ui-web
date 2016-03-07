@@ -9,7 +9,7 @@
 
       <div repeat.for="floor of floors" class="${floor.css}">
         <div repeat.for="area of floor.areas" class="${area.css}">
-          <dashboard-client repeat.for="client of area.clients" client.bind="client"></dashboard-client>
+          <dashboard-client repeat.for="client of area.clients" client.bind="client" area.bind="area.areaName"></dashboard-client>
         </div>
       </div>
     </div>
