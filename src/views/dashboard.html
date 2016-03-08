@@ -7,9 +7,9 @@
       <div class="et-building-left"></div>
       <div class="et-building-right"></div>
 
-      <div repeat.for="floor of floors" class="${floor.css}">
-        <div repeat.for="area of floor.areas" class="${area.css}">
-          <dashboard-client repeat.for="client of area.clients" client.bind="client"></dashboard-client>
+      <div repeat.for="floor of floors" class="${floor.floorName | floorCss}">
+        <div repeat.for="area of floor.areas & oneTime" class="${area.areaName | areaCss}">
+          <dashboard-client repeat.for="client of area.clients & oneTime" client.bind="client" area.bind="area.areaName"></dashboard-client>
         </div>
       </div>
     </div>

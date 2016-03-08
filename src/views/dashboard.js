@@ -15,12 +15,11 @@ export class Dashboard {
         .values()
         .groupBy((client) => client.floor)
         .map((floor_clients, floorName) => { return {
-            css: `et-floor et-${floorName}`,
+            floorName: floorName,
             areas: _.chain(floor_clients)
               .groupBy((floor_client) => floor_client.area)
               .map((area_clients, areaName) => { return {
                   areaName: areaName,
-                  css: `et-area et-area-${areaName}`,
                   clients: _.sortBy(area_clients, 'gender')
               }})
               .sortBy('areaName')
@@ -29,6 +28,18 @@ export class Dashboard {
         .value();
       this.floors = temp_floors;
     });
+  }
+}
+
+export class FloorCssValueConverter {
+  toView(value) {
+    return `et-floor et-${value}`;
+  }
+}
+
+export class AreaCssValueConverter {
+  toView(value) {
+    return `et-area et-area-${value}`;
   }
 }
 

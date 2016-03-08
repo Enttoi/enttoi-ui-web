@@ -1,0 +1,6 @@
+<template>
+  <require from="./dashboard-client-converters"></require>
+  <ul class="list-unstyled" style="margin-bottom: 0">
+    <li repeat.for="sensor of sensors"><i class="fa ${sensor.client.gender | genderCss} ${sensor.state | stateCss}"></i> for XXX seconds</li>
+  </ul>
+</template>
