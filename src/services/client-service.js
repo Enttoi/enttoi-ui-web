@@ -116,7 +116,6 @@ class Client {
     this.floor = _.find(dataModel.tags, (tag) => tag.indexOf('floor') >= 0);
     this.area = _.find(dataModel.tags, (tag) => tag == 'left' || tag == 'right');
     this.gender = _.find(dataModel.tags, (tag) => tag == 'men' || tag == 'women');
-    this.gender = this.gender === 'men' ? 'male' : 'female';
 
     this._sensors = []; // key-value style
     this.sensors = []; // collection style
@@ -175,7 +174,6 @@ class Sensor {
     this.client = parentClient;
     this.id = dataModel.sensorId;
     this.state = SENSOR_STATE_OFFLINE;
-    this._stateCss = '';
   }
 
   set state(newState) {
@@ -188,12 +186,6 @@ class Sensor {
     else
       this._state = SENSOR_STATE_OFFLINE;
 
-    switch (this._state) {
-      case SENSOR_STATE_FREE: this._stateCss = 'text-success'; break;
-      case SENSOR_STATE_OCCUPIED: this._stateCss = 'text-danger'; break;
-      default: this._stateCss = '';
-    }
-
     if (this._state == SENSOR_STATE_FREE)
       this.client.anySensorFree = true;
     else {
@@ -203,9 +195,5 @@ class Sensor {
 
   get state() {
     return this._state;
-  }
-
-  get stateCss() {
-    return this._stateCss;
   }
 }

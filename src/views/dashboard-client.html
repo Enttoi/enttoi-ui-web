@@ -1,6 +1,0 @@
-<template>
-  <div click.trigger="toggleSubscription(client)" 
-    class="et-client ${client.subscribed ? 'subscribed' : ''} ${!client.anySensorFree ? 'et-subscribable' : ''}">
-    <i repeat.for="sensor of client.sensors" class="fa fa-${sensor.client.gender} ${sensor.stateCss}"></i>
-  </div>
-</template>

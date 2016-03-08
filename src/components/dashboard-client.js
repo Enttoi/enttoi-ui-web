@@ -32,8 +32,8 @@ export class DashboardClient {
         popupView.attached();
       })
       .on('hidden.bs.popover', (e) => {
-        popupView.detached();
-        popupView.unbind();
+        //popupView.detached();
+        //popupView.unbind();
       });
   }
 
@@ -46,10 +46,4 @@ export class DashboardClient {
       this._notifications.toggleSubscription(this.client);
     }
   }
-
-  get cssClass() {
-    return `${this.client.subscribed ? 'et-subscribed' : ''} ${!this.client.anySensorFree ? 'et-subscribable' : ''}`;
-  }
-
 }
-
