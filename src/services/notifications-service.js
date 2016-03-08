@@ -1,18 +1,21 @@
 import {getLogger} from 'aurelia-logging';
-import {SENSOR_STATE_OFFLINE, SENSOR_STATE_FREE, SENSOR_STATE_OCCUPIED} from '../services/client-service';
+import {SENSOR_STATE_FREE} from './client-models';
 import {BindingEngine, bindable, inject} from 'aurelia-framework';
 import _ from 'underscore';
 import browserNotifications  from 'browser-notifications';
 import toastr from 'toastr';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
-const NOTIFICATION_NOT_SUPPORTED = 'NOTIFICATION_NOT_SUPPORTED';
-const NOTIFICATION_REJECTED = 'NOTIFICATION_REJECTED';
-const NOTIFICATION_ERRORED = 'NOTIFICATION_ERRORED';
-
-
-@inject(getLogger('NotificationSubscription'), BindingEngine, EventAggregator)
-export class NotificationSubscription {
+/**
+ * Manages subscription for notifications to clients. Once client will contain
+ * a sensor with a state 'SENSOR_STATE_FREE', the notification will be displayed to 
+ * the user and all subscriptions removed. 
+ * 
+ * @export
+ * @class NotificationsService
+ */
+@inject(getLogger('NotificationsService'), BindingEngine, EventAggregator)
+export class NotificationsService {
   constructor(logger, bindingEngine, eventAggregator) {
     this._logger = logger;
     this._subscribedClients = new Map();
@@ -28,22 +31,23 @@ export class NotificationSubscription {
             }
             else {
               this._logger.debug("We asked for permission, but got denied");
-              reject(NOTIFICATION_REJECTED);
+              reject();
             }
           })
           .catch((err) => {
-            reject(NOTIFICATION_ERRORED);
             this._logger.debug(`An error occured", ${err}`);
+            reject();
           });
       }
       else {
-        reject(NOTIFICATION_NOT_SUPPORTED);
+        this._logger.debug("Notification is not supported");
+        reject();
       }
     });
   }
 
-  isSubscribedToAlerts(clientId) {
-    return this._subscribedClients.has(clientId);
+  isSubscribed(client) {
+    return this._subscribedClients.has(client.id);
   }
 
   /**
@@ -56,7 +60,7 @@ export class NotificationSubscription {
     client.subscribed = !client.subscribed;
     toastr.clear();
 
-    if (this.isSubscribedToAlerts(client.id)) {
+    if (this.isSubscribed(client)) {
       this._subscribedClients.delete(client.id);
       toastr.info(`Removed subscription to notification in ${client.area} wing, on floor ${client.floor.replace('floor-', '') }, for ${client.gender} cabin.`);
     }
@@ -78,7 +82,7 @@ export class NotificationSubscription {
   }
 
   _notifyUser(client, newState, oldState) {
-    if (this.isSubscribedToAlerts(client.id) && newState == SENSOR_STATE_FREE) {
+    if (this.isSubscribed(client) && newState == SENSOR_STATE_FREE) {
 
       this._clearAllAlertsSubscriptions();
       var msg = {

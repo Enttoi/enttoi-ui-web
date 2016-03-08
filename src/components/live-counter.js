@@ -9,19 +9,19 @@ export class LiveCounter {
   constructor(clientService, eventAggregator) {
     this.clientService = clientService;
 
-    this.male = { offline: 0, occupied: 0, free: 0 };
-    this.female = { offline: 0, occupied: 0, free: 0 };
+    this.men = { offline: 0, occupied: 0, free: 0 };
+    this.women = { offline: 0, occupied: 0, free: 0 };
 
 
     this._subscription = eventAggregator.subscribe('client-service.sensor-state',
-      (change) => this._handleState(change.sensor.client.gender == 'male' ? this.male : this.female, change.newState, change.oldState));
+      (change) => this._handleState(change.sensor.client.gender == 'men' ? this.men : this.women, change.newState, change.oldState));
 
     this.clientService.clients.then((clients) => {
       _.chain(clients)
         .values()
         .each((client) => {
           _.each(client.sensors, (sensor) => {
-            this._handleState(client.gender == 'male' ? this.male : this.female, sensor.state);
+            this._handleState(client.gender == 'men' ? this.men : this.women, sensor.state);
           });
         });
     });

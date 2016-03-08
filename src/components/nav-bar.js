@@ -9,3 +9,9 @@ export class NavBar {
         this.router = router;        
     }
 }
+
+export class IsActiveCssValueConverter {
+  toView(value) {
+    return value ? 'active' : ''
+  }
+}
