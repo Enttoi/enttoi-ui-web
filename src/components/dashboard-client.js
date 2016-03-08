@@ -1,22 +1,23 @@
 import {bindable, inject, TemplatingEngine} from 'aurelia-framework';
-import {NotificationSubscription} from 'services/notification-subscription';
+import {NotificationsService} from 'services/notifications-service';
 import $ from 'jquery';
 
-@inject(Element, TemplatingEngine, NotificationSubscription)
+@inject(Element, TemplatingEngine, NotificationsService)
 export class DashboardClient {
   @bindable client;
   @bindable area;
 
-  constructor(element, templatingEngine, notificationService) {
+  constructor(element, templatingEngine, notificationsService) {
     this._element = element;
     this._templatingEngine = templatingEngine;
-    this._notifications = notificationService;
+    this._notificationsService = notificationsService;
   }
 
   attached() {
     // the popop plugin initialized when view loaded,
     // but the binding of it's content to the 'client' model applied only
     // when the popup becomes visible, once popup is hidden we'll remove binding as well 
+    return; // TODO:
     let popupView;
     $(this._element).popover({
       html: true,
@@ -32,8 +33,8 @@ export class DashboardClient {
         popupView.attached();
       })
       .on('hidden.bs.popover', (e) => {
-        //popupView.detached();
-        //popupView.unbind();
+        popupView.detached();
+        popupView.unbind();
       });
   }
 
@@ -43,7 +44,7 @@ export class DashboardClient {
 
   toggleSubscription() {
     if (!this.client.anySensorFree) {
-      this._notifications.toggleSubscription(this.client);
+      this._notificationsService.toggleSubscription(this.client);
     }
   }
 }

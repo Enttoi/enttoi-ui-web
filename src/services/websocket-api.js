@@ -4,8 +4,16 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import * as config from 'environment';
 import 'ms-signalr-client';
 
-@inject(EventAggregator, getLogger('SocketService'))
-export class SocketService {
+/**
+ * Facade for SignalR API which receives notifications of changes,
+ * validates correct order of events (based on timestamp) and publish 
+ * events to topics 'socket.sensors' and 'socket.clients'
+ * 
+ * @export
+ * @class WebSocketApiService
+ */
+@inject(EventAggregator, getLogger('WebSocketApiService'))
+export class WebSocketApiService {
   constructor(eventAggregator, logger) {
     this._logger = logger;
     this._eventAggregator = eventAggregator;

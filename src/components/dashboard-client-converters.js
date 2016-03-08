@@ -1,4 +1,4 @@
-import {SENSOR_STATE_OFFLINE, SENSOR_STATE_FREE, SENSOR_STATE_OCCUPIED} from 'services/client-service';
+import * as models from 'services/client-models';
 
 export class SubscribedCssValueConverter {
   toView(value) {
@@ -21,8 +21,8 @@ export class GenderCssValueConverter {
 export class StateCssValueConverter {
   toView(value) {
     switch (value) {
-      case SENSOR_STATE_FREE: return 'text-success';
-      case SENSOR_STATE_OCCUPIED: return 'text-danger'; 
+      case models.SENSOR_STATE_FREE: return 'text-success';
+      case models.SENSOR_STATE_OCCUPIED: return 'text-danger'; 
       default: return '';
     }
   }

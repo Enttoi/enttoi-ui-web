@@ -2,8 +2,14 @@ import {inject, singleton} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-http-client';
 import * as config from 'environment';
 
+/**
+ * Facade for REST API of clients
+ * 
+ * @export
+ * @class RestApiService
+ */
 @inject(HttpClient)
-export class ApiService {
+export class RestApiService {
 	constructor(http) {
 		http.configure(cl => {
 			cl.withBaseUrl(config.apiHostAddress)
