@@ -17,7 +17,7 @@ export class ClientModel {
     this.subscribed = false;
 
     this.isOnline = dataModel.isOnline;
-
+    this.isOnlineTimestamp = dataModel.isOnlineChanged;
 
     this.floor = _.find(dataModel.tags, (tag) => tag.indexOf('floor') >= 0);
     this.area = _.find(dataModel.tags, (tag) => tag == 'left' || tag == 'right');
@@ -37,11 +37,12 @@ export class ClientModel {
   /**
    * Takes client offline and all its sensors
    */
-  setOffline() {
+  setOffline(clientNewState) {
     if (this.isOnline === true) {
       this.isOnline = false;
+      this.isOnlineTimestamp = clientNewState.timestamp;
       _.each(this.sensors, (sensor) => {
-        sensor.state = SENSOR_STATE_OFFLINE;
+        sensor.state = null;
       });
     }
   }
@@ -50,25 +51,31 @@ export class ClientModel {
    * Sets client online and sets sensors state that retreived from API
    * 
    */
-  setOnline(sensorsDataModel) {
-    if (this.isOnline === false)
+  setOnline(clientNewState, sensorsDataModel) {
+    if (this.isOnline === false){
       this.isOnline = true;
+      this.isOnlineTimestamp = clientNewState.timestamp;
+    }
 
     _.each(sensorsDataModel, (sensorDataModel) => {
       var sensor = this._sensors[`${sensorDataModel.sensorId}_${sensorDataModel.sensorType}`];
-      if (sensor.state === SENSOR_STATE_OFFLINE)
-        sensor.state = sensorDataModel.state;
+      if (sensor.state === SENSOR_STATE_OFFLINE) 
+      // some sensors may be already online, because the event
+      // of sensor came before the event of client
+        sensor.state = sensorDataModel;
     });
   }
 
   /**
    * Applies new state to specific sensor. 
-   * Takes if the client was offline previously.   * 
+   * Takes cares if the client was offline previously.    
    */
-  applySensorState(sensorId, sensorType, newState) {
-    if (this.isOnline === false)
+  applySensorState(sensorNewState) {
+    if (this.isOnline === false){
       this.isOnline = true;
-    this._sensors[`${sensorId}_${sensorType}`].state = newState;
+      this.isOnlineTimestamp = clientNewState.timestamp;
+      }
+    this._sensors[`${sensorNewState.sensorId}_${sensorNewState.sensorType}`].state = sensorNewState;
   }
 }
 
@@ -84,19 +91,39 @@ class SensorModel {
 
     this.client = parentClient;
     this.id = dataModel.sensorId;
-    this.state = SENSOR_STATE_OFFLINE;
+    this.stateTimestamp = null;
+    this.state = null;
   }
 
-  set state(newState) {
-    if (newState !== 1 && newState !== 0 && newState !== SENSOR_STATE_OFFLINE)
-      throw `Invalid newState value "${newState}"`;
-    if (newState === 1)
+  /**
+   * Sets the state. When null is passed the state becomes 'SENSOR_STATE_OFFLINE'
+   * with timestamp of parent's client isOnlineTimestamp
+   */
+  set state(newSensorModel) {
+    if (typeof newSensorModel === undefined ||
+      (newSensorModel !== null && (typeof newSensorModel.newState === undefined || typeof newSensorModel.state === undefined)) ||
+      (newSensorModel !== null && newSensorModel.newState && newSensorModel.newState !== 1 && newSensorModel.newState !== 0 ) ||
+      (newSensorModel !== null && newSensorModel.state && newSensorModel.state !== 1 && newSensorModel.state !== 0 ))
+      throw `Invalid model "${newSensorModel}"`;
+    
+    // update state with stateTimestamp
+    if(newSensorModel == null){
+      this._state = SENSOR_STATE_OFFLINE;      
+      this.stateTimestamp = this.client.isOnlineTimestamp;      
+    }
+    else if (newSensorModel.newState === 1 || newSensorModel.state === 1){
       this._state = SENSOR_STATE_OCCUPIED;
-    else if (newState === 0)
-      this._state = SENSOR_STATE_FREE;
+      this.stateTimestamp = newSensorModel.timestamp;
+    }
+    else if (newSensorModel.newState === 0 || newSensorModel.state === 0)
+    {
+      this._state = SENSOR_STATE_FREE;      
+      this.stateTimestamp = newSensorModel.timestamp || newSensorModel.stateUpdatedOn;
+    }
     else
-      this._state = SENSOR_STATE_OFFLINE;
-
+      throw 'Invalid operation';
+      
+    // update availbility of all client's sensors
     if (this._state == SENSOR_STATE_FREE)
       this.client.anySensorFree = true;
     else {

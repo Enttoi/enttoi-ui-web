@@ -41,6 +41,7 @@
       "bootstrap": "github:twbs/bootstrap@^3.3.4",
       "browser-notifications": "npm:browser-notifications@^0.0.3",
       "jquery": "github:components/jquery@^2.1.4",
+      "moment": "npm:moment@^2.12.0",
       "ms-signalr-client": "npm:ms-signalr-client@^2.2.2",
       "rstacruz/nprogress": "github:rstacruz/nprogress@^0.2.0",
       "text": "github:systemjs/plugin-text@^0.0.3",

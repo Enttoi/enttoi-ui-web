@@ -1,4 +1,5 @@
-<template class="${client.subscribed | subscribedCss} ${client.anySensorFree | subscribableCss}" click.trigger="toggleSubscription()">
+<template class="${client.subscribed | subscribedCss} ${client.anySensorFree | subscribableCss}" 
+  click.trigger="toggleSubscription()">
   <require from="./dashboard-client.css"></require>
   <require from="./dashboard-client-converters"></require>
   <i repeat.for="sensor of client.sensors & oneTime" class="fa ${sensor.client.gender | genderCss & oneTime} ${sensor.state | stateCss}"></i>

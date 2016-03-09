@@ -17,11 +17,11 @@ export class DashboardClient {
     // the popop plugin initialized when view loaded,
     // but the binding of it's content to the 'client' model applied only
     // when the popup becomes visible, once popup is hidden we'll remove binding as well 
-    return; // TODO:
     let popupView;
     $(this._element).popover({
       html: true,
       trigger: 'hover',
+      delay: { hide: 200 },
       placement: this.area == 'right' ? 'left' : 'right',
       content: '<compose view="./components/dashboard-client-popup.html"></compose>'
     })
@@ -33,10 +33,11 @@ export class DashboardClient {
         popupView.attached();
       })
       .on('hidden.bs.popover', (e) => {
+        if(!popupView) return;
         popupView.detached();
         popupView.unbind();
       });
-  }
+  }  
 
   detached() {
     $(this._element).popover('destroy');

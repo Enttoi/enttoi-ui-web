@@ -1,4 +1,5 @@
 import * as models from 'services/client-models';
+import moment from 'moment';
 
 export class SubscribedCssValueConverter {
   toView(value) {
@@ -25,5 +26,17 @@ export class StateCssValueConverter {
       case models.SENSOR_STATE_OCCUPIED: return 'text-danger'; 
       default: return '';
     }
+  }
+}
+
+export class FromNowValueConverter {
+  toView(value) {
+    var now = moment(new Date());
+    var then = moment(value);
+    var seconds = now.diff(then, 'seconds');
+    if(seconds < 60 )
+      return `${seconds} ${seconds == 1 ? 'second' : 'seconds'}`;
+    else      
+      return then.fromNow(true);
   }
 }

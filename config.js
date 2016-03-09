@@ -12,6 +12,7 @@ System.config({
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
   },
+
   map: {
     "aurelia-binding": "npm:aurelia-binding@1.0.0-beta.1.2.2",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0-beta.1.1.4",
@@ -42,6 +43,7 @@ System.config({
     "core-js": "npm:core-js@1.2.6",
     "fetch": "github:github/fetch@0.10.1",
     "jquery": "github:components/jquery@2.2.1",
+    "moment": "npm:moment@2.12.0",
     "ms-signalr-client": "npm:ms-signalr-client@2.2.2",
     "rstacruz/nprogress": "github:rstacruz/nprogress@0.2.0",
     "text": "github:systemjs/plugin-text@0.0.3",
@@ -275,6 +277,9 @@ System.config({
     },
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
+    },
+    "npm:moment@2.12.0": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:ms-signalr-client@2.2.2": {
       "jquery": "npm:jquery@2.2.1"

@@ -19,7 +19,8 @@
         "underscore",
         "browser-notifications",
         "bootstrap",
-        "toastr"
+        "toastr",
+        "moment"
       ],
       "options": {
         "inject": true,
