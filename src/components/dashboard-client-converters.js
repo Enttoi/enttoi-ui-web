@@ -31,11 +31,12 @@ export class StateCssValueConverter {
 
 export class FromNowValueConverter {
   toView(value) {
-    var now = moment(new Date());
+    if(!value) throw Error('value of date cannot be null')
+    var now = moment();
     var then = moment(value);
     var seconds = now.diff(then, 'seconds');
     if(seconds < 60 )
-      return `${seconds} ${seconds == 1 ? 'second' : 'seconds'}`;
+      return `${seconds} seconds`;
     else      
       return then.fromNow(true);
   }

@@ -50,11 +50,13 @@ export class ClientModel {
   /**
    * Sets client online and sets sensors state that retreived from API
    * 
+   * @param timestamp Is when the state was updated on - either state of client or of sensor
+   * @param sensorsDataModel 
    */
-  setOnline(clientNewState, sensorsDataModel) {
+  setOnline(timestamp, sensorsDataModel) {
     if (this.isOnline === false){
       this.isOnline = true;
-      this.isOnlineTimestamp = clientNewState.timestamp;
+      this.isOnlineTimestamp = timestamp;
     }
 
     _.each(sensorsDataModel, (sensorDataModel) => {
@@ -73,7 +75,7 @@ export class ClientModel {
   applySensorState(sensorNewState) {
     if (this.isOnline === false){
       this.isOnline = true;
-      this.isOnlineTimestamp = clientNewState.timestamp;
+      this.isOnlineTimestamp = sensorNewState.timestamp;
       }
     this._sensors[`${sensorNewState.sensorId}_${sensorNewState.sensorType}`].state = sensorNewState;
   }
@@ -100,25 +102,35 @@ class SensorModel {
    * with timestamp of parent's client isOnlineTimestamp
    */
   set state(newSensorModel) {
-    if (typeof newSensorModel === undefined ||
-      (newSensorModel !== null && (typeof newSensorModel.newState === undefined || typeof newSensorModel.state === undefined)) ||
-      (newSensorModel !== null && newSensorModel.newState && newSensorModel.newState !== 1 && newSensorModel.newState !== 0 ) ||
-      (newSensorModel !== null && newSensorModel.state && newSensorModel.state !== 1 && newSensorModel.state !== 0 ))
-      throw `Invalid model "${newSensorModel}"`;
+    if (typeof newSensorModel === 'undefined') throw Error('Sensor model required');
+    
+    // noramalize data because of differences in REST and websocket
+    if(newSensorModel != null){
+      newSensorModel.stateUpdatedOn = newSensorModel.stateUpdatedOn || newSensorModel.timestamp;
+      newSensorModel.newState = typeof newSensorModel.newState === 'undefined' ? newSensorModel.state : newSensorModel.newState;      
+      
+      // validate
+      if (typeof newSensorModel.newState === 'undefined'
+        || (newSensorModel.newState !== 1 && newSensorModel.newState !== 0))
+        throw Error('The value of state is not valid');
+        
+      if (typeof newSensorModel.stateUpdatedOn  === 'undefined' || !newSensorModel.stateUpdatedOn)
+        throw Error('The value of state\'s timestamp is missing');
+    }
     
     // update state with stateTimestamp
     if(newSensorModel == null){
       this._state = SENSOR_STATE_OFFLINE;      
       this.stateTimestamp = this.client.isOnlineTimestamp;      
     }
-    else if (newSensorModel.newState === 1 || newSensorModel.state === 1){
+    else if (newSensorModel.newState === 1){
       this._state = SENSOR_STATE_OCCUPIED;
-      this.stateTimestamp = newSensorModel.timestamp;
+      this.stateTimestamp = newSensorModel.stateUpdatedOn;
     }
-    else if (newSensorModel.newState === 0 || newSensorModel.state === 0)
+    else if (newSensorModel.newState === 0)
     {
       this._state = SENSOR_STATE_FREE;      
-      this.stateTimestamp = newSensorModel.timestamp || newSensorModel.stateUpdatedOn;
+      this.stateTimestamp = newSensorModel.stateUpdatedOn;
     }
     else
       throw 'Invalid operation';

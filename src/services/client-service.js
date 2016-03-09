@@ -54,8 +54,8 @@ export class ClientService {
         .then(() => {
           this._subscriptions.push(eventAggregator.subscribe('socket.sensors', state => {
             if (this._clients[state.clientId].isOnline === false) {
-              this._logger.info('Client went online as a result of sensor\'s state received', state.clientId);
-              this._pullSensorsState(state.clientId);
+              this._logger.info('Client went online as a result of sensor\'s state received', state);
+              this._pullSensorsState(state);
             }
             this._clients[state.clientId].applySensorState(state);
           }));
@@ -66,7 +66,7 @@ export class ClientService {
               this._clients[state.clientId].setOffline(state);
             }
             else if (this._clients[state.clientId].isOnline === false && state.newState === true) {
-              this._logger.info('Client went online as a result of client\'s state received', state.clientId);
+              this._logger.info('Client went online as a result of client\'s state received', state);
               this._pullSensorsState(state);
             }
           }));
@@ -76,10 +76,16 @@ export class ClientService {
     });
   }
 
-  _pullSensorsState(clientNewState) {
-    this._api.getSensors(clientNewState.clientId)
+  /**
+   * Pulls sensors state from API
+   *  
+   * @param newState Client's state or single sensor state
+   */
+  _pullSensorsState(newState) {
+    this._logger.debug('Pulling state of sensors from API', newState);
+    this._api.getSensors(newState.clientId)
       .then((httpResponse) => {
-        this._clients[clientNewState.clientId].setOnline(clientNewState, httpResponse.content);
+        this._clients[newState.clientId].setOnline(newState.timestamp, httpResponse.content);
       })
       .catch((error) => {
         this._logger.error('Error occurred during getting sensors state after client going online', error);
