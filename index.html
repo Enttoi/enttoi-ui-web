@@ -25,30 +25,6 @@
                 font-size: 0.98em;
                 text-align: center;
             }
-        .page-host {
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 50px;
-            bottom: 0;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-
-        @media print {
-            .page-host {
-                position: absolute;
-                left: 10px;
-                right: 0;
-                top: 50px;
-                bottom: 0;
-                overflow-y: inherit;
-                overflow-x: inherit;
-            }
-        }
-        section {
-            margin: 0 20px;
-        }
     </style>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,7 +43,7 @@
     <div class="et-loader"><div></div><h3>Loading...</h3></div>
 
     <script src="/jspm_packages/system.js"></script>
-    <script src="/config.js?v=8"></script>
+    <script src="/config.js?v=9"></script>
     <script>
         System.import('aurelia-bootstrapper');
     </script>
