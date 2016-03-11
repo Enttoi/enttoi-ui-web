@@ -23,7 +23,7 @@ export class DashboardClient {
       trigger: 'hover',
       delay: { hide: 200 },
       placement: this.area == 'right' ? 'left' : 'right',
-      content: '<compose view="./components/dashboard-client-popup.html"></compose>'
+      content: '<compose view="./components/dashboard-client-details.html"></compose>'
     })
       .on('inserted.bs.popover', (e) => {
         popupView = this._templatingEngine.enhance({ 
