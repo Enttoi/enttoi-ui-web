@@ -6,7 +6,7 @@ dashboard-client {
 dashboard-client:first-child{
   margin-right: 5px;
 }
-dashboard-client.et-subscribable:hover {
+dashboard-client:hover {
   box-shadow: 0 0 1px 1px rgba(0, 256, 0, 0.5);
   cursor: pointer;
 }

@@ -1,11 +1,21 @@
 <template>
   <require from="./dashboard-client-converters"></require>
-  <ul class="list-unstyled" show.bind="isOnline" style="margin-bottom: 0">
-    <li repeat.for="sensor of sensors">
-      <i class="fa ${sensor.client.gender | genderCss} ${sensor.state | stateCss}"></i> for ${sensor.stateTimestamp | fromNow & signal:'second-interval-signal'}
-    </li>
-  </ul>
-  <div hide.bind="isOnline">
-    Offline for ${isOnlineTimestamp | fromNow & signal:'second-interval-signal'}
-  </div>
+  <ai-dialog>
+    <ai-dialog-body>
+      <h4>${client.floorNumeral & oneTime} floor ${client.area & oneTime} wing</h4>
+      <ul class="list-unstyled" show.bind="client.isOnline" style="margin-bottom: 0">
+        <li repeat.for="sensor of client.sensors">
+          <i class="fa ${sensor.client.gender | genderCss} ${sensor.state | stateCss}"></i> for ${sensor.stateTimestamp | fromNow & signal:'second-interval-signal'}
+        </li>
+      </ul>
+      <div hide.bind="client.isOnline">
+        Client is offline for ${client.isOnlineTimestamp | fromNow & signal:'second-interval-signal'}
+      </div>
+    </ai-dialog-body>
+    <ai-dialog-footer>
+      <button class="btn-sm" click.trigger="controller.cancel()">Close</button>
+      <button class="btn-sm" if.bind="!client.anySensorFree" click.trigger="toggle()">${client.subscribed | toggleSubscriptionText}</button>
+      <button class="btn-sm btn-primary" if.bind="!client.anySensorFree" click.trigger="controller.ok(client)">${client.subscribed | toggleSubscriptionText} & Close</button>
+    </ai-dialog-footer>
+  </ai-dialog>
 </template>

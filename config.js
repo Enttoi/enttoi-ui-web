@@ -18,6 +18,7 @@ System.config({
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0-beta.1.1.4",
     "aurelia-computed": "npm:aurelia-computed@0.9.1",
     "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.0.0-beta.1.1.5",
+    "aurelia-dialog": "npm:aurelia-dialog@0.5.8",
     "aurelia-event-aggregator": "npm:aurelia-event-aggregator@1.0.0-beta.1.1.1",
     "aurelia-framework": "npm:aurelia-framework@1.0.0-beta.1.1.4",
     "aurelia-history": "npm:aurelia-history@1.0.0-beta.1.1.1",
@@ -45,6 +46,7 @@ System.config({
     "jquery": "github:components/jquery@2.2.1",
     "moment": "npm:moment@2.12.0",
     "ms-signalr-client": "npm:ms-signalr-client@2.2.2",
+    "numeral": "npm:numeral@1.5.3",
     "rstacruz/nprogress": "github:rstacruz/nprogress@0.2.0",
     "text": "github:systemjs/plugin-text@0.0.3",
     "toastr": "github:CodeSeven/toastr@2.1.2",
@@ -135,6 +137,12 @@ System.config({
       "aurelia-logging": "npm:aurelia-logging@1.0.0-beta.1.1.2",
       "aurelia-metadata": "npm:aurelia-metadata@1.0.0-beta.1.1.6",
       "aurelia-pal": "npm:aurelia-pal@1.0.0-beta.1.1.1"
+    },
+    "npm:aurelia-dialog@0.5.8": {
+      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.0.0-beta.1.1.5",
+      "aurelia-metadata": "npm:aurelia-metadata@1.0.0-beta.1.1.6",
+      "aurelia-pal": "npm:aurelia-pal@1.0.0-beta.1.1.1",
+      "aurelia-templating": "npm:aurelia-templating@1.0.0-beta.1.1.4"
     },
     "npm:aurelia-event-aggregator@1.0.0-beta.1.1.1": {
       "aurelia-logging": "npm:aurelia-logging@1.0.0-beta.1.1.2"
@@ -283,6 +291,9 @@ System.config({
     },
     "npm:ms-signalr-client@2.2.2": {
       "jquery": "npm:jquery@2.2.1"
+    },
+    "npm:numeral@1.5.3": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2"
     },
     "npm:os-browserify@0.1.2": {
       "os": "github:jspm/nodelibs-os@0.1.0"

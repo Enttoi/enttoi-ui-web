@@ -7,9 +7,9 @@ export class SubscribedCssValueConverter {
   }
 }
 
-export class SubscribableCssValueConverter {
+export class ToggleSubscriptionTextValueConverter {
   toView(value) {
-    return value ? '' : 'et-subscribable';
+    return value ? 'Unsubscribe' : 'Subscribe';
   }
 }
 

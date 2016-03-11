@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import numeral from "numeral";
 
 export const SENSOR_STATE_OFFLINE = 'SENSOR_STATE_OFFLINE';
 export const SENSOR_STATE_FREE = 'SENSOR_STATE_FREE';
@@ -20,6 +21,7 @@ export class ClientModel {
     this.isOnlineTimestamp = dataModel.isOnlineChanged;
 
     this.floor = _.find(dataModel.tags, (tag) => tag.indexOf('floor') >= 0);
+    this.floorNumeral = numeral(this.floor.replace('floor-', '')).format('0o');
     this.area = _.find(dataModel.tags, (tag) => tag == 'left' || tag == 'right');
     this.gender = _.find(dataModel.tags, (tag) => tag == 'men' || tag == 'women');
 
