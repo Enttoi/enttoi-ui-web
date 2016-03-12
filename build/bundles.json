@@ -21,7 +21,11 @@
         "bootstrap",
         "toastr",
         "moment",
-        "numeral"
+        "numeral",
+        "aurelia-computed", 
+        "aurelia-dialog",
+        "aurelia-dialog/**/*.html!text",
+        "aurelia-dialog/**/*.css!text"
       ],
       "options": {
         "inject": true,
@@ -43,9 +47,7 @@
         "aurelia-templating-resources",
         "aurelia-templating-router",
         "aurelia-history-browser",
-        "aurelia-loader-default",
-        "aurelia-computed", 
-        "aurelia-dialog" 
+        "aurelia-loader-default"
       ],
       "options": {
         "inject": true,
