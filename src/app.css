@@ -50,24 +50,10 @@ ai-dialog {
     color: #ffffff;
     background-color: #3a3f44;
     border: 1px solid transparent;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+    border-color: rgba(0, 0, 0, 0.6) !important;
     
-    padding: 6px 12px;
-    font-size: 14px;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    cursor: pointer;
-    background-image: none;
-    margin: 5px 0 5px 5px;
   }
-
-    ai-dialog > ai-dialog-footer button:disabled {
-      cursor: default;
-      opacity: .45;
-    }
-
     ai-dialog > ai-dialog-footer button:hover:enabled {
       color: #ffffff;
       background-color: rgba(0, 0, 0, 0.6);

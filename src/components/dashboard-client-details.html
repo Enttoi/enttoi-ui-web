@@ -14,8 +14,7 @@
     </ai-dialog-body>
     <ai-dialog-footer>
       <button class="btn-sm btn-default" click.trigger="controller.cancel()">Close</button>
-      <button class="btn-sm btn-default" if.bind="!client.anySensorFree" click.trigger="toggle()">${client.subscribed | toggleSubscriptionText}</button>
-      <button class="btn-sm btn-primary" if.bind="!client.anySensorFree" click.trigger="controller.ok(client)">${client.subscribed | toggleSubscriptionText} & Close</button>
+      <button class="btn-sm btn-primary" if.bind="!client.anySensorFree" click.trigger="toggle()">${client.subscribed | toggleSubscriptionText}</button>
     </ai-dialog-footer>
   </ai-dialog>
 </template>
