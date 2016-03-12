@@ -34,7 +34,6 @@ export class LiveCounter {
   }
 
   _handleState(gender, newState, oldState) {
-    console.log('sssssssssssssssssssssssssssssssssss');
     if (oldState) {
       switch (oldState) {
         case SENSOR_STATE_FREE: gender.free--; break;

@@ -24,7 +24,11 @@ section {
   margin: 0 20px;
 }
 
-ai-dialog-overlay {
+ai-dialog-overlay.active {
+  -webkit-overflow-scrolling: touch;
+  background-color: #000000;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
 }
 
 ai-dialog {

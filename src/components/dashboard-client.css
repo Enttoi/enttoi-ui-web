@@ -1,17 +1,19 @@
 dashboard-client {
   display: inline-block;
-  padding: 2px 1px;
-  box-shadow: 0 0 1px 1px rgba(252, 252, 252, 1);    
+  padding: 2px 1px;  
+  box-shadow: 0 0 0 1px #bbb
 }
 dashboard-client:first-child{
   margin-right: 5px;
 }
 dashboard-client:hover {
-  box-shadow: 0 0 1px 1px rgba(0, 256, 0, 0.5);
+  box-shadow: 0 0 0 1px #fff;
   cursor: pointer;
 }
 dashboard-client.et-subscribed{
-  box-shadow: 0 0 1px 1px rgba(0, 256, 0, 1);
+  outline: 1px dashed #272b30;
+  box-shadow: 0 0 0 1px #bbb;
+  animation: 0.6s 0s animateBorder ease-in-out infinite;  
 }
 dashboard-client i {
   margin: 0 1.5px
@@ -21,5 +23,12 @@ dashboard-client i {
   dashboard-client {
     font-size: 1.3em;
     padding: 2px 4px;
+  }
+}
+
+@keyframes animateBorder {
+  to {
+    outline-color: #bbb;
+    box-shadow: 0 0 0 1px #272b30;
   }
 }
