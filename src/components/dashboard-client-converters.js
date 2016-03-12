@@ -1,4 +1,5 @@
 import * as models from 'services/client-models';
+import moment from 'moment';
 
 export class SubscribedCssValueConverter {
   toView(value) {
@@ -6,9 +7,9 @@ export class SubscribedCssValueConverter {
   }
 }
 
-export class SubscribableCssValueConverter {
+export class ToggleSubscriptionTextValueConverter {
   toView(value) {
-    return value ? '' : 'et-subscribable';
+    return value ? 'Unsubscribe' : 'Subscribe';
   }
 }
 
@@ -25,5 +26,18 @@ export class StateCssValueConverter {
       case models.SENSOR_STATE_OCCUPIED: return 'text-danger'; 
       default: return '';
     }
+  }
+}
+
+export class FromNowValueConverter {
+  toView(value) {
+    if(!value) throw Error('value of date cannot be null')
+    var now = moment();
+    var then = moment(value);
+    var seconds = now.diff(then, 'seconds');
+    if(seconds < 60 )
+      return `${seconds} seconds`;
+    else      
+      return then.fromNow(true);
   }
 }

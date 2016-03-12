@@ -19,7 +19,9 @@
         "underscore",
         "browser-notifications",
         "bootstrap",
-        "toastr"
+        "toastr",
+        "moment",
+        "numeral"
       ],
       "options": {
         "inject": true,
@@ -42,7 +44,8 @@
         "aurelia-templating-router",
         "aurelia-history-browser",
         "aurelia-loader-default",
-        "aurelia-computed"
+        "aurelia-computed", 
+        "aurelia-dialog" 
       ],
       "options": {
         "inject": true,

@@ -1,17 +1,23 @@
 dashboard-client {
   display: inline-block;
-  padding: 2px 1px;
-  box-shadow: 0 0 1px 1px rgba(252, 252, 252, 1);    
+  padding: 1px;  
+  background: #bbb
+}
+dashboard-client div {  
+  padding: 1px 0;  
+  background: #272b30;
 }
 dashboard-client:first-child{
   margin-right: 5px;
 }
-dashboard-client.et-subscribable:hover {
-  box-shadow: 0 0 1px 1px rgba(0, 256, 0, 0.5);
+dashboard-client:hover, 
+dashboard-client:focus,
+dashboard-client:active  {
+  background:#fff;
   cursor: pointer;
 }
 dashboard-client.et-subscribed{
-  box-shadow: 0 0 1px 1px rgba(0, 256, 0, 1);
+  background: url(/media/selection.black.gif) 
 }
 dashboard-client i {
   margin: 0 1.5px
@@ -20,6 +26,8 @@ dashboard-client i {
 @media (min-width: 1600px) {  
   dashboard-client {
     font-size: 1.3em;
-    padding: 2px 4px;
+  }
+  dashboard-client div{
+    padding: 1px 3px;    
   }
 }

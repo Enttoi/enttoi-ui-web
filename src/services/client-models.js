@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import numeral from "numeral";
 
 export const SENSOR_STATE_OFFLINE = 'SENSOR_STATE_OFFLINE';
 export const SENSOR_STATE_FREE = 'SENSOR_STATE_FREE';
@@ -17,9 +18,10 @@ export class ClientModel {
     this.subscribed = false;
 
     this.isOnline = dataModel.isOnline;
-
+    this.isOnlineTimestamp = dataModel.isOnlineChanged;
 
     this.floor = _.find(dataModel.tags, (tag) => tag.indexOf('floor') >= 0);
+    this.floorNumeral = numeral(this.floor.replace('floor-', '')).format('0o');
     this.area = _.find(dataModel.tags, (tag) => tag == 'left' || tag == 'right');
     this.gender = _.find(dataModel.tags, (tag) => tag == 'men' || tag == 'women');
 
@@ -37,11 +39,12 @@ export class ClientModel {
   /**
    * Takes client offline and all its sensors
    */
-  setOffline() {
+  setOffline(clientNewState) {
     if (this.isOnline === true) {
       this.isOnline = false;
+      this.isOnlineTimestamp = clientNewState.timestamp;
       _.each(this.sensors, (sensor) => {
-        sensor.state = SENSOR_STATE_OFFLINE;
+        sensor.state = null;
       });
     }
   }
@@ -49,26 +52,34 @@ export class ClientModel {
   /**
    * Sets client online and sets sensors state that retreived from API
    * 
+   * @param timestamp Is when the state was updated on - either state of client or of sensor
+   * @param sensorsDataModel 
    */
-  setOnline(sensorsDataModel) {
-    if (this.isOnline === false)
+  setOnline(timestamp, sensorsDataModel) {
+    if (this.isOnline === false){
       this.isOnline = true;
+      this.isOnlineTimestamp = timestamp;
+    }
 
     _.each(sensorsDataModel, (sensorDataModel) => {
       var sensor = this._sensors[`${sensorDataModel.sensorId}_${sensorDataModel.sensorType}`];
-      if (sensor.state === SENSOR_STATE_OFFLINE)
-        sensor.state = sensorDataModel.state;
+      if (sensor.state === SENSOR_STATE_OFFLINE) 
+      // some sensors may be already online, because the event
+      // of sensor came before the event of client
+        sensor.state = sensorDataModel;
     });
   }
 
   /**
    * Applies new state to specific sensor. 
-   * Takes if the client was offline previously.   * 
+   * Takes cares if the client was offline previously.    
    */
-  applySensorState(sensorId, sensorType, newState) {
-    if (this.isOnline === false)
+  applySensorState(sensorNewState) {
+    if (this.isOnline === false){
       this.isOnline = true;
-    this._sensors[`${sensorId}_${sensorType}`].state = newState;
+      this.isOnlineTimestamp = sensorNewState.timestamp;
+      }
+    this._sensors[`${sensorNewState.sensorId}_${sensorNewState.sensorType}`].state = sensorNewState;
   }
 }
 
@@ -84,19 +95,49 @@ class SensorModel {
 
     this.client = parentClient;
     this.id = dataModel.sensorId;
-    this.state = SENSOR_STATE_OFFLINE;
+    this.stateTimestamp = null;
+    this.state = null;
   }
 
-  set state(newState) {
-    if (newState !== 1 && newState !== 0 && newState !== SENSOR_STATE_OFFLINE)
-      throw `Invalid newState value "${newState}"`;
-    if (newState === 1)
+  /**
+   * Sets the state. When null is passed the state becomes 'SENSOR_STATE_OFFLINE'
+   * with timestamp of parent's client isOnlineTimestamp
+   */
+  set state(newSensorModel) {
+    if (typeof newSensorModel === 'undefined') throw Error('Sensor model required');
+    
+    // noramalize data because of differences in REST and websocket
+    if(newSensorModel != null){
+      newSensorModel.stateUpdatedOn = newSensorModel.stateUpdatedOn || newSensorModel.timestamp;
+      newSensorModel.newState = typeof newSensorModel.newState === 'undefined' ? newSensorModel.state : newSensorModel.newState;      
+      
+      // validate
+      if (typeof newSensorModel.newState === 'undefined'
+        || (newSensorModel.newState !== 1 && newSensorModel.newState !== 0))
+        throw Error('The value of state is not valid');
+        
+      if (typeof newSensorModel.stateUpdatedOn  === 'undefined' || !newSensorModel.stateUpdatedOn)
+        throw Error('The value of state\'s timestamp is missing');
+    }
+    
+    // update state with stateTimestamp
+    if(newSensorModel == null){
+      this._state = SENSOR_STATE_OFFLINE;      
+      this.stateTimestamp = this.client.isOnlineTimestamp;      
+    }
+    else if (newSensorModel.newState === 1){
       this._state = SENSOR_STATE_OCCUPIED;
-    else if (newState === 0)
-      this._state = SENSOR_STATE_FREE;
+      this.stateTimestamp = newSensorModel.stateUpdatedOn;
+    }
+    else if (newSensorModel.newState === 0)
+    {
+      this._state = SENSOR_STATE_FREE;      
+      this.stateTimestamp = newSensorModel.stateUpdatedOn;
+    }
     else
-      this._state = SENSOR_STATE_OFFLINE;
-
+      throw 'Invalid operation';
+      
+    // update availbility of all client's sensors
     if (this._state == SENSOR_STATE_FREE)
       this.client.anySensorFree = true;
     else {

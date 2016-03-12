@@ -62,13 +62,13 @@ export class NotificationsService {
 
     if (this.isSubscribed(client)) {
       this._subscribedClients.delete(client.id);
-      toastr.info(`Removed subscription to notification in ${client.area} wing, on floor ${client.floor.replace('floor-', '') }, for ${client.gender} cabin.`);
+      toastr.info(`Removed subscription to notification in ${client.area} wing, on ${client.floorNumeral } floor, for ${client.gender} cabin.`);
     }
     else {
       this._subscribedClients.set(client.id, client);
       this._notificationPermissionPromise
         .then(() => {
-          toastr.success(`Subscribed to notification in ${client.area} wing, on floor ${client.floor.replace('floor-', '') }, for ${client.gender} cabin.`);
+          toastr.success(`Subscribed to notification in ${client.area} wing, on ${client.floorNumeral } floor, for ${client.gender} cabin.`);
         })
         .catch((r) => {
           toastr.warning(`We will notify you for ${client.gender} restroom availabilty via "browser alert"`);
@@ -87,7 +87,7 @@ export class NotificationsService {
       this._clearAllAlertsSubscriptions();
       var msg = {
         title: `Restroom available`,
-        body: `Restroom has just become available at floor ${client.floor.replace('floor-', '') } in ${client.area} wing`,
+        body: `Restroom has just become available on ${client.floorNumeral } floor in ${client.area} wing`,
         media: '/media/favicon-160x160.png',
         timeout: 30000
       };

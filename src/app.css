@@ -1,0 +1,73 @@
+.page-host {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50px;
+  bottom: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+@media print {
+  .page-host {
+    position: absolute;
+    left: 10px;
+    right: 0;
+    top: 50px;
+    bottom: 0;
+    overflow-y: inherit;
+    overflow-x: inherit;
+  }
+}
+
+section {
+  margin: 0 20px;
+}
+
+ai-dialog-overlay.active {
+  -webkit-overflow-scrolling: touch;
+  background-color: #000000;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+
+ai-dialog {
+  background-color: #2e3338;
+  border: 1px solid #999999;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  outline: 0;
+}
+
+  ai-dialog ai-dialog-body {
+  }
+
+  ai-dialog ai-dialog-footer {
+    border-top: 1px solid #1c1e22;
+  }
+
+  ai-dialog > ai-dialog-footer button {
+    color: #ffffff;
+    background-color: #3a3f44;
+    border: 1px solid transparent;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+    border-color: rgba(0, 0, 0, 0.6) !important;
+    
+  }
+    ai-dialog > ai-dialog-footer button:hover:enabled {
+      color: #ffffff;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-color: 1px solid transparent;
+    }
+
+@media (min-width: 768px) {
+  ai-dialog {
+    margin: 30px auto;
+    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  }
+}

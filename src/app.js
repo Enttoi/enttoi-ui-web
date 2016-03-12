@@ -1,4 +1,12 @@
+import {BindingSignaler} from 'aurelia-templating-resources';
+import {inject} from 'aurelia-framework';
+
+@inject(BindingSignaler)
 export class App {    
+  constructor(signaler) {
+    setInterval(() => signaler.signal('second-interval-signal'), 1000);
+  }
+  
   configureRouter(config, router){
     config.title = 'Enttoi';
     config.map([

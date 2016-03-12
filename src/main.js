@@ -12,6 +12,10 @@ export function configure(aurelia) {
 
     pipe.plugin('aurelia-computed', { 
       enableLogging: isDebug
+    })
+    .plugin('aurelia-dialog', (settings) => {
+      settings.lock = false;
+      settings.startingZIndex = 5;
     });
     
     aurelia.start().then(a => a.setRoot());
