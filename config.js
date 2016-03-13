@@ -121,7 +121,7 @@ System.config({
       "aurelia-logging-console": "npm:aurelia-logging-console@1.0.0-beta.1.1.4",
       "aurelia-pal": "npm:aurelia-pal@1.0.0-beta.1.1.1",
       "aurelia-pal-browser": "npm:aurelia-pal-browser@1.0.0-beta.1.1.4",
-      "aurelia-polyfills": "npm:aurelia-polyfills@1.0.0-beta.1.0.2",
+      "aurelia-polyfills": "npm:aurelia-polyfills@1.0.0-beta.1.0.6",
       "aurelia-router": "npm:aurelia-router@1.0.0-beta.1.1.3",
       "aurelia-templating": "npm:aurelia-templating@1.0.0-beta.1.1.4",
       "aurelia-templating-binding": "npm:aurelia-templating-binding@1.0.0-beta.1.1.2",
@@ -184,7 +184,7 @@ System.config({
     "npm:aurelia-pal-browser@1.0.0-beta.1.1.4": {
       "aurelia-pal": "npm:aurelia-pal@1.0.0-beta.1.1.1"
     },
-    "npm:aurelia-polyfills@1.0.0-beta.1.0.2": {
+    "npm:aurelia-polyfills@1.0.0-beta.1.0.6": {
       "aurelia-pal": "npm:aurelia-pal@1.0.0-beta.1.1.1"
     },
     "npm:aurelia-route-recognizer@1.0.0-beta.1.1.3": {
