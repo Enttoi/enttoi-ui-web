@@ -1,22 +1,40 @@
-import {inject} from 'aurelia-framework';
+import {TaskQueue, inject} from 'aurelia-framework';
 import * as c3 from 'c3';
 
-@inject(Element)
+@inject(Element, TaskQueue)
 export class Chart {
-  constructor(element) {
+  constructor(element, taskQueue) {
     this._element = element;
+    this._taskQueue = taskQueue;
   }
 
   attached() {
-    setTimeout(()=>{
-    this._chart = c3.generate({
-      bindto: this._element,
-      data: {
-        columns: [
-          ['data1', 30, 200, 100, 400, 150, 250],
-          ['data2', 50, 20, 10, 40, 15, 25]
-        ]
-      }
-    })}, 150);
+    this._taskQueue.queueTask(() => {
+      this._chart = c3.generate({
+        bindto: this._element,
+        data: {
+          columns: [
+            ['available', Math.floor((Math.random() * 100) + 1)],
+            ['occupied', Math.floor((Math.random() * 100) + 1)],
+            ['offline', Math.floor((Math.random() * 20) + 1)]
+          ],
+          colors: {
+            available: '#62c462',
+            occupied: '#ee5f5b',
+            offline: '#7a8288'
+          },
+          type : 'pie',
+          size: {
+            height: 240
+          }
+        }});
+    });
+  }
+
+  detached() {    
+    this._taskQueue.queueMicroTask(() => {
+      if (this._chart)
+        this._chart.destroy();
+    });
   }
 }
