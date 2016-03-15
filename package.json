@@ -41,6 +41,7 @@
       "aurelia-templating-router": "npm:aurelia-templating-router@^1.0.0-beta.1.0.1",
       "bootstrap": "github:twbs/bootstrap@^3.3.4",
       "browser-notifications": "npm:browser-notifications@^0.0.3",
+      "c3": "npm:c3@^0.4.11-rc4",
       "jquery": "github:components/jquery@^2.1.4",
       "moment": "npm:moment@^2.12.0",
       "ms-signalr-client": "npm:ms-signalr-client@^2.2.2",

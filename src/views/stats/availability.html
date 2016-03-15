@@ -1,11 +1,13 @@
 <template>
+  <require from="../../components/chart"></require>
   <section class="au-animate">
     <div class="row">
       <div repeat.for="client of clients" class="col-lg-6 col-md-6 col-sm-12">
         <h6><i class="fa ${client.gender | genderCss & oneTime}"></i> ${client.floorNumeral } floor ${client.area} wing</h6>
         <div class="row">
           <div repeat.for="sensor of client.sensors" class="col-lg-${12/client.sensors.length} col-md-12 col-sm-12">
-            ${client.id} ${sensor.id}
+            <!--${client.id} ${sensor.id}-->
+            <chart  />
           </div>
         </div>
       </div>

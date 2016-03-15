@@ -37,7 +37,7 @@ export class Availability {
       .reverse()
       .sortBy('floor')
       .reverse()
-      .value();
+      .value();    
   }
 }
 
