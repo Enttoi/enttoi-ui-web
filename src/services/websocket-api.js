@@ -21,7 +21,7 @@ export class WebSocketApiService {
     this._connection = $.hubConnection(
       config.apiHostAddress,
       {
-        //logging: config.debug
+        logging: config.debug
       });
     this._connection.stateChanged((state) => this._connectionStateChanged(state));
     this.hub = this._connection.createHubProxy('commonHub');

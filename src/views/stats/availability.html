@@ -1,7 +1,5 @@
 <template>
   <section class="au-animate">
-
-    Pie graphs that shows brakdown between statuses of sensors: |Free|Occupied|Offline|
     <div class="row">
       <div repeat.for="client of clients" class="col-lg-6 col-md-6 col-sm-12">
         <h6><i class="fa ${client.gender | genderCss & oneTime}"></i> ${client.floorNumeral } floor ${client.area} wing</h6>

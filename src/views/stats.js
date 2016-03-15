@@ -1,19 +1,11 @@
+import {ToolbarService} from '../services/toolbar-service';
+import {inject} from 'aurelia-framework';
 
+@inject(ToolbarService)
 export class Stats {
   
-  constructor(){
-    this.genders = [      
-      {
-        title: 'Male',
-        name: 'men',
-        icon: 'fa fa-male'
-      },
-      {
-        title: 'Female',
-        name: 'women',
-        icon: 'fa fa-female'
-      }
-    ];
+  constructor(toolbarService){
+    this.genders = toolbarService.genders;
     this.selectedGender = this.genders[0];
   }
   
@@ -27,6 +19,6 @@ export class Stats {
   }
   
   selectGender(gender){
-    this.selectedGender = gender;
+    this.genders.selected = gender;
   }
 }

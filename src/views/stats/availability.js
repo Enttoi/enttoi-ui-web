@@ -1,26 +1,46 @@
-import {inject} from 'aurelia-framework';
+import {BindingEngine, inject} from 'aurelia-framework';
 import {ClientService} from 'services/client-service';
 import _ from 'underscore';
+import {ToolbarService} from '../../services/toolbar-service';
 
-@inject(ClientService)
+@inject(ClientService, ToolbarService, BindingEngine)
 export class Availability {
 
-  constructor(clientService) {
+  constructor(clientService, toolbarService, bindingEngine) {
     this._clientService = clientService;
+    this._toolbarService = toolbarService;
+    this._bindingEngine = bindingEngine;
     this.clients = [];
   }
 
   activate() {
-    return this._clientService.clients.then((rowClients) => {
-      this.clients = _.chain(rowClients)
-        .values()
-        //.where({ gender: this.gender.name })
-        .sortBy('area')
-        .sortBy('floor')
-        .value();
+    return this._clientService.clients.then((clients) => {
+      this._genderObserver = this._bindingEngine
+        .propertyObserver(this._toolbarService.genders, 'selected')
+        .subscribe(() => {
+          this._clientService.clients.then((clients) => this._applyFilters(clients));
+        });
+      this._applyFilters(clients);
     });
   }
+
+  deactivate() {
+    if (this._genderObserver)
+      this._genderObserver.dispose();
+  }
+
+  _applyFilters(clients) {
+    this.clients = _.chain(clients)
+      .values()
+      .where({ gender: this._toolbarService.genders.selected.name })
+      .sortBy('area')
+      .reverse()
+      .sortBy('floor')
+      .reverse()
+      .value();
+  }
 }
+
 
 
 export class GenderCssValueConverter {
