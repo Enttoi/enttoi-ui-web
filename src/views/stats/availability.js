@@ -1,15 +1,18 @@
 import {BindingEngine, inject} from 'aurelia-framework';
 import {ClientService} from 'services/client-service';
+import {RestApiService} from 'services/rest-api';
 import _ from 'underscore';
 import {ToolbarService} from '../../services/toolbar-service';
 
-@inject(ClientService, ToolbarService, BindingEngine)
+@inject(ClientService, ToolbarService, BindingEngine, RestApiService)
 export class Availability {
 
-  constructor(clientService, toolbarService, bindingEngine) {
+  constructor(clientService, toolbarService, bindingEngine, restApiService) {
     this._clientService = clientService;
     this._toolbarService = toolbarService;
     this._bindingEngine = bindingEngine;
+    this._restApiService = restApiService;
+
     this.clients = [];
   }
 
@@ -37,14 +40,27 @@ export class Availability {
       .reverse()
       .sortBy('floor')
       .reverse()
-      .value();    
+      .each((client) => {
+        client.sensors = _.each(client.sensors, (sensor) => {
+           this._restApiService
+            .getSensorStateStats(client.id, sensor.id, new Date().toISOString(), new Date().toISOString())
+            .then((httpResponse) => sensor.data = httpResponse.content );
+          return sensor;
+        });
+        return client;
+      })
+      .value();
   }
 }
-
-
 
 export class GenderCssValueConverter {
   toView(value) {
     return value == 'men' ? 'fa-male' : 'fa-female';
+  }
+}
+
+export class SensorCssValueConverter {
+  toView(value) {
+    return `col-lg-${12 / value} col-md-${12 / value} col-sm-${12 / value}`;
   }
 }

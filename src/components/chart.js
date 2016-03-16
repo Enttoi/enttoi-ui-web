@@ -1,37 +1,41 @@
-import {TaskQueue, inject} from 'aurelia-framework';
+import {TaskQueue, inject, bindable} from 'aurelia-framework';
 import * as c3 from 'c3';
 
 @inject(Element, TaskQueue)
 export class Chart {
+  @bindable type;
+  @bindable colors;
+  @bindable data;
+
   constructor(element, taskQueue) {
     this._element = element;
     this._taskQueue = taskQueue;
   }
 
-  attached() {
+  dataChanged() {
     this._taskQueue.queueTask(() => {
-      this._chart = c3.generate({
-        bindto: this._element,
-        data: {
-          columns: [
-            ['available', Math.floor((Math.random() * 100) + 1)],
-            ['occupied', Math.floor((Math.random() * 100) + 1)],
-            ['offline', Math.floor((Math.random() * 20) + 1)]
-          ],
-          colors: {
-            available: '#62c462',
-            occupied: '#ee5f5b',
-            offline: '#7a8288'
-          },
-          type : 'pie',
-          size: {
-            height: 240
-          }
-        }});
+      
+      if (!this._chart && this.data) {
+        this._chart = c3.generate({
+          bindto: this._element,
+          data: {
+            columns: this.data,
+            colors: this.colors || {},
+            type : this.type
+          }}); 
+      }
+      else if(this._chart) {
+        if(!this.data || this.data.length === 0)        
+          this._chart.unload();      
+        else
+          this._chart.load({
+            columns: this.data
+          });
+      }
     });
   }
 
-  detached() {    
+  detached() {
     this._taskQueue.queueMicroTask(() => {
       if (this._chart)
         this._chart.destroy();
