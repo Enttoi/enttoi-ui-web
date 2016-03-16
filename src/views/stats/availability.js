@@ -44,7 +44,7 @@ export class Availability {
         client.sensors = _.each(client.sensors, (sensor) => {
            this._restApiService
             .getSensorStateStats(client.id, sensor.id, new Date().toISOString(), new Date().toISOString())
-            .then((httpResponse) => sensor.data = httpResponse.content );
+            .then((httpResponse) => sensor.data = _.pairs(httpResponse.content));
           return sensor;
         });
         return client;

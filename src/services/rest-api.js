@@ -26,6 +26,6 @@ export class RestApiService {
   }
   
   getSensorStateStats(clientId, sensorId, from, to) {
-    return this._http.get(`/stats/sensor-state?clientId=${clientId}&sensorId=${sensorId}&from=${from}&to=${to}`);
+    return this._http.get(`/stats/sensor-state/${clientId}/${sensorId}?from=${from}&to=${to}`);
   }
 }
