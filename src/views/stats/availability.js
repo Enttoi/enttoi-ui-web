@@ -3,6 +3,7 @@ import {ClientService} from 'services/client-service';
 import {RestApiService} from 'services/rest-api';
 import _ from 'underscore';
 import {ToolbarService} from '../../services/toolbar-service';
+import {SensorModel, SENSOR_STATE_OFFLINE, SENSOR_STATE_FREE, SENSOR_STATE_OCCUPIED} from '../../services/client-models';
 
 @inject(ClientService, ToolbarService, BindingEngine, RestApiService)
 export class Availability {
@@ -42,9 +43,14 @@ export class Availability {
       .reverse()
       .each((client) => {
         client.sensors = _.each(client.sensors, (sensor) => {
-           this._restApiService
+          this._restApiService
             .getSensorStateStats(client.id, sensor.id, new Date().toISOString(), new Date().toISOString())
-            .then((httpResponse) => sensor.data = _.pairs(httpResponse.content));
+            .then((httpResponse) => {
+              sensor.data = _.chain(httpResponse.content)
+                .pairs()
+                .each((pair) => pair[0] = SensorModel.parseState(pair[0]).title)
+                .value();
+            });
           return sensor;
         });
         return client;
