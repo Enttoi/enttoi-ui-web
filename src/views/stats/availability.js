@@ -50,7 +50,8 @@ export class Availability {
                 .pairs()
                 .each((pair) => pair[0] = SensorModel.parseState(pair[0]).title)
                 .value();
-            });
+            })
+            .catch(() => sensor.data = null);
           return sensor;
         });
         return client;

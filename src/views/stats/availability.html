@@ -8,7 +8,7 @@
           </div>
           <div class="panel-body">
             <div repeat.for="sensor of client.sensors & oneTime" class="${client.sensors.length | sensorCss & oneTime}">
-              <chart type="pie" data.bind="sensor.data" colors.bind="{available: '#62c462', occupied: '#ee5f5b', offline: '#7a8288'}" />
+              <chart type="pie" data.bind="sensor.data" colors.bind="{Available: '#62c462', Occupied: '#ee5f5b', Offline: '#7a8288'}" />
             </div>
           </div>
         </div>
