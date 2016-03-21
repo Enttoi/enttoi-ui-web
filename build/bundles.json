@@ -14,7 +14,8 @@
     },
     "dist/ext-charts": {
       "includes": [
-        "c3"
+        "c3",
+        "bootstrap-daterangepicker"
       ],
       "options": {
         "inject": true,

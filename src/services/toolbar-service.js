@@ -1,3 +1,4 @@
+import moment from 'moment';
 /**
  * Stores toolbar's selections settings
  * 
@@ -7,7 +8,7 @@
 export class ToolbarService {
 
   constructor() {
-    
+
     let gendersList = [
       {
         title: 'Male',
@@ -20,9 +21,13 @@ export class ToolbarService {
         icon: 'fa fa-female'
       }
     ];
-    this.genders ={ 
+    this.genders = {
       list: gendersList,
       selected: gendersList[0]
+    };
+    this.datesRange = {
+      start: moment().startOf('day')._d,
+      end: moment().endOf('day')._d
     };
   }
 }

@@ -12,6 +12,7 @@ System.config({
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
   },
+
   map: {
     "aurelia-binding": "npm:aurelia-binding@1.0.0-beta.1.2.2",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0-beta.1.1.4",
@@ -38,6 +39,7 @@ System.config({
     "babel": "npm:babel-core@5.8.35",
     "babel-runtime": "npm:babel-runtime@5.8.35",
     "bootstrap": "github:twbs/bootstrap@3.3.6",
+    "bootstrap-daterangepicker": "npm:bootstrap-daterangepicker@2.1.19",
     "browser-notifications": "npm:browser-notifications@0.0.3",
     "c3": "npm:c3@0.4.11-rc4",
     "clean-css": "npm:clean-css@3.4.10",
@@ -238,6 +240,10 @@ System.config({
     },
     "npm:babel-runtime@5.8.35": {
       "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:bootstrap-daterangepicker@2.1.19": {
+      "jquery": "npm:jquery@2.2.2",
+      "moment": "npm:moment@2.12.0"
     },
     "npm:buffer@3.6.0": {
       "base64-js": "npm:base64-js@0.0.8",

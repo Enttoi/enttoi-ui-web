@@ -24,6 +24,14 @@ export class Availability {
         .subscribe(() => {
           this._clientService.clients.then((clients) => this._applyFilters(clients));
         });
+      // eventhough there are two properties for datesrange, they 
+      // both changed even only one of the date is changed
+      this._datesRangeStartObserver = this._bindingEngine
+        .propertyObserver(this._toolbarService.datesRange, 'start')
+        .subscribe(() => {
+          this._clientService.clients.then((clients) => this._applyFilters(clients));
+        });
+
       this._applyFilters(clients);
     });
   }
@@ -31,6 +39,8 @@ export class Availability {
   deactivate() {
     if (this._genderObserver)
       this._genderObserver.dispose();
+    if (this._datesRangeStartObserver)
+      this._datesRangeStartObserver.dispose();
   }
 
   _applyFilters(clients) {
@@ -44,7 +54,7 @@ export class Availability {
       .each((client) => {
         client.sensors = _.each(client.sensors, (sensor) => {
           this._restApiService
-            .getSensorStateStats(client.id, sensor.id, new Date().toISOString(), new Date().toISOString())
+            .getSensorStateStats(client.id, sensor.id, this._toolbarService.datesRange.start.toISOString(), this._toolbarService.datesRange.end.toISOString())
             .then((httpResponse) => {
               sensor.data = _.chain(httpResponse.content)
                 .pairs()
