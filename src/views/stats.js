@@ -33,8 +33,18 @@ export class Stats {
       'startDate': moment(this.selectedDatesRange.start),
       'endDate': moment(this.selectedDatesRange.end),
       'maxDate': moment(this.selectedDatesRange.end),
-      'opens': 'left'
-    }, (start, end) => this.selectDatesRange(start, end));
+      'opens': 'left',
+      'applyClass': 'btn-primary'
+    }, (start, end) => this.selectDatesRange(start, end))
+    .on('show.daterangepicker', (e, popup) => {
+      picker.addClass('active');
+      $('.glyphicon', popup.container).each((e, el)=>{
+        $(el).removeClass().addClass('fa fa-calendar-check-o');
+      });
+    })
+    .on('hide.daterangepicker', () => {
+      picker.removeClass('active');
+    });
     this.selectDatesRange(picker.data('daterangepicker').startDate, picker.data('daterangepicker').endDate);
   }
 
