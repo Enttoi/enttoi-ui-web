@@ -12,6 +12,17 @@
         "rev": true
       }
     },
+    "dist/ext-charts": {
+      "includes": [
+        "c3",
+        "bootstrap-daterangepicker"
+      ],
+      "options": {
+        "inject": true,
+        "minify": true,
+        "rev": true
+      }
+    },
     "dist/ext-libs": {
       "includes": [
         "rstacruz/nprogress",

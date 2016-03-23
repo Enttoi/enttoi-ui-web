@@ -1,0 +1,18 @@
+<template>
+  <require from="../../components/chart"></require>
+  <section class="au-animate">
+    <div class="row">
+      <div repeat.for="client of clients" class="col-lg-6 col-md-6 col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading"><i class="fa ${client.gender | genderCss & oneTime}"></i> ${client.floorNumeral } floor ${client.area} wing
+          </div>
+          <div class="panel-body">
+            <div repeat.for="sensor of client.sensors & oneTime" class="${client.sensors.length | sensorCss & oneTime}">
+              <chart type="pie" data.bind="sensor.data" colors.bind="{Available: '#62c462', Occupied: '#ee5f5b', Offline: '#7a8288'}" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>

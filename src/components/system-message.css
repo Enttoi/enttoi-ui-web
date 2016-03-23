@@ -1,6 +1,6 @@
 .et-system-message{
     z-index: 10000;
-    background-color: #f0ad4e;
+    background-color: #f89406;
     display: inline-block;
     position: absolute;
     left: 50%;
@@ -14,7 +14,10 @@
     white-space: nowrap;
     vertical-align: baseline;
     border-radius: 0  0 .25em .25em;
+    border: solid 1px #e96506;
+    border-top: 0;
     text-shadow: none;
+    font-weight: normal;   
 }
 
 /*TODO: move out styles of toaster from here*/

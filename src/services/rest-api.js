@@ -10,18 +10,22 @@ import * as config from 'environment';
  */
 @inject(HttpClient)
 export class RestApiService {
-	constructor(http) {
-		http.configure(cl => {
-			cl.withBaseUrl(config.apiHostAddress)
+  constructor(http) {
+    http.configure(cl => {
+      cl.withBaseUrl(config.apiHostAddress)
         .withHeader('accept', 'application/json; charset=utf-8');
-		});
-		this._http = http;
-	}
+    });
+    this._http = http;
+  }
 
-	getClients() {		
-		return this._http.get('/clients/all');
-	}
-    getSensors(clientId) {		
-		return this._http.get(`/sensors/${clientId}`);
-	}
+  getClients() {
+    return this._http.get('/clients/all');
+  }
+  getSensors(clientId) {
+    return this._http.get(`/sensors/${clientId}`);
+  }
+  
+  getSensorStateStats(clientId, sensorId, from, to) {
+    return this._http.get(`/stats/sensor-state/${clientId}/${sensorId}?from=${from}&to=${to}`);
+  }
 }

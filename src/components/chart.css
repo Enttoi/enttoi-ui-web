@@ -1,0 +1,9 @@
+chart{
+  display: block;
+}
+chart .c3-legend-item{
+  fill: #c8c8c8
+}
+chart .c3-chart-arc text{
+  fill: #fff
+}

@@ -56,16 +56,16 @@ export class ClientModel {
    * @param sensorsDataModel 
    */
   setOnline(timestamp, sensorsDataModel) {
-    if (this.isOnline === false){
+    if (this.isOnline === false) {
       this.isOnline = true;
       this.isOnlineTimestamp = timestamp;
     }
 
     _.each(sensorsDataModel, (sensorDataModel) => {
       var sensor = this._sensors[`${sensorDataModel.sensorId}_${sensorDataModel.sensorType}`];
-      if (sensor.state === SENSOR_STATE_OFFLINE) 
-      // some sensors may be already online, because the event
-      // of sensor came before the event of client
+      if (sensor.state === SENSOR_STATE_OFFLINE)
+        // some sensors may be already online, because the event
+        // of sensor came before the event of client
         sensor.state = sensorDataModel;
     });
   }
@@ -75,10 +75,10 @@ export class ClientModel {
    * Takes cares if the client was offline previously.    
    */
   applySensorState(sensorNewState) {
-    if (this.isOnline === false){
+    if (this.isOnline === false) {
       this.isOnline = true;
       this.isOnlineTimestamp = sensorNewState.timestamp;
-      }
+    }
     this._sensors[`${sensorNewState.sensorId}_${sensorNewState.sensorType}`].state = sensorNewState;
   }
 }
@@ -88,7 +88,7 @@ export class ClientModel {
  * 
  * @class SensorModel
  */
-class SensorModel {
+export class SensorModel {
   constructor(parentClient, dataModel) {
     if (!parentClient) throw 'Cannot initialize "Sensor" without parentClient';
     if (!dataModel) throw 'Cannot initialize "Sensor" without dataModel';
@@ -105,38 +105,31 @@ class SensorModel {
    */
   set state(newSensorModel) {
     if (typeof newSensorModel === 'undefined') throw Error('Sensor model required');
-    
+
     // noramalize data because of differences in REST and websocket
-    if(newSensorModel != null){
+    if (newSensorModel != null) {
       newSensorModel.stateUpdatedOn = newSensorModel.stateUpdatedOn || newSensorModel.timestamp;
-      newSensorModel.newState = typeof newSensorModel.newState === 'undefined' ? newSensorModel.state : newSensorModel.newState;      
-      
+      newSensorModel.newState = typeof newSensorModel.newState === 'undefined' ? newSensorModel.state : newSensorModel.newState;
+
       // validate
       if (typeof newSensorModel.newState === 'undefined'
         || (newSensorModel.newState !== 1 && newSensorModel.newState !== 0))
         throw Error('The value of state is not valid');
-        
-      if (typeof newSensorModel.stateUpdatedOn  === 'undefined' || !newSensorModel.stateUpdatedOn)
+
+      if (typeof newSensorModel.stateUpdatedOn === 'undefined' || !newSensorModel.stateUpdatedOn)
         throw Error('The value of state\'s timestamp is missing');
     }
-    
+
     // update state with stateTimestamp
-    if(newSensorModel == null){
-      this._state = SENSOR_STATE_OFFLINE;      
-      this.stateTimestamp = this.client.isOnlineTimestamp;      
+    if (newSensorModel == null) {
+      this._state = SENSOR_STATE_OFFLINE;
+      this.stateTimestamp = this.client.isOnlineTimestamp;
     }
-    else if (newSensorModel.newState === 1){
-      this._state = SENSOR_STATE_OCCUPIED;
+    else {
+      this._state = SensorModel.parseState(newSensorModel.newState).id;
       this.stateTimestamp = newSensorModel.stateUpdatedOn;
     }
-    else if (newSensorModel.newState === 0)
-    {
-      this._state = SENSOR_STATE_FREE;      
-      this.stateTimestamp = newSensorModel.stateUpdatedOn;
-    }
-    else
-      throw 'Invalid operation';
-      
+
     // update availbility of all client's sensors
     if (this._state == SENSOR_STATE_FREE)
       this.client.anySensorFree = true;
@@ -147,5 +140,32 @@ class SensorModel {
 
   get state() {
     return this._state;
+  }
+
+  /**
+   * Converts states formats as they 
+   * receieved from API to local "friendly" format
+   * 
+   * @static
+   * @param apiState (description)
+   * @returns (description)
+   */
+  static parseState(apiState) {
+    apiState = parseInt(apiState);
+    if (apiState === 1)
+      return {
+        title: 'Occupied',
+        id: SENSOR_STATE_OCCUPIED
+      };
+    if (apiState === 0)
+      return {
+        title: 'Available',
+        id: SENSOR_STATE_FREE
+      };
+
+    return {
+      title: 'Offline',
+      id: SENSOR_STATE_OFFLINE
+    };
   }
 }
