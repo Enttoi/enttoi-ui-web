@@ -5,13 +5,19 @@ import _ from 'underscore';
 @inject(Router)
 export class NavBar {
 
-    constructor(router) {
-        this.router = router;        
-    }
+  constructor(router) {
+    this.router = router;
+  }
 }
 
 export class IsActiveCssValueConverter {
   toView(value) {
     return value ? 'active' : ''
+  }
+}
+
+export class NewFeatureCssValueConverter {
+  toView(value) {
+    return value === 'fa-bar-chart' ? 'label label-success' : 'sr-only'
   }
 }
