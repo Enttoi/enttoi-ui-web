@@ -9,9 +9,6 @@ export class SystemMessage {
     this.message = 'Loading...';
     this.timeout = setTimeout(() => {
       this.message = 'Still loading...';
-      this.timeout = setTimeout(() => {
-        this.message = 'Probably something went wrong :(';
-      }, 15000);
     }, 5000);
 
     eventAggregator.subscribe('socket.state', state => {
@@ -29,8 +26,9 @@ export class SystemMessage {
         case 'reconnecting':
           this.message = 'Reconnecting...';
           break;
-        case 'faulted':
-          this.message = 'Connection error :(';
+        case 'disconnected':
+          this.message = 'Connection error :( ';
+          this.displayRefresh = true;
           break;
         default:
           this.message = '';

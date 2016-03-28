@@ -1,24 +1,30 @@
-.et-system-message{
+system-message{
     z-index: 10000;
-    background-color: #f89406;
-    display: inline-block;
-    position: absolute;
-    left: 50%;
-    margin-left: -75px;
-    min-width: 150px;
-    padding: .2em .6em .3em;
+    width: 100%;
+    display: block;
+    position: absolute;    
     font-weight: 700;
     line-height: 1;
-    color: #000;
     text-align: center;
     white-space: nowrap;
-    vertical-align: baseline;
+    vertical-align: baseline;  
+}
+  system-message > span{
+    min-width: 150px;
+    padding: .2em .6em .3em;
+    background-color: #f89406;
+    display: inline-block;
     border-radius: 0  0 .25em .25em;
     border: solid 1px #e96506;
-    border-top: 0;
     text-shadow: none;
-    font-weight: normal;   
-}
+    font-weight: normal;     
+    border-top: 0;
+    color: #000;
+  }
+  system-message a{
+    color: #000;
+    text-decoration: underline
+  }
 
 /*TODO: move out styles of toaster from here*/
 #toast-container > .toast {

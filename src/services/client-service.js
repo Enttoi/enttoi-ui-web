@@ -70,8 +70,11 @@ export class ClientService {
               this._pullSensorsState(state);
             }
           }));
+          
+          // not returning promise of push-api will allow us to access clients
+          // list (obtained via REST) ASAP and start connection in parallel
+          this._socket.start();
         })
-        .then(() => this._socket.start())
         .then(() => resolve());
     });
   }
