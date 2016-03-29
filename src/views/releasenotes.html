@@ -1,0 +1,13 @@
+<template>
+  <section class="au-animate">
+    <h2>What's new</h2>
+    <ul class="list-unstyled">
+      <li repeat.for="issue of issues">
+        <h6>${issue.title}</h6>
+        ${issue.body}
+        <span repeat.for="label of issue.labels" class="label label-info">${label.name}</span>
+        <small><a href="${issue.url}">More details...</a></small>
+      </li>
+    </ul>
+  </section>
+</template>

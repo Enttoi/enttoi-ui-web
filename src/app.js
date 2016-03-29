@@ -31,7 +31,14 @@ export class App {
         moduleId: 'views/feedback',        
         nav: true, 
         title:'Feeback',
-        settings: 'fa-bullhorn' }
+        settings: 'fa-bullhorn' },
+      { 
+        route: 'releasenotes',        
+        name: 'releasenotes',        
+        moduleId: 'views/releasenotes',        
+        nav: false, 
+        title:'What\'s new',
+        settings: 'fa-newspaper-o' }
     ]);
     this.router = router;
   }
