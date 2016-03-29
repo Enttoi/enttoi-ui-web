@@ -12,9 +12,10 @@ export class LiveCounter {
 
     this.men = { offline: 0, occupied: 0, free: 0 };
     this.women = { offline: 0, occupied: 0, free: 0 };
+    this.onlineUsers = 0;
 
 
-    this._subscription = eventAggregator.subscribe('client-service.sensor-state',
+    this._subscriptionSensors = eventAggregator.subscribe('client-service.sensor-state',
       (change) => this._handleState(
         change.sensor.client.gender == 'men' ? this.men : this.women,
         change.newState,
@@ -31,6 +32,9 @@ export class LiveCounter {
           });
         });
     });
+    
+    this._subscriptionSensors = eventAggregator.subscribe('socket.onlineUsers',
+      (count) => this.onlineUsers = count);
   }
 
   _handleState(gender, newState, oldState) {

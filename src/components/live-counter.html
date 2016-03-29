@@ -2,13 +2,15 @@
   <require from="./live-counter.css"></require>
   <table class="et-live-counter">
     <tr>
-      <td><i class="fa fa-male"></i></td>
+      <td rowspan="2"><i class="fa fa-users" title="Online users count"></i></td>
+      <td rowspan="2">${onlineUsers}</td>
+      <td><i class="fa fa-male" title="Male cabins status"></i></td>
       <td class="text-success">${men.free}</td>
       <td class="text-danger">${men.occupied}</td>
       <td>${men.offline}</td>
     </tr>
     <tr>
-      <td><i class="fa fa-female"></i></td>
+      <td><i class="fa fa-female" title="Female cabins status"></i></td>
       <td class="text-success">${women.free}</td>
       <td class="text-danger">${women.occupied}</td>
       <td>${women.offline}</td>

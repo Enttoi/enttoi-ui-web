@@ -13,6 +13,12 @@ export class ToggleSubscriptionTextValueConverter {
   }
 }
 
+export class ToggleSubscriptionIconValueConverter {
+  toView(value) {
+    return value ? 'fa fa-bell-slash-o' : 'fa fa-bell-o';
+  }
+}
+
 export class GenderCssValueConverter {
   toView(value) {
     return value == 'men' ? 'fa-male' : 'fa-female';
