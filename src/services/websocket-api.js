@@ -23,13 +23,7 @@ export class WebSocketApiService {
       {
         logging: config.debug
       });
-    this._connection.stateChanged((state) => {
-      this._setConnectionState(state);
-      if (this.connectionState.name === 'connected') 
-        // the initial state is requested on first connect (connecting => connected)
-        // and each time after reconnect (reconnecting => connected)
-        this._hub.invoke('requestInitialState');
-    });
+    this._connection.stateChanged((state) => this._setConnectionState(state));
     
     this._hub = this._connection.createHubProxy('commonHub');
     this._lastStates = {};
@@ -68,19 +62,20 @@ export class WebSocketApiService {
         });
       }
     });
-    return this._connection.start({})
-      .done((m) => {
-
-      })
-      .fail((e) => {
-        this._logger.error('Failed to connect to hub', e);
-      });
+    
+    this._hub.on('onlineUsersPush', count => {
+      this._logger.debug('Received "onlineUsersPush"', count);
+      this._eventAggregator.publish('socket.onlineUsers', count);
+    });
+    
+    return this._connection.start();
   }
 
   stop() {
     this._connection.stop();
     this._hub.off('sensorStatePush');
     this._hub.off('clientStatePush');
+    this._hub.off('onlineUsersPush');
   }
   
   _setConnectionState(state) {
