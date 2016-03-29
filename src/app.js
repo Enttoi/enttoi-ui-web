@@ -26,11 +26,11 @@ export class App {
         title:'Stats',
         settings: 'fa-bar-chart' },
       { 
-        route: 'feedback',        
-        name: 'feedback',        
-        moduleId: 'views/feedback',        
+        route: 'about',        
+        name: 'about',        
+        moduleId: 'views/about',        
         nav: true, 
-        title:'Feeback',
+        title:'About',
         settings: 'fa-bullhorn' },
       { 
         route: 'releasenotes',        

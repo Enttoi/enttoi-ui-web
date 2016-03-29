@@ -18,6 +18,6 @@ export class IsActiveCssValueConverter {
 
 export class NewFeatureCssValueConverter {
   toView(value) {
-    return value === 'fa-bar-chart' ? 'label label-success' : 'sr-only'
+    return value === 'fa-bullhorn' ? 'label label-success' : 'sr-only'
   }
 }

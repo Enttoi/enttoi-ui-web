@@ -18,6 +18,6 @@ export class GithubApiService {
   }
 
   getLatestClosedIssues() {
-    return this._http.get('/repos/enttoi/enttoi-ui-web/issues?state=closed&sort=updated');
+    return this._http.get('/search/issues?q=org:enttoi+state:closed+type:issue');
   }
 }
