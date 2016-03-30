@@ -51,7 +51,19 @@ export class Stats {
   selectDatesRange(start, end) {
     this.selectedDatesRange.start = start._d;
     this.selectedDatesRange.end = end._d;
-    this.selectedDatesRangeText = start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY');
+    
+    // handle shortest possible display
+    let sameYear = start.year() == end.year();
+    let sameYearAndMonth = sameYear && start.month() == end.month();
+    let sameYearMonthAndDay = sameYearAndMonth && start.day() == end.day();
+    if(sameYearMonthAndDay){
+      this.selectedDatesRangeText =  start.format(`MMM D YYYY`);
+    }
+    else {
+      let startFormat = start.format(`MMM D${sameYear ? '' : ', YYYY'}`);
+      let endFormat = end.format(`${sameYearAndMonth ? '' : 'MMM'} D, YYYY`);
+      this.selectedDatesRangeText =  `${startFormat} - ${endFormat}`;
+    }
   }
 
   selectGender(gender) {
