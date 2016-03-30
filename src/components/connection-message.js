@@ -3,7 +3,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import toastr from 'toastr';
 
 @inject(EventAggregator)
-export class SystemMessage {
+export class ConnectionMessage {
 
   constructor(eventAggregator) {
     this.message = 'Loading...';
@@ -12,7 +12,7 @@ export class SystemMessage {
     }, 5000);
 
     eventAggregator.subscribe('socket.state', state => {
-
+      this.displayRefresh = false;
       if (this.timeout)
         clearTimeout(this.timeout);
 
@@ -26,9 +26,18 @@ export class SystemMessage {
         case 'reconnecting':
           this.message = 'Reconnecting...';
           break;
-        case 'disconnected':
-          this.message = 'Connection error :( ';
+        case 'disconnected-final':
+          this.message = 'Connection error.';
           this.displayRefresh = true;
+          break;
+        case 'disconnected':
+          this.message = 'Connection lost :(';
+          break;
+        case 'connected':
+          this.message = 'Connected!';
+          this.timeout = setTimeout(() => {
+            this.message = '';
+          }, 1200);
           break;
         default:
           this.message = '';

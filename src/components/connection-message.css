@@ -1,4 +1,4 @@
-system-message{
+connection-message{
     z-index: 10000;
     width: 100%;
     display: block;
@@ -9,7 +9,7 @@ system-message{
     white-space: nowrap;
     vertical-align: baseline;  
 }
-  system-message > span{
+  connection-message > span{
     min-width: 150px;
     padding: .2em .6em .3em;
     background-color: #f89406;
@@ -21,7 +21,7 @@ system-message{
     border-top: 0;
     color: #000;
   }
-  system-message a{
+  connection-message a{
     color: #000;
     text-decoration: underline
   }
