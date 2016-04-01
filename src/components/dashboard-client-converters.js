@@ -36,18 +36,26 @@ export class StateCssValueConverter {
 }
 
 export class FromNowValueConverter {
-  toView(sensor) {
-    
+  toView(value) {
+    // value can be Date object if it is client or sensor model is case of sensor
     var now = moment();
-    var then = moment(sensor.stateTimestamp);
+    var then = moment(value.stateTimestamp || value);
     var seconds = now.diff(then, 'seconds');
     if (seconds < 60)
       return `${seconds} seconds`;
     else {
-      if (sensor.state === models.SENSOR_STATE_OCCUPIED)
-        return 'more than 1 minute';
+      if (value.state === models.SENSOR_STATE_OCCUPIED)
+        return 'a few minutes';
       else
         return then.fromNow(true);
     }
   }
 }
+
+export class OccupiedHelpDisplayValueConverter {
+  toView(sensor) {
+    return sensor.state === models.SENSOR_STATE_OCCUPIED &&
+      moment().diff(sensor.stateTimestamp, 'seconds') >= 60;
+  }
+}
+

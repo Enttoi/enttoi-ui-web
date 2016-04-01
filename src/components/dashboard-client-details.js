@@ -1,14 +1,22 @@
 import {inject} from 'aurelia-framework';
 import {DialogController} from 'aurelia-dialog';
+import $ from 'jquery';
 
-@inject(DialogController)
+@inject(Element, DialogController)
 export class DashboardClientDetails {
   client;
 
-  constructor(dialogController) {
+  constructor(element, dialogController) {
+    this._element = element;
     this.controller = dialogController;
   }
   activate(client) {
     this.client = client;
+  }
+  attached(){
+    $('[data-toggle="tooltip"]', this._element).tooltip();
+  }
+  detached() {
+    $('[data-toggle="tooltip"]', this._element).tooltip('destroy');
   }
 }
