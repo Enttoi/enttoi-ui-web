@@ -6,7 +6,7 @@
       <ul class="list-unstyled" show.bind="client.isOnline" style="margin-bottom: 0">
         <li repeat.for="sensor of client.sensors">
           <i class="fa ${sensor.client.gender | genderCss} ${sensor.state | stateCss}"></i> for ${sensor | fromNow & signal:'second-interval-signal'}
-          <i class="fa fa-question-circle" show.bind="sensor | occupiedHelpDisplay & signal:'second-interval-signal'" data-toggle="tooltip"
+          <i class="fa fa-info-circle" show.bind="sensor | occupiedHelpDisplay & signal:'second-interval-signal'" data-toggle="tooltip"
             data-placement="top" title="Due to privacy showing approximate time only"></i>
         </li>
       </ul>
