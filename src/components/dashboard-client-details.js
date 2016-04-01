@@ -1,6 +1,5 @@
 import {inject} from 'aurelia-framework';
 import {DialogController} from 'aurelia-dialog';
-import $ from 'jquery';
 
 @inject(Element, DialogController)
 export class DashboardClientDetails {
