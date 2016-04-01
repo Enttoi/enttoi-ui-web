@@ -1,5 +1,6 @@
 import {inject} from 'aurelia-framework';
 import {DialogController} from 'aurelia-dialog';
+import jq from 'jquery';
 
 @inject(Element, DialogController)
 export class DashboardClientDetails {
@@ -12,10 +13,12 @@ export class DashboardClientDetails {
   activate(client) {
     this.client = client;
   }
-  attached(){
-    $('[data-toggle="tooltip"]', this._element).tooltip();
+  attached() {
+    // for some reason, when unbundled the plugin of bootstrap is loaded only to 'jq' (imported module)
+    // but when bundled, it is only available through global variable $
+    ($().tooltip ? $ : jq)('[data-toggle="tooltip"]', this._element).tooltip();
   }
   detached() {
-    $('[data-toggle="tooltip"]', this._element).tooltip('destroy');
+    ($().tooltip ? $ : jq)('[data-toggle="tooltip"]', this._element).tooltip('destroy');
   }
 }
