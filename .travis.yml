@@ -34,3 +34,6 @@ deploy:
   verbose: false
   quiet: true
   
+notifications:
+  slack: $SLACK_TOKEN
+  
