@@ -1,0 +1,32 @@
+.views-about h2{
+  margin-top: 0
+}
+.nr-insights-host{
+  position:relative;
+  width:100%;
+  height:0;
+  padding-bottom:56.25%;
+  overflow: hidden;
+  margin-bottom: -75px
+}
+.nr-insights-host iframe{
+  position:absolute;
+  width:100%;
+  height:100%;
+  border: 0;
+  margin-top: -75px
+}
+.nr-widget-host{
+  padding: 10px 10px 0;
+  background: #fff;
+  border-bottom: solid 1px rgba(0,0,0,0.6)
+}
+.nr-widget-host iframe{
+  width:100%;
+  height:220px;
+  border: 0;  
+}
+
+.view-health .panel-body{
+  padding: 0
+}

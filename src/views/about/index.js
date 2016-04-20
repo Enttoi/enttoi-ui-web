@@ -20,7 +20,14 @@ export class Index {
         moduleId: 'views/about/releasenotes',        
         nav: true, 
         title:'What\'s new',
-        settings: 'fa-newspaper-o' }
+        settings: 'fa-newspaper-o' },
+      { 
+        route: 'health',        
+        name: 'health',        
+        moduleId: 'views/about/health',        
+        nav: true, 
+        title:'Health status',
+        settings: 'fa-tachometer' }
     ]);
 
     this.router = router;
