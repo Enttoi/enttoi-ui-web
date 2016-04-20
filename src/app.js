@@ -21,24 +21,17 @@ export class App {
       { 
         route: 'stats',        
         name: 'stats',        
-        moduleId: 'views/stats',        
+        moduleId: 'views/stats/index',        
         nav: true, 
         title:'Stats',
         settings: 'fa-bar-chart' },
       { 
-        route: 'about',        
-        name: 'about',        
-        moduleId: 'views/about',        
+        route: 'info',        
+        name: 'info',        
+        moduleId: 'views/about/index',        
         nav: true, 
-        title:'About',
-        settings: 'fa-bullhorn' },
-      { 
-        route: 'releasenotes',        
-        name: 'releasenotes',        
-        moduleId: 'views/releasenotes',        
-        nav: false, 
-        title:'What\'s new',
-        settings: 'fa-newspaper-o' }
+        title:'Info',
+        settings: 'fa-info-circle' }
     ]);
     this.router = router;
   }

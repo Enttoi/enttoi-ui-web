@@ -1,11 +1,11 @@
 <template>
-  <require from="./stats.css"></require> 
+  <require from="./index.css"></require> 
   <section class="au-animate">
     <h2>${heading}</h2>
     <div class="row">
       <div class="col-lg-2 col-md-3 col-sm-4">
         <div class="list-group table-of-contents">
-          <a repeat.for="row of router.navigation" href.bind="row.href" class="list-group-item ${row.isActive ? 'active' : ''}">${row.title}</a>
+          <a repeat.for="row of router.navigation & oneTime" href.bind="row.href" class="list-group-item ${row.isActive ? 'active' : ''}">${row.title}</a>
         </div>
       </div>
       <div class="col-lg-10 col-md-9 col-sm-8">

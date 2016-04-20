@@ -1,6 +1,6 @@
 <template>
   <section class="au-animate">
-    <h2>What's new</h2>
+    <h2>Recently closed issues</h2>
     <ul class="list-unstyled">
       <li repeat.for="issue of issues">
         <h5><a href="${issue.html_url}" target="_blank">${issue.title}</a> <span repeat.for="label of issue.labels" class="label label-primary">${label.name}</span></h5>

@@ -1,10 +1,10 @@
-import {ToolbarService} from '../services/toolbar-service';
+import {ToolbarService} from '../../services/toolbar-service';
 import {inject} from 'aurelia-framework';
 import 'bootstrap-daterangepicker';
 import moment from 'moment';
 
 @inject(Element, ToolbarService)
-export class Stats {
+export class Index {
 
   constructor(element, toolbarService) {
     this._element = element;
@@ -15,8 +15,20 @@ export class Stats {
 
   configureRouter(config, router) {
     config.map([
-      { route: ['', 'availability'], name: 'availability', moduleId: 'views/stats/availability', nav: true, title: 'Availability Report' },
-      { route: 'rushhour', name: 'rushhour', moduleId: 'views/stats/rushhour', nav: true, title: 'Rush Hour' }
+      {
+        route: ['', 'availability'],
+        name: 'availability',
+        moduleId: 'views/stats/availability',
+        nav: true,
+        title: 'Availability Report'
+      },
+      {
+        route: 'rushhour',
+        name: 'rushhour',
+        moduleId: 'views/stats/rushhour',
+        nav: true,
+        title: 'Rush Hour'
+      }
     ]);
 
     this.router = router;
